@@ -1,0 +1,29 @@
+{
+  "name": "richapi-gtm-skills",
+  "owner": {
+    "name": "RichAPI",
+    "url": "https://richapi.ai"
+  },
+  "metadata": {
+    "description": "Go-to-market skills over a runtime that prices every API call before it makes one.",
+    "version": "2.0.0-alpha.0"
+  },
+  "plugins": [
+    {
+      "name": "richapi-gtm-skills",
+      "source": "./",
+      "description": "33 GTM skills for B2B outbound — ICP, list building, waterfall enrichment, research, compliance and export — over a runtime that shows you the bill before you pay it. Every paid call is named and costed before it runs; 11 skills never spend at all. Requires the `richapi` CLI (npm i -g @richapi/gtm-skills) and a RichAPI account for the 22 skills that can spend.",
+      "version": "2.0.0-alpha.0",
+      "author": { "name": "RichAPI", "url": "https://richapi.ai" },
+      "homepage": "https://github.com/richapiai/gtm-skills",
+      "repository": "https://github.com/richapiai/gtm-skills",
+      "license": "MIT",
+      "keywords": [
+        "gtm", "sales", "outbound", "prospecting", "enrichment",
+        "b2b", "lead-generation", "revops", "compliance", "richapi"
+      ],
+      "category": "productivity",
+      "strict": false
+    }
+  ]
+}

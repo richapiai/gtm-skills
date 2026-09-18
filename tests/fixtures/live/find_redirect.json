@@ -1,0 +1,19 @@
+{
+  "endpoint": "find_redirect",
+  "path": "/find_redirect",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:20:08.103Z",
+  "redacted": true,
+  "body": {
+    "original_link": "https://richapi.ai",
+    "redirect_link": "https://www.richapi.ai/",
+    "redirect_chain": [
+      "https://richapi.ai",
+      "https://www.richapi.ai/"
+    ],
+    "redirect_count": 1,
+    "final_status_code": 200,
+    "is_redirected": true,
+    "resolved_successfully": true
+  }
+}

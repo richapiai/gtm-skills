@@ -1,0 +1,70 @@
+name: Endpoint drift
+description: An endpoint's price, name, or existence no longer matches the pinned catalog.
+labels: ["endpoint-drift"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Do not edit `_lib/api-catalog.json` by hand.** It is generated from the pinned
+        spec, and a hand edit is reverted by the next `npm run catalog:gen`. Report it
+        here instead.
+
+        This happens constantly and is expected: 16 of 53 surviving endpoints repriced
+        in four months, and `phone_finder` went 3 → 25 credits. That churn is exactly
+        why no credit number is ever typed by hand anywhere in this pack (law 1).
+
+  - type: input
+    id: endpoint
+    attributes:
+      label: Endpoint name
+      description: As it appears in `_lib/api-catalog.json`.
+      placeholder: phone_finder
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What drifted
+      options:
+        - Price changed
+        - Endpoint renamed
+        - Endpoint removed
+        - New endpoint, not in the catalog
+        - Billing semantics changed (what it charges per)
+        - Response shape changed
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: |
+        Law 6: claims carry a source line. A response body (redacted), a spec excerpt, a
+        dated screenshot of the pricing page, or the output of
+        `node bin/richapi-catalog-diff.mjs`. "It seems more expensive" is not evidence.
+      render: console
+    validations:
+      required: true
+
+  - type: input
+    id: catalog_says
+    attributes:
+      label: What the pinned catalog says
+      placeholder: "3 credits, metered, bounded"
+
+  - type: input
+    id: server_says
+    attributes:
+      label: What the server or spec says now
+      placeholder: "25 credits"
+
+  - type: input
+    id: observed
+    attributes:
+      label: When you observed it
+      placeholder: 2026-08-31
+    validations:
+      required: true

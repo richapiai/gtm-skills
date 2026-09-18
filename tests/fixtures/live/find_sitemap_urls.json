@@ -1,0 +1,20 @@
+{
+  "endpoint": "find_sitemap_urls",
+  "path": "/find_sitemap_urls",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:20:09.645Z",
+  "redacted": true,
+  "body": {
+    "domain": "https://richapi.ai",
+    "sitemap_urls": [
+      "https://richapi.ai/sitemap.xml"
+    ],
+    "total_urls": 12,
+    "filtered_urls": 12,
+    "urls": [
+      "https://richapi.ai/",
+      "https://richapi.ai/about",
+      "https://richapi.ai/blog"
+    ]
+  }
+}

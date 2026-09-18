@@ -1,0 +1,194 @@
+name: validate
+
+on:
+  # MANUAL ONLY. On 2026-09-02 one push and two Dependabot PRs each ran this workflow,
+  # every matrix row hung in the Tests step, and GitHub billed the 6-hour ceiling on
+  # all twelve jobs (~$26). The hang was two tests using a /proc path as an
+  # "unwritable" store — node's recursive mkdir never returns under procfs (fixed in
+  # tests/activation/activation.test.mjs). The suite now has hard deadlines, but nothing
+  # here runs unattended until someone decides it should: no push, no pull_request,
+  # no schedule. Restoring them is a one-line change here.
+  #
+  # The weekly absorption run (was: Monday 08:00 UTC) is behind the `absorb_spec`
+  # input, so a plain dispatch validates and never pushes.
+  workflow_dispatch:
+    inputs:
+      absorb_spec:
+        description: "Also run absorb-spec: fetch the live spec and commit non-blocking changes"
+        type: boolean
+        default: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    # A healthy run is ~3 minutes. Without this, a hung test bills GitHub's 6-hour
+    # ceiling per matrix row — which it did.
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        # EXACT versions, not floating majors. The row "20" resolves to the newest
+        # 20.x, which is precisely how the extensionless-ESM bug stayed hidden: every
+        # executable was unloadable on Node 18 and 20.0–20.9, and the only Node 20 CI
+        # ever ran was a 20.x new enough to support them. A floating row proves the
+        # newest patch and silently claims the rest of the range.
+        #
+        # The first row IS the `engines.node` floor and exists to keep that claim
+        # honest — tests/contracts/executables-load.test.mjs fails if the two drift
+        # apart. Every version listed here has been run green (1806/1806).
+        #
+        # 24.0.0 is deliberately absent: node:test in that one release cancels an
+        # awaited subtest (tests/helpers/helpers.test.mjs), which is a runner bug,
+        # not a pack bug, and is gone by 24.5.0.
+        node: ["18.20.8", "20.19.0", "22.0.0", "24.5.0"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - run: npm ci --no-audit --no-fund
+
+      - name: Make bin/* executable
+        run: chmod +x bin/* setup setup.mjs
+
+      # --- the three absorption gates ---
+
+      - name: Catalog is regenerable and current
+        run: node bin/richapi-catalog-gen.mjs --check
+
+      - name: Spec diff severity gate
+        # Only REPRICED_MAJOR, REMOVED_UNMAPPED and PRICING_SEMANTICS_CHANGED
+        # exit non-zero. Renames and minor repricings warn, by design — a binary
+        # gate at the measured churn (~30% of the surface per quarter) would be
+        # red every month and switched off by month two.
+        run: node bin/richapi-catalog-diff.mjs
+
+      - name: Every endpoint is owned or explicitly unclaimed
+        # Fails on UNMAPPED, on an `unclaimed:` entry with no reason, and on a
+        # stale generated coverage table.
+        run: node _lib/catalog/owners-check.mjs --check-coverage
+
+      # --- the pin vs the wire ---
+      #
+      # The three gates above all compare the repo against ITSELF. The spec is pinned by
+      # sha256, which is right — an intra-run reprice on a credit-spending tool is
+      # worse than a day of drift latency — but a pinned file cannot notice that the
+      # server moved, so pinning made drift SILENT rather than preventing it. This is
+      # the only step that asks the server.
+      #
+      # It runs on ONE matrix row. It is the only step that leaves the runner, and four
+      # identical GETs per push buys nothing but four times the flake surface; every
+      # other line of the differ is exercised on every row by tests/catalog-drift. The row is
+      # index 0, which `tests/contracts/executables-load.test.mjs` pins to the
+      # `engines.node` floor — the oldest runtime, which is where a fetch or
+      # AbortController difference would show if there is one.
+      - name: Pinned catalog still matches the live server
+        if: strategy.job-index == 0
+        # BLOCKS on a pricing delta, a removed endpoint, a pricing-semantics change or
+        # a newly required request field. A new endpoint is info: skills route through
+        # the catalog, so one the catalog has never heard of cannot be called and
+        # cannot spend a credit.
+        #
+        # An unreachable, hung, non-2xx or truncated server SKIPS and exits 0. That is
+        # deliberate: a check that turns a third-party outage into a red build on an
+        # unrelated PR is a check that gets switched off, and then it protects nothing.
+        # Pass --require-network to invert that.
+        run: node bin/richapi-catalog-drift.mjs
+
+      # --- runtime health ---
+
+      - name: Preflight emits its stable key contract
+        run: ./bin/richapi-skills-preflight
+
+      - name: Validate skills
+        run: node scripts/validate-skills.mjs
+
+      # Every file in its own process under a deadline. A file that hangs is named,
+      # with the last test that finished and the process tree at that moment. The
+      # full run below is the real gate; this exists so that when it stalls, the log
+      # says where.
+      - name: Tests, one file at a time (hang diagnostic)
+        run: bash scripts/test-each-file.sh
+
+      - name: Tests
+        timeout-minutes: 8
+        # `node --test <dir>` treats the directory as a module path and fails, and
+        # glob-argument support is not present in every version in the matrix.
+        # An explicit file list is the one form that works on all of them.
+        run: node --test $(find tests -name '*.test.mjs' | sort)
+
+  absorb-spec:
+    # Opt-in per dispatch. Fetches the live spec and reports what changed. It NEVER
+    # auto-commits a blocking change; a price increase or a removed endpoint
+    # opens an issue and a human decides. That is the whole point of the gate.
+    if: github.event_name == 'workflow_dispatch' && inputs.absorb_spec
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm ci --no-audit --no-fund
+      - run: chmod +x bin/*
+
+      - name: Regenerate the catalog from the live spec
+        id: regen
+        env:
+          SPEC_URL: ${{ vars.RICHAPI_SPEC_URL }}
+        run: |
+          if [ -z "${SPEC_URL:-}" ]; then
+            echo "RICHAPI_SPEC_URL repo variable is not set; nothing to absorb." >&2
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          node bin/richapi-catalog-gen.mjs --spec-url "$SPEC_URL" --allow-sha-mismatch
+          if git diff --quiet _lib/api-catalog.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Classify the change
+        if: steps.regen.outputs.changed == 'true'
+        id: diff
+        run: |
+          set +e
+          node bin/richapi-catalog-diff.mjs | tee /tmp/diff.txt
+          echo "blocking=$?" >> "$GITHUB_OUTPUT"
+          set -e
+
+      - name: BLOCKING change — open an issue, commit nothing
+        if: steps.regen.outputs.changed == 'true' && steps.diff.outputs.blocking != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          {
+            echo "The weekly spec absorption found a change that must not be applied automatically."
+            echo
+            echo '```'
+            cat /tmp/diff.txt
+            echo '```'
+            echo
+            echo "Blocking classes are REPRICED_MAJOR (>=2x), REMOVED_UNMAPPED and"
+            echo "PRICING_SEMANTICS_CHANGED. Review _lib/gates.yaml before regenerating."
+          } > /tmp/body.md
+          gh issue create \
+            --title "Spec absorption blocked: review required ($(date -u +%Y-%m-%d))" \
+            --body-file /tmp/body.md
+
+      - name: Non-blocking change — commit the regenerated catalog
+        if: steps.regen.outputs.changed == 'true' && steps.diff.outputs.blocking == '0'
+        run: |
+          node _lib/catalog/owners-check.mjs --write-coverage
+          node scripts/validate-skills.mjs
+          git config user.name  "richapi-gtm-skills-bot"
+          git config user.email "bot@richapi.ai"
+          git add _lib/api-catalog.json _lib/catalog/coverage.md spec/openapi.yaml spec/openapi.yaml.sha256
+          git commit -m "chore: absorb spec changes (non-blocking classes only)"
+          git push

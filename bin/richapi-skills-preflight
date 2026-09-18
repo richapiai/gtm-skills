@@ -1,0 +1,393 @@
+#!/usr/bin/env bash
+# Emits one-line KEY: value pairs consumed by every skill's preamble.
+# Contract — these keys are stable; only add, never rename:
+#   CATALOG_OK, CATALOG_AGE, CATALOG_STALE, CATALOG_TOOLS,
+#   FILTERS_OK, API_KEY_SET, SKILLS_VERSION, NET, UPGRADE, BALANCE,
+#   SUPPRESSION
+
+set -eu
+
+# --- ARGS -----------------------------------------------------------------
+# `--dir <gtm dir>` and `--root <project root>`, the same meaning as `richapi
+# call/search --dir`: the state tree is <root>/<dir> (an absolute --dir wins),
+# root defaults to the current directory and dir to `gtm`. These used to be
+# ignored, so `preflight --dir /elsewhere/gtm` checked ./gtm — and the answer
+# flipped with whatever directory the caller happened to be in.
+PF_ROOT="$PWD"
+PF_DIR="gtm"
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --dir) [ $# -ge 2 ] || { echo "richapi-skills-preflight: --dir needs a value" >&2; exit 2; }; PF_DIR="$2"; shift 2 ;;
+    --dir=*) PF_DIR="${1#--dir=}"; shift ;;
+    --root) [ $# -ge 2 ] || { echo "richapi-skills-preflight: --root needs a value" >&2; exit 2; }; PF_ROOT="$2"; shift 2 ;;
+    --root=*) PF_ROOT="${1#--root=}"; shift ;;
+    *) shift ;;
+  esac
+done
+
+# Resolve the symlink chain before deriving ROOT.
+#
+# `npm install` exposes every `bin` entry as a SYMLINK on PATH
+# (…/bin/richapi-skills-preflight -> …/lib/node_modules/@richapi/gtm-skills/bin/…),
+# so for an installed user `$0` is the symlink and `dirname "$0"/..` lands in the npm
+# prefix instead of the package. This script then found no catalog and cheerfully
+# reported `CATALOG_OK: no` / `CATALOG_TOOLS: 0` — every skill's preamble reads those
+# keys, so the whole pack looked uninstalled. It is a fail-CLOSED lie, not a crash,
+# which is why nobody noticed.
+#
+# `readlink -f` is not portable to older macOS, so walk the chain by hand.
+SELF="$0"
+while [ -L "$SELF" ]; do
+  LINK="$(readlink "$SELF")"
+  case "$LINK" in
+    /*) SELF="$LINK" ;;
+    *)  SELF="$(dirname "$SELF")/$LINK" ;;
+  esac
+done
+ROOT="$(cd "$(dirname "$SELF")/.." && pwd)"
+LIB="$ROOT/_lib"
+# Reads the generated _lib/api-catalog.json (bin/richapi-catalog-gen.mjs), not the
+# legacy MCP tool-list catalog. Output keys are unchanged — the contract is
+# add-only, never rename — but CATALOG_TOOLS now counts endpoints, not MCP tools.
+CATALOG="$LIB/api-catalog.json"
+FILTERS="$LIB/filters-catalog.json"
+STATE_DIR="${richapi_SKILLS_HOME:-$HOME/.richapi-skills}"
+LAST_SYNC="$STATE_DIR/.last-sync"
+STALE_SECONDS="${richapi_SKILLS_STALE:-$((7 * 24 * 3600))}"
+UPGRADE_CACHE="$STATE_DIR/.upgrade-cache"
+UPGRADE_TTL=3600
+# Shared with _lib/ledger.mjs, which refreshes it for free from any 402 body.
+# Format (3 lines): ISO timestamp / value / source.
+#
+# SCOPED TO THE API KEY, not to the machine. A single global file crossed every
+# boundary the pack promises — LIMITATIONS.md §6 says one checkout is one book of
+# business, and one cache meant a run in one client's tree reported the balance last
+# seen in another's. A balance is a fact about an ACCOUNT, so the file is keyed by a
+# truncated digest of the key. The key never appears in the filename, only its digest,
+# and `_lib/ledger.mjs:balanceCachePath()` computes the identical path.
+#
+# The `shasum` fallback matters: with a key set but no shasum on PATH, this script
+# and _lib/ledger.mjs would compute DIFFERENT paths — the ledger writing the keyed
+# file and this script reading a different one, so a 402-refreshed balance would
+# never be seen again. Rather than read the wrong file, point at a path that cannot
+# exist. BALANCE then degrades to `unknown`, which is the honest answer, instead of
+# silently reporting a stale number from another scope.
+if [ -n "${richapi_API_KEY:-}" ]; then
+  if command -v shasum >/dev/null 2>&1; then
+    _bal_digest="$(printf '%s' "$richapi_API_KEY" | shasum -a 256 | cut -c1-16)"
+    BALANCE_CACHE="$STATE_DIR/.balance-cache-$_bal_digest"
+    unset _bal_digest
+  else
+    BALANCE_CACHE="$STATE_DIR/.balance-cache-unhashable"
+  fi
+else
+  BALANCE_CACHE="$STATE_DIR/.balance-cache-nokey"
+fi
+BALANCE_TTL=3600
+DEFAULT_API_ORIGIN="https://api.richapi.ai"
+API_ORIGIN="${richapi_API_ORIGIN:-$DEFAULT_API_ORIGIN}"
+
+# --- ORIGIN SAFETY (mirrored from _lib/client.mjs) ------------------------
+# The /usage refresh below sends richapi_API_KEY in an `x-api-key` header to
+# $API_ORIGIN. richapi_API_ORIGIN used to point that anywhere, over any scheme,
+# with no check at all. Same rule as the JS client:
+#   * the default origin is fine;
+#   * a loopback host is fine, http: included — nothing leaves the machine;
+#   * any other origin must be https:;
+#   * any other https: origin needs richapi_ALLOW_CUSTOM_ORIGIN set to its
+#     hostname (or to 1/true/yes for any https origin).
+# A refusal goes to STDERR and skips the call. It is NOT a stdout `KEY: value`
+# line: that contract is add-only but exact-set-checked, and a security refusal
+# is not a status key. BALANCE degrades to `unknown`, which is honest — we did
+# not ask, and we are not guessing.
+origin_trusted="yes"
+origin_refusal=""
+if [ "$API_ORIGIN" != "$DEFAULT_API_ORIGIN" ]; then
+  o_scheme="${API_ORIGIN%%://*}"
+  o_rest="${API_ORIGIN#*://}"
+  o_hostport="${o_rest%%/*}"
+  case "$o_hostport" in
+    \[*\]*) o_host="${o_hostport#\[}"; o_host="${o_host%%\]*}" ;;
+    *)       o_host="${o_hostport%%:*}" ;;
+  esac
+  o_host_lc="$(printf '%s' "$o_host" | tr '[:upper:]' '[:lower:]')"
+  o_optin="$(printf '%s' "${richapi_ALLOW_CUSTOM_ORIGIN:-}" | tr '[:upper:]' '[:lower:]')"
+  case "$o_host_lc" in
+    localhost|*.localhost|::1|0:0:0:0:0:0:0:1|127.*) o_loopback="yes" ;;
+    *) o_loopback="no" ;;
+  esac
+  if [ "$o_loopback" = "yes" ]; then
+    origin_trusted="yes"
+  elif [ "$o_scheme" != "https" ]; then
+    origin_trusted="no"
+    origin_refusal="REFUSED: richapi_API_ORIGIN=$API_ORIGIN is ${o_scheme}:, which would put richapi_API_KEY in a plaintext request header. The API origin must be https: (http: only for loopback). Nothing was sent and nothing fell back to $DEFAULT_API_ORIGIN."
+  else
+    case "$o_optin" in
+      '') origin_trusted="no"               # empty never opts anything in
+          origin_refusal="REFUSED: richapi_API_ORIGIN=$API_ORIGIN is not $DEFAULT_API_ORIGIN, and sending richapi_API_KEY to another host needs an explicit opt-in. Nothing was sent and nothing fell back. To opt in: export richapi_ALLOW_CUSTOM_ORIGIN=$o_host (or =1 for any https origin)." ;;
+      1|true|yes) origin_trusted="yes" ;;
+      "$o_host_lc") origin_trusted="yes" ;;
+      *)
+        origin_trusted="no"
+        origin_refusal="REFUSED: richapi_API_ORIGIN=$API_ORIGIN is not $DEFAULT_API_ORIGIN, and sending richapi_API_KEY to another host needs an explicit opt-in. Nothing was sent and nothing fell back. To opt in: export richapi_ALLOW_CUSTOM_ORIGIN=$o_host (or =1 for any https origin)."
+        ;;
+    esac
+  fi
+fi
+if [ "$origin_trusted" = "no" ]; then
+  printf 'richapi-skills-preflight: %s\n' "$origin_refusal" >&2
+fi
+mkdir -p "$STATE_DIR"
+
+# All cached timestamps in this file are UTC (trailing Z). BSD `date -j -f`
+# interprets its input in LOCAL time, so parsing a UTC stamp without TZ=UTC
+# reports a just-written cache as hours old — every TTL check silently misses
+# in any non-UTC zone. GNU `date -d` is the fallback.
+iso_to_epoch() {
+  TZ=UTC date -j -f "%Y-%m-%dT%H:%M:%SZ" "$1" +%s 2>/dev/null || \
+  date -d "$1" +%s 2>/dev/null || echo 0
+}
+
+# --- JQ (2A) --------------------------------------------------------------
+# Every JSON check below shells out to jq. Each call was already guarded by
+# `command -v jq`, so a missing jq never crashed this script — it DEGRADED, and
+# the degraded output was indistinguishable from a genuinely broken install:
+# `CATALOG_OK: no` on a perfectly valid catalog, `CATALOG_TOOLS: 0` with 68
+# endpoints in it. Every SKILL.md reads `CATALOG_OK: no` as "regenerate the
+# catalog", which cannot help, because nothing was wrong with the catalog.
+#
+# Law 5 says a check that could not run is not a failing check. So the fact is
+# now reported on its own key, and the checks it gates degrade to `unknown`
+# rather than to `no`. Additive: the key contract is add-only and exact-set
+# checked, and this is a new key, not a renamed one.
+if command -v jq >/dev/null 2>&1; then
+  echo "JQ_MISSING: no"
+  jq_ok="yes"
+else
+  echo "JQ_MISSING: yes"
+  jq_ok="no"
+fi
+
+if [ "$jq_ok" = "no" ]; then
+  # Not "no". We did not look.
+  echo "CATALOG_OK: unknown"
+  echo "CATALOG_TOOLS: unknown"
+elif [ -f "$CATALOG" ] && jq -e '(.endpoints // .tools) | length > 0' "$CATALOG" >/dev/null 2>&1; then
+  echo "CATALOG_OK: yes"
+  echo "CATALOG_TOOLS: $(jq '(.endpoints // .tools) | length' "$CATALOG")"
+else
+  echo "CATALOG_OK: no"
+  echo "CATALOG_TOOLS: 0"
+fi
+
+if [ -f "$LAST_SYNC" ]; then
+  last_epoch="$(iso_to_epoch "$(cat "$LAST_SYNC")")"
+  now_epoch="$(date +%s)"
+  age=$((now_epoch - last_epoch))
+  echo "CATALOG_AGE: $age"
+  if [ "$age" -gt "$STALE_SECONDS" ]; then echo "CATALOG_STALE: yes"; else echo "CATALOG_STALE: no"; fi
+else
+  # A never-synced install is FRESH, not stale. `CATALOG_STALE: yes` on the very
+  # first preflight after `./setup` told every new user their install was rotten
+  # before they had run anything, on the one screen the README tells them to read.
+  # The catalog ships committed and is checked against the pinned spec in CI, so
+  # "never synced" means "never needed to be", not "out of date".
+  echo "CATALOG_AGE: never"
+  echo "CATALOG_STALE: no"
+fi
+
+if [ "$jq_ok" = "no" ]; then
+  echo "FILTERS_OK: unknown"
+elif [ -f "$FILTERS" ] && jq -e '.seniority | length > 0' "$FILTERS" >/dev/null 2>&1; then
+  echo "FILTERS_OK: yes"
+else
+  echo "FILTERS_OK: no"
+fi
+
+if [ -n "${richapi_API_KEY:-}" ]; then
+  echo "API_KEY_SET: yes"
+else
+  echo "API_KEY_SET: no"
+fi
+
+if [ -f "$ROOT/VERSION" ]; then
+  echo "SKILLS_VERSION: $(cat "$ROOT/VERSION")"
+else
+  echo "SKILLS_VERSION: unknown"
+fi
+
+if command -v curl >/dev/null 2>&1 && \
+   curl -fsS --max-time 2 -o /dev/null "${richapi_MCP_ORIGIN:-https://mcp.richapi.ai}/health" 2>/dev/null; then
+  echo "NET: online"
+else
+  echo "NET: offline"
+fi
+
+# --- BALANCE --------------------------------------------------------------
+# GET /usage at most once per TTL, reusing the background-cached UPGRADE
+# pattern above it. NEVER blocks preflight: the network call is always
+# backgrounded and the value emitted now comes from cache or is `unknown`.
+# /usage is in the spec's `paths:` (GET, so the POST-only catalog skips it and
+# the catalog diff cannot see its shape change), so an unparseable or
+# unreachable response degrades honestly to `unknown` rather than to a guess.
+#
+# _lib/ledger.mjs writes this same cache from any 402 body (`reserved` +
+# `balance`), which costs nothing — a non-2xx response deducts no credits.
+# So a run that hits a 402 populates BALANCE for free.
+
+cached_balance=""
+cache_is_fresh="no"
+if [ -f "$BALANCE_CACHE" ]; then
+  cached_balance="$(sed -n '2p' "$BALANCE_CACHE" 2>/dev/null | tr -d '[:space:]')"
+  bal_epoch="$(iso_to_epoch "$(head -1 "$BALANCE_CACHE")")"
+  now_epoch="$(date +%s)"
+  if [ $((now_epoch - bal_epoch)) -lt "$BALANCE_TTL" ]; then cache_is_fresh="yes"; fi
+fi
+
+case "$cached_balance" in
+  ''|*[!0-9.]*|.|*.*.*) cached_balance="" ;;   # not a number -> unknown
+esac
+
+if [ "$cache_is_fresh" = "no" ] && [ -n "${richapi_API_KEY:-}" ] && \
+   [ "$origin_trusted" = "yes" ] && \
+   command -v curl >/dev/null 2>&1 && command -v jq >/dev/null 2>&1; then
+  # Refresh in the background; this run still answers from cache immediately.
+  (
+    # The key goes in on STDIN via `curl --config -`, never on argv.
+    # `-H "x-api-key: $key"` put the live key in `ps auxww` for every other
+    # local user, hourly, behind every skill invocation. `printf` is a shell
+    # builtin and `sed` reads the key from a pipe, so no process in this
+    # pipeline carries it in its arguments either.
+    #
+    # curl's config format is `name = "value"` with backslash and double quote
+    # escaped, so a key containing either still produces a well-formed header
+    # rather than a silently truncated one.
+    esc_key="$(printf '%s' "$richapi_API_KEY" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g')"
+    body="$(printf 'header = "x-api-key: %s"\n' "$esc_key" \
+      | curl -fsS --max-time 3 --config - \
+      "$API_ORIGIN/api/v1/usage" 2>/dev/null || true)"
+    val="$(printf '%s' "$body" | jq -r '
+      [ .. | objects
+        | (.balance, .credits_remaining, .creditsRemaining, .remaining,
+           .credits_balance, .creditsBalance, .available_credits,
+           .availableCredits, .credits) ]
+      | map(select(type == "number" or type == "string"))
+      | map(tonumber? // empty) | first // empty' 2>/dev/null || true)"
+    if [ -n "$val" ]; then
+      { date -u +%Y-%m-%dT%H:%M:%SZ; echo "$val"; echo "usage_endpoint"; } > "$BALANCE_CACHE"
+    fi
+  ) >/dev/null 2>&1 &
+fi
+
+# Without a key there is no account to have a balance, so a cached number is at
+# best someone else's and at worst a stale figure read as "you have 0 credits" by
+# a user who has not signed up yet. `unknown` is the honest answer and is what the
+# README promises.
+if [ -z "${richapi_API_KEY:-}" ]; then
+  echo "BALANCE: unknown"
+elif [ -n "$cached_balance" ]; then
+  echo "BALANCE: $cached_balance"
+else
+  echo "BALANCE: unknown"
+fi
+
+# --- SUPPRESSION ----------------------------------------------------------
+# Reads _lib/suppression.mjs and runs the PII retention sweep in _lib/pii.mjs.
+# Both are guarded on file existence, so nothing here imports a module that
+# may not be present.
+#
+# FAIL CLOSED (laws 5 and 7): a missing module, a throwing check, a timeout,
+# or any answer that is not a clear OK all read as STOP. A suppression check
+# we could not run is NOT a passing suppression check.
+#
+# Bounded so a compliance module that hangs cannot wedge every skill
+# invocation: the probe is killed after SUPPRESSION_TIMEOUT tenths of a second
+# and the timeout reads as STOP.
+
+# DETERMINISTIC. The bound used to be a 2-second bash race around the whole node
+# process, so a cold `node` start on a busy machine read as STOP and the next run as
+# OK, on the same tree. The deadline now starts INSIDE node, after it has booted
+# (SUPPRESSION_DEADLINE_MS), and the outer bash watchdog is only a backstop for a
+# probe that blocks the event loop outright.
+SUPPRESSION_TIMEOUT=80   # tenths of a second — backstop only
+suppression_status="STOP"
+
+if [ -f "$LIB/suppression.mjs" ] && command -v node >/dev/null 2>&1; then
+  sup_out="$STATE_DIR/.suppression-probe.$$"
+  rm -f "$sup_out"
+  (
+    SUP_MODULE="$LIB/suppression.mjs" SUP_ROOT="$PF_ROOT" SUP_DIR="$PF_DIR" \
+    SUPPRESSION_DEADLINE_MS=3000 node --input-type=module -e '
+      const say = (v) => { process.stdout.write(v); process.exit(0); };
+      setTimeout(() => say("STOP"), Number(process.env.SUPPRESSION_DEADLINE_MS));
+      try {
+        const { pathToFileURL } = await import("node:url");
+        const m = await import(pathToFileURL(process.env.SUP_MODULE).href);
+        const r = typeof m.suppressionStatus === "function"
+          ? await m.suppressionStatus({ root: process.env.SUP_ROOT, dir: process.env.SUP_DIR })
+          : null;
+        const ok = r === true || r === "OK" || r === "ok" ||
+          (r !== null && typeof r === "object" &&
+            (r.ok === true || String(r.status ?? "").toUpperCase() === "OK"));
+        say(ok ? "OK" : "STOP");
+      } catch { say("STOP"); }
+    ' > "$sup_out" 2>/dev/null
+  ) &
+  sup_pid=$!
+  waited=0
+  while [ "$waited" -lt "$SUPPRESSION_TIMEOUT" ] && kill -0 "$sup_pid" 2>/dev/null; do
+    sleep 0.1
+    waited=$((waited + 1))
+  done
+  kill "$sup_pid" 2>/dev/null || true
+  wait "$sup_pid" 2>/dev/null || true
+  if [ "$(tr -d '[:space:]' < "$sup_out" 2>/dev/null || true)" = "OK" ]; then
+    suppression_status="OK"
+  fi
+  rm -f "$sup_out"
+fi
+
+echo "SUPPRESSION: $suppression_status"
+
+# The PII/TTL cache sweep is fire-and-forget: it deletes expired rows, it never
+# gates a run, and it must never delay one.
+if [ -f "$LIB/pii.mjs" ] && command -v node >/dev/null 2>&1; then
+  (
+    SWEEP_MODULE="$LIB/pii.mjs" node --input-type=module -e '
+      const { pathToFileURL } = await import("node:url");
+      const m = await import(pathToFileURL(process.env.SWEEP_MODULE).href);
+      if (typeof m.sweepEnrichmentCache === "function") await m.sweepEnrichmentCache();
+    '
+  ) >/dev/null 2>&1 &
+fi
+
+emit_upgrade() {
+  local cur="$1" latest="$2"
+  if [ -n "$latest" ] && [ "$latest" != "$cur" ]; then
+    echo "UPGRADE: $latest"
+  else
+    echo "UPGRADE: none"
+  fi
+}
+
+cur_ver="$(cat "$ROOT/VERSION" 2>/dev/null || echo 0.0.0)"
+if [ -f "$UPGRADE_CACHE" ]; then
+  cache_epoch="$(iso_to_epoch "$(head -1 "$UPGRADE_CACHE")")"
+  now_epoch="$(date +%s)"
+  if [ $((now_epoch - cache_epoch)) -lt "$UPGRADE_TTL" ]; then
+    emit_upgrade "$cur_ver" "$(tail -1 "$UPGRADE_CACHE")"
+    exit 0
+  fi
+fi
+
+# Refresh the upgrade check in the background; never blocks preflight.
+(
+  latest="$(curl -fsS --max-time 3 \
+    https://raw.githubusercontent.com/richapiai/gtm-skills/main/VERSION 2>/dev/null | tr -d '[:space:]')"
+  {
+    date -u +%Y-%m-%dT%H:%M:%SZ
+    echo "${latest:-$cur_ver}"
+  } > "$UPGRADE_CACHE"
+) >/dev/null 2>&1 &
+
+emit_upgrade "$cur_ver" "$(tail -1 "$UPGRADE_CACHE" 2>/dev/null || echo "$cur_ver")"

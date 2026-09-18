@@ -1,0 +1,27 @@
+{
+  "endpoint": "distribute_leads",
+  "path": "/distribute_leads",
+  "field_map_status": "live_fixture",
+  "field_map": null,
+  "observed_types": {
+    "assigned_label": "string",
+    "assigned_value": "string",
+    "assignment_index": "number",
+    "next_index": "number",
+    "total_assignments": "number"
+  },
+  "unmapped_keys": [
+    "assigned_label",
+    "assigned_value",
+    "assignment_index",
+    "next_index",
+    "total_assignments"
+  ],
+  "sample_status": "hit",
+  "billing_field": null,
+  "billing_field_present_in_response": null,
+  "captured_at": "2026-09-17T16:35:40.286Z",
+  "spec_sha256": "a6e69f460e6f304661dd582b67308ccca89cd58ae67f94c4e66960ae706d8fa5",
+  "source": "live_capture",
+  "field_map_derived": false
+}

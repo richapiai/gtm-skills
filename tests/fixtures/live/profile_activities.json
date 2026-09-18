@@ -1,0 +1,190 @@
+{
+  "endpoint": "profile_activities",
+  "path": "/profile_activities",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:47:45.587Z",
+  "redacted": true,
+  "body": {
+    "content": [
+      {
+        "id": "urn:li:ugcPost:7506370965916807168",
+        "commentary": "REDACTED",
+        "totalComments": 115,
+        "totalReactions": 582,
+        "totalShares": 30,
+        "reactionType": {
+          "empathy": 28,
+          "like": 508,
+          "interest": 21,
+          "entertainment": 2,
+          "appreciation": 13,
+          "praise": 10
+        },
+        "url": "https://www.linkedin.com/in/REDACTED/",
+        "header": null,
+        "time": "1 hour ago",
+        "author": {
+          "profileId": "REDACTED",
+          "entityUrn": "REDACTED",
+          "objectUrn": 0,
+          "firstName": "REDACTED",
+          "lastName": "REDACTED",
+          "headline": "REDACTED",
+          "profilePicture": "https://media.example.invalid/REDACTED",
+          "profileBackground": "https://media.example.invalid/REDACTED",
+          "profileType": "PERSON"
+        },
+        "content": {
+          "image": null,
+          "video": null,
+          "article": {
+            "urn": "urn:li:linkedInArticle:7506192804084219904",
+            "title": "AI, equity, and the choice we can’t delay",
+            "subtitle": "Bill Gates",
+            "callToAction": "https://www.linkedin.com/in/REDACTED/",
+            "image": "https://media.example.invalid/REDACTED"
+          },
+          "document": null,
+          "poll": null,
+          "celebration": null,
+          "entity": null,
+          "showcase": null
+        },
+        "reShared": null
+      },
+      {
+        "id": "urn:li:activity:7505813874869399552",
+        "commentary": "REDACTED",
+        "totalComments": 157,
+        "totalReactions": 773,
+        "totalShares": 41,
+        "reactionType": {
+          "empathy": 30,
+          "like": 694,
+          "interest": 6,
+          "entertainment": 5,
+          "appreciation": 20,
+          "praise": 18
+        },
+        "url": "https://www.linkedin.com/in/REDACTED/",
+        "header": null,
+        "time": "1 day ago",
+        "author": {
+          "profileId": "REDACTED",
+          "entityUrn": "REDACTED",
+          "objectUrn": 0,
+          "firstName": "REDACTED",
+          "lastName": "REDACTED",
+          "headline": "REDACTED",
+          "profilePicture": "https://media.example.invalid/REDACTED",
+          "profileBackground": "https://media.example.invalid/REDACTED",
+          "profileType": "PERSON"
+        },
+        "content": null,
+        "reShared": {
+          "id": "urn:li:activity:7505335865892605952",
+          "commentary": "REDACTED",
+          "totalComments": 7,
+          "totalReactions": 21,
+          "totalShares": 6,
+          "reactionType": {
+            "like": 18,
+            "interest": 1,
+            "praise": 2
+          },
+          "url": "https://www.linkedin.com/in/REDACTED/",
+          "header": null,
+          "time": "2 days ago",
+          "author": {
+            "id": 1522847,
+            "name": "REDACTED",
+            "universalName": "sv-angel",
+            "logo": "https://media.example.invalid/REDACTED",
+            "followerCount": 16902,
+            "showcase": false,
+            "active": true,
+            "profileType": "COMPANY"
+          },
+          "content": {
+            "image": null,
+            "video": null,
+            "article": {
+              "urn": "urn:li:article:7786971223318233036",
+              "title": "Project Blueprint - SV Angel",
+              "subtitle": "svangel.com",
+              "callToAction": "https://www.linkedin.com/in/REDACTED/",
+              "image": "https://media.example.invalid/REDACTED"
+            },
+            "document": null,
+            "poll": null,
+            "celebration": null,
+            "entity": null,
+            "showcase": null
+          }
+        }
+      },
+      {
+        "id": "urn:li:ugcPost:7505661713812271104",
+        "commentary": "REDACTED",
+        "totalComments": 195,
+        "totalReactions": 1715,
+        "totalShares": 180,
+        "reactionType": {
+          "empathy": 82,
+          "like": 1505,
+          "interest": 54,
+          "entertainment": 1,
+          "appreciation": 37,
+          "praise": 36
+        },
+        "url": "https://www.linkedin.com/in/REDACTED/",
+        "header": null,
+        "time": "2 days ago",
+        "author": {
+          "profileId": "REDACTED",
+          "entityUrn": "REDACTED",
+          "objectUrn": 0,
+          "firstName": "REDACTED",
+          "lastName": "REDACTED",
+          "headline": "REDACTED",
+          "profilePicture": "https://media.example.invalid/REDACTED",
+          "profileBackground": "https://media.example.invalid/REDACTED",
+          "profileType": "PERSON"
+        },
+        "content": {
+          "image": null,
+          "video": {
+            "duration": 80333,
+            "thumbnail": "https://media.example.invalid/REDACTED",
+            "videos": [
+              {
+                "url": "https://dms.licdn.com/playlist/vid/v2/D4D05AQEKid7C8Hpf_g/mp4-720p-30fp-crf28/B4DaCl3j52KoB8-/0/1789489222568?e=1790269200&v=beta&t=eOzGowZv7iCL3HEb7VXcTyx9EXhFWc1wcK1zArVyvIs",
+                "expiry": 1790269200000,
+                "mediaType": "video/mp4",
+                "width": 1280,
+                "height": 720,
+                "bitrate": 883111
+              },
+              {
+                "url": "https://dms.licdn.com/playlist/vid/v2/D4D05AQEKid7C8Hpf_g/mp4-640p-30fp-crf28/B4DaCl3j52KoBk-/0/1789489217697?e=1790269200&v=beta&t=uwvE4Z1lTtIJVVV-DfsCBUHMICGsNJc_aEZRQMz3ZWU",
+                "expiry": 1790269200000,
+                "mediaType": "video/mp4",
+                "width": 1138,
+                "height": 640,
+                "bitrate": 624871
+              }
+            ]
+          },
+          "article": null,
+          "document": null,
+          "poll": null,
+          "celebration": null,
+          "entity": null,
+          "showcase": null
+        },
+        "reShared": null
+      }
+    ],
+    "paginationToken": "dXJuOmxpOmFjdGl2aXR5Ojc1MDQ2ODg4MDIzNjg1MzY1NzYtMTc4OTI1NzI0MDg1Nw=="
+  }
+}

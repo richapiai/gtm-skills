@@ -1,0 +1,32 @@
+{
+  "endpoint": "ai_enrich",
+  "path": "/ai_enrich",
+  "field_map_status": "live_fixture",
+  "field_map": {
+    "provider": "provider"
+  },
+  "observed_types": {
+    "content": "string",
+    "tokens_used": "number",
+    "input_tokens": "number",
+    "output_tokens": "number",
+    "finish_reason": "string",
+    "provider": "string",
+    "model": "string"
+  },
+  "unmapped_keys": [
+    "content",
+    "tokens_used",
+    "input_tokens",
+    "output_tokens",
+    "finish_reason",
+    "model"
+  ],
+  "sample_status": "hit",
+  "billing_field": null,
+  "billing_field_present_in_response": null,
+  "captured_at": "2026-09-17T16:38:05.292Z",
+  "spec_sha256": "a6e69f460e6f304661dd582b67308ccca89cd58ae67f94c4e66960ae706d8fa5",
+  "source": "live_capture",
+  "field_map_derived": true
+}

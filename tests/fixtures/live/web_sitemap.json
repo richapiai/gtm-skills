@@ -1,0 +1,21 @@
+{
+  "endpoint": "web_sitemap",
+  "path": "/web_sitemap",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:24:40.019Z",
+  "redacted": true,
+  "body": {
+    "data": {
+      "urls": [
+        "https://richapi.ai/"
+      ],
+      "total_count": 1,
+      "source": "xml"
+    },
+    "meta": {
+      "cache_hit": false,
+      "execution_time_ms": 106,
+      "quality_warning": null
+    }
+  }
+}

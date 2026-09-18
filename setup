@@ -1,0 +1,75 @@
+#!/bin/sh
+# setup — POSIX wrapper around setup.mjs.
+#
+# WHY THIS FILE EXISTS
+#
+#   `./setup` is the documented entry point: it is named in the README,
+#   in the skills and in the tests. The implementation had to move to
+#   `setup.mjs` because this package is `"type": "module"`, and Node refuses to load
+#   an EXTENSIONLESS file as ESM until 20.10 — on Node 18 and 20.0–20.9 an
+#   extensionless `setup` dies with ERR_UNKNOWN_FILE_EXTENSION before it runs a line.
+#
+#   A symlink INSTEAD of this file was the tempting alternative and is a trap: `npm
+#   pack` silently drops symlinks from the tarball, so the published package would
+#   have no `./setup` at all. A two-line real file always packs.
+#
+#   `node setup` is deliberately no longer supported: on the very Node versions this
+#   wrapper exists to rescue, `node <extensionless>` is the exact failure being fixed.
+#   Use `./setup`, or `node setup.mjs`.
+#
+# The symlink walk below is not ceremony: `$0` is the symlink when this file is
+# reached through one, and a bare `dirname "$0"` would look for setup.mjs in the
+# wrong directory and exit silently. `readlink -f` is not portable to older macOS.
+SELF="$0"
+while [ -L "$SELF" ]; do
+  LINK="$(readlink "$SELF")"
+  case "$LINK" in
+    /*) SELF="$LINK" ;;
+    *)  SELF="$(dirname "$SELF")/$LINK" ;;
+  esac
+done
+DIR="$(dirname "$SELF")"
+NODE_BIN="${NODE:-node}"
+
+# PREREQUISITES, CHECKED HERE BECAUSE NOTHING ELSE CHECKS THEM.
+#
+# package.json `engines.node` is ADVISORY: npm prints a warning and installs anyway, and
+# the documented install path is `git clone` + `./setup`, where npm never runs at all.
+# So the floor was declared in one file and enforced in none, and a user on an old Node
+# got an arbitrary error from somewhere deep in the code instead of the one thing they
+# needed to know. Same for Node missing entirely: `exec node` produced `not found` from
+# /bin/sh with no hint about what to install.
+if ! command -v "$NODE_BIN" >/dev/null 2>&1; then
+  echo "richapi setup: Node.js is required, and '$NODE_BIN' was not found." >&2
+  echo "" >&2
+  echo "  Install Node 18.20.8 or newer, then run ./setup again:" >&2
+  echo "    macOS    brew install node" >&2
+  echo "    Debian   sudo apt install nodejs npm" >&2
+  echo "    any OS   https://nodejs.org/en/download" >&2
+  echo "" >&2
+  echo "  Already have it elsewhere?  NODE=/path/to/node ./setup" >&2
+  exit 127
+fi
+
+# The floor is READ FROM package.json, never typed here, so the two cannot drift (law 6).
+"$NODE_BIN" -e '
+  const fs = require("fs"), path = require("path");
+  const pkg = JSON.parse(fs.readFileSync(path.join(process.argv[1], "package.json"), "utf8"));
+  const floor = String((pkg.engines || {}).node || ">=18.20.8").replace(/[^0-9.]/g, "");
+  const num = (v) => v.split(".").map(Number);
+  const have = num(process.versions.node), want = num(floor);
+  for (let i = 0; i < 3; i++) {
+    if ((have[i] || 0) > (want[i] || 0)) break;
+    if ((have[i] || 0) < (want[i] || 0)) {
+      console.error("richapi setup: Node " + floor + " or newer is required; this is " + process.versions.node + ".");
+      console.error("");
+      console.error("  The suite is run green on " + floor + " and up. Older versions fail in ways that");
+      console.error("  look like bugs in this pack - most often on ESM module loading.");
+      console.error("");
+      console.error("  Upgrade, or select a newer one:  nvm install " + floor + " && nvm use " + floor);
+      process.exit(1);
+    }
+  }
+' "$DIR" || exit $?
+
+exec "$NODE_BIN" "$DIR/setup.mjs" "$@"

@@ -1,0 +1,50 @@
+{
+  "endpoint": "profile_search",
+  "path": "/profile_search",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:23:52.444Z",
+  "redacted": true,
+  "body": {
+    "pagination": {
+      "totalElements": 10,
+      "totalPages": 1,
+      "pageNumber": 1,
+      "previousElements": 0,
+      "pageSize": 10,
+      "totalResultCount": 7952
+    },
+    "elements": [
+      {
+        "id": "ACoAACBKNQ8B7RzuUofot6SJTE7uL162-JYlhVA",
+        "name": "REDACTED",
+        "position": "Vice President of Sales",
+        "location": {
+          "linkedinText": "Corpus Christi, TX"
+        },
+        "linkedinUrl": "https://www.linkedin.com/in/REDACTED/",
+        "publicIdentifier": "REDACTED"
+      },
+      {
+        "id": "ACoAAAABYhABI0Pc_wIelPpjhLbq3OAcFdcs98c",
+        "name": "REDACTED",
+        "position": "Strategic Leadership | Design Thinking | Storytelling | Educator | Sales & Marketing Programs | Start-up Ecosystem | Customer Service | Enterprise Solutions |Employee Engagement | Global Partnerships",
+        "location": {
+          "linkedinText": "Greater Vancouver Metropolitan Area"
+        },
+        "linkedinUrl": "https://www.linkedin.com/in/REDACTED/",
+        "publicIdentifier": "REDACTED"
+      },
+      {
+        "id": "ACoAAAuquk4BpNY1atR0UOXxle0T4O_vzDE82zk",
+        "name": "REDACTED",
+        "position": "Vice President of Sales Vent-A-Hood LTD.",
+        "photo": "https://www.linkedin.com/in/REDACTED/",
+        "location": {
+          "linkedinText": "Dallas-Fort Worth Metroplex"
+        },
+        "linkedinUrl": "https://www.linkedin.com/in/REDACTED/",
+        "publicIdentifier": "REDACTED"
+      }
+    ]
+  }
+}

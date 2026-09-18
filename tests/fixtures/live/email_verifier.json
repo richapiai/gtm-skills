@@ -1,0 +1,22 @@
+{
+  "endpoint": "email_verifier",
+  "path": "/email_verifier",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:19:28.928Z",
+  "redacted": true,
+  "body": {
+    "success": true,
+    "result": {
+      "status": "ok"
+    },
+    "provider": "provider",
+    "providers_tried": 1,
+    "execution_log": [
+      {
+        "provider": "provider",
+        "status": "success",
+        "latency_ms": 2362
+      }
+    ]
+  }
+}

@@ -1,0 +1,62 @@
+name: Feature request
+description: Propose a skill, a flag, or a change to how the pack works.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before you write this: check the *Where this actually stands* section of the
+        README, ROADMAP.md and LIMITATIONS.md. Most known gaps are already written down there, and an
+        issue that says "this is the one I care about" on an existing item is more
+        useful than a new one.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What are you trying to do that the pack does not let you do? Concrete, not abstract.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you want instead
+    validations:
+      required: true
+
+  - type: dropdown
+    id: shape
+    attributes:
+      label: What shape is this
+      options:
+        - A new skill
+        - A change to an existing skill
+        - A CLI flag or verb
+        - Runtime behaviour (gates, journal, ledger, suppression)
+        - Docs
+        - Something else
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: spend
+    attributes:
+      label: Does this make a paid call?
+      description: |
+        Law 3: every paid call is named and costed before it runs. A feature that
+        spends needs a dry-run plan and a gate, and that is part of the design, not a
+        follow-up.
+      options:
+        - label: Yes, it calls a metered endpoint.
+        - label: No, it is free.
+        - label: I do not know.
+
+  - type: textarea
+    id: boundary
+    attributes:
+      label: Is it inside the API's ceiling?
+      description: |
+        The pack deliberately does not do sending execution, LinkedIn actions, dialing,
+        direct mail, or inbox hosting — those are permanently external. If your request
+        needs one of them, say how you see it splitting.

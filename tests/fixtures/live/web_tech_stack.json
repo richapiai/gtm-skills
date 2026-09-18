@@ -1,0 +1,49 @@
+{
+  "endpoint": "web_tech_stack",
+  "path": "/web_tech_stack",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:24:46.387Z",
+  "redacted": true,
+  "body": {
+    "data": {
+      "technologies": [
+        {
+          "name": "REDACTED",
+          "category": "Framework",
+          "confidence": 1
+        },
+        {
+          "name": "REDACTED",
+          "category": "Hosting",
+          "confidence": 1
+        },
+        {
+          "name": "REDACTED",
+          "category": "Backend Framework",
+          "confidence": 0.7
+        }
+      ],
+      "summary": "REDACTED",
+      "categories_count": {
+        "Framework": 1,
+        "Hosting": 1,
+        "Backend Framework": 2,
+        "SEO": 1,
+        "CMS": 1,
+        "Build Tool": 1,
+        "Library": 1
+      },
+      "gtm_signals": {
+        "company_stage": "startup",
+        "estimated_monthly_tech_spend": 0,
+        "tools_by_function": {},
+        "buying_signals": []
+      }
+    },
+    "meta": {
+      "cache_hit": false,
+      "execution_time_ms": 1396,
+      "quality_warning": null
+    }
+  }
+}

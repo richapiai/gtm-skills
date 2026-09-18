@@ -1,0 +1,14 @@
+{
+  "endpoint": "find_website_by_company_name",
+  "path": "/find_website_by_company_name",
+  "http_status": 201,
+  "captured_at": "2026-09-17T16:20:15.811Z",
+  "redacted": true,
+  "body": {
+    "name": "REDACTED",
+    "data": {
+      "Website": null
+    },
+    "message": "not found"
+  }
+}

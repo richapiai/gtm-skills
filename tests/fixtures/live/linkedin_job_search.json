@@ -1,0 +1,63 @@
+{
+  "endpoint": "linkedin_job_search",
+  "path": "/linkedin_job_search",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:43:24.051Z",
+  "redacted": true,
+  "body": {
+    "pagination": {
+      "totalElements": 2190,
+      "totalPages": 88,
+      "pageNumber": 1,
+      "previousElements": 0,
+      "pageSize": 25
+    },
+    "elements": [
+      {
+        "id": "4468623653",
+        "url": "https://www.linkedin.com/in/REDACTED/",
+        "title": "Frontier Industry Advisor, Manufacturing and Mobility - Japan",
+        "postedDate": "2026-09-17T12:44:14.000Z",
+        "company": {
+          "name": "REDACTED",
+          "universalName": "microsoft",
+          "linkedinUrl": "https://www.linkedin.com/in/REDACTED/"
+        },
+        "location": {
+          "linkedinText": "Tokyo, Tokyo, Japan (Hybrid)"
+        },
+        "easyApply": false
+      },
+      {
+        "id": "4468620723",
+        "url": "https://www.linkedin.com/in/REDACTED/",
+        "title": "Principal Project Manager - Telecommunications, Media, and Technology",
+        "postedDate": "2026-09-17T12:44:14.000Z",
+        "company": {
+          "name": "REDACTED",
+          "universalName": "microsoft",
+          "linkedinUrl": "https://www.linkedin.com/in/REDACTED/"
+        },
+        "location": {
+          "linkedinText": "Redmond, WA (On-site)"
+        },
+        "easyApply": false
+      },
+      {
+        "id": "4468620703",
+        "url": "https://www.linkedin.com/in/REDACTED/",
+        "title": "Data Center Technician",
+        "postedDate": "2026-09-17T12:44:14.000Z",
+        "company": {
+          "name": "REDACTED",
+          "universalName": "microsoft",
+          "linkedinUrl": "https://www.linkedin.com/in/REDACTED/"
+        },
+        "location": {
+          "linkedinText": "Tokyo, Tokyo, Japan (On-site)"
+        },
+        "easyApply": false
+      }
+    ]
+  }
+}

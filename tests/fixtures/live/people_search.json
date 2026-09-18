@@ -1,0 +1,183 @@
+{
+  "endpoint": "people_search",
+  "path": "/people_search",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:47:36.069Z",
+  "redacted": true,
+  "body": {
+    "content": [
+      {
+        "url": "https://www.linkedin.com/in/REDACTED/",
+        "identifier": "REDACTED",
+        "entityUrn": "REDACTED",
+        "objectUrn": 0,
+        "firstname": "REDACTED",
+        "lastname": "REDACTED",
+        "middleName": null,
+        "birthDate": "1600-12-05T00:00:00.000Z",
+        "headline": "REDACTED",
+        "picture": "https://media.example.invalid/REDACTED",
+        "background": "https://media.example.invalid/REDACTED",
+        "summary": "REDACTED",
+        "openToWork": true,
+        "influencer": false,
+        "premium": false,
+        "creator": false,
+        "hiring": false,
+        "verified": true,
+        "industry": "Transportation/Trucking/Railroad",
+        "location": {
+          "country": "Argentina",
+          "city": null,
+          "state": null,
+          "defaultValue": "Argentina, South America",
+          "shortValue": null
+        },
+        "organizations": [],
+        "educations": [
+          {
+            "school": {
+              "name": "REDACTED",
+              "profileType": "COMPANY"
+            },
+            "degreeName": "Técnico electromecánico",
+            "fieldOfStudy": null,
+            "grade": null,
+            "date": {
+              "start": "2005-03-01T00:00:00.000Z",
+              "end": "2007-12-31T00:00:00.000Z"
+            }
+          }
+        ],
+        "patents": [],
+        "awards": [],
+        "certifications": [],
+        "projects": [],
+        "publications": [],
+        "courses": [],
+        "testScores": [],
+        "positionGroups": [
+          {
+            "company": {
+              "id": 321888,
+              "name": "REDACTED",
+              "logo": "https://media.example.invalid/REDACTED",
+              "url": "https://www.linkedin.com/in/REDACTED/",
+              "employees": {
+                "start": 10001,
+                "end": null
+              },
+              "profileType": "COMPANY"
+            },
+            "date": {
+              "start": "2026-01-01T00:00:00.000Z",
+              "end": null
+            },
+            "profilePositions": [
+              {
+                "company": "YPF SA",
+                "description": null,
+                "title": "Vendedor dual",
+                "employmentType": "Full-time",
+                "location": null,
+                "date": {
+                  "start": "2026-01-01T00:00:00.000Z",
+                  "end": null
+                }
+              }
+            ]
+          },
+          {
+            "company": {
+              "id": 12908238,
+              "name": "REDACTED",
+              "logo": "https://media.example.invalid/REDACTED",
+              "url": "https://www.linkedin.com/in/REDACTED/",
+              "employees": {
+                "start": 10001,
+                "end": null
+              },
+              "profileType": "COMPANY"
+            },
+            "date": {
+              "start": "2010-08-01T00:00:00.000Z",
+              "end": null
+            },
+            "profilePositions": [
+              {
+                "company": "Trenes Argentinos Operaciones",
+                "description": null,
+                "title": "Mecanico multiple",
+                "employmentType": "Full-time",
+                "location": "Argentina",
+                "date": {
+                  "start": "2010-10-01T00:00:00.000Z",
+                  "end": null
+                }
+              },
+              {
+                "company": "Trenes Argentinos Operaciones",
+                "description": null,
+                "title": "Mecánico múltiple",
+                "employmentType": "Full-time",
+                "location": "Argentina",
+                "date": {
+                  "start": "2010-10-01T00:00:00.000Z",
+                  "end": null
+                }
+              },
+              {
+                "company": "Trenes Argentinos Operaciones",
+                "description": null,
+                "title": "Mecánico de motores diésel",
+                "employmentType": "Full-time",
+                "location": "Argentina",
+                "date": {
+                  "start": "2010-08-01T00:00:00.000Z",
+                  "end": null
+                }
+              }
+            ]
+          }
+        ],
+        "volunteerExperiences": [],
+        "languages": [],
+        "skills": [
+          "Transporte público",
+          "Polipastos",
+          "Neumática"
+        ],
+        "recommendations": [],
+        "networkInfo": {
+          "followersCount": 74,
+          "connectionsCount": 72
+        }
+      }
+    ],
+    "pageable": {
+      "pageNumber": 0,
+      "pageSize": 1,
+      "sort": {
+        "sorted": false,
+        "empty": true,
+        "unsorted": true
+      },
+      "offset": 0,
+      "paged": true,
+      "unpaged": false
+    },
+    "last": false,
+    "totalElements": 232399963,
+    "totalPages": 232399963,
+    "sort": {
+      "sorted": false,
+      "empty": true,
+      "unsorted": true
+    },
+    "size": 1,
+    "number": 0,
+    "first": true,
+    "numberOfElements": 1,
+    "empty": false
+  }
+}

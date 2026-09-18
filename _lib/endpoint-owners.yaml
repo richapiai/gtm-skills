@@ -1,0 +1,132 @@
+# _lib/endpoint-owners.yaml — which skill reaches for which endpoint.
+#
+# CI (`node _lib/catalog/owners-check.mjs`) fails on UNMAPPED: any endpoint in
+# spec/openapi.yaml that appears under neither `endpoints:` nor `unclaimed:`.
+# `unclaimed:` requires a one-line reason, so a deliberate gap and an accidental gap
+# never look alike. The human-readable coverage table is GENERATED from this file into
+# _lib/catalog/coverage.md — never typed. The previous prose table drifted before a line
+# of code existed: it claimed `normalize_*(6)` when the spec ships three.
+#
+# Coverage is not the goal. `slack_channel_members` being "claimed" buys nothing; the
+# metric is credits burned per install. This file exists to prevent SILENT drift.
+#
+# Owners are assigned directly where a skill names the endpoint, and from
+# `defaults_by_capability_group` otherwise; rows in the second case carry `# by group`.
+
+# OUR taxonomy (_lib/catalog/taxonomy.mjs), not spec tags. The spec's tag axis is a tiebreak hint only:
+# it has 8 singleton tags, and `email_finder` is tagged Enrichment while `email_verifier`
+# — same waterfall family, same owning skill — is tagged Waterfall.
+defaults_by_capability_group:
+  people_search:    [build-prospect-list]
+  enrichment:       [enrich-waterfall]
+  email_and_phone:  [enrich-waterfall]
+  posts_activity:   [account-research]
+  ads_libraries:    [competitive-intel]
+  maps_directories: [tam-map]
+  web_intelligence: [account-research]
+  search_trends:    [signal-watch]
+  funding:          [account-research]
+  youtube:          [research-agent]
+  ai:               [research-agent]
+  social:           [org-map]
+  utilities:        [list-hygiene]
+
+endpoints:
+  # --- people_search -------------------------------------------------------------
+  people_search:                     [build-prospect-list]
+  profile_search:                    [build-prospect-list]
+  lead_search:                       [build-prospect-list, account-research, org-map, signal-watch]
+  linkedin_company_employees_search: [build-prospect-list, account-research, org-map]
+  linkedin_company_search:           [tam-map, build-prospect-list]
+  linkedin_job_search:               [signal-watch, play-design]
+  geo_id_search:                     [build-prospect-list]
+  search_reference_data:             [build-prospect-list, icp-review, gtm-kickoff]   # free
+
+  # --- enrichment ----------------------------------------------------------------
+  enrich_profile:                    [enrich-waterfall, inbound, call-intel]
+  enrich_profiles_bulk:              [enrich-waterfall, org-map]
+  enrich_company:                    [enrich-waterfall, icp-review, inbound, account-research]
+  enrich_companies_bulk:             [enrich-waterfall]
+  profile_social_metrics:            [evidence-score, account-research]               # by group
+  find_linkedin_url_by_email:        [enrich-waterfall, inbound]
+  find_linkedin_url_by_name:         [enrich-waterfall]
+  find_website_by_company_name:      [tam-map, inbound, enrich-waterfall]
+  linkedin_job_detail:               [signal-watch]
+
+  # --- email_and_phone -----------------------------------------------------------
+  email_finder:                      [enrich-waterfall, inbound, ads-audience]
+  email_verifier:                    [enrich-waterfall, list-hygiene, inbound]
+  find_personal_email:               [enrich-waterfall, comply]    # explicit opt-in per batch
+  phone_finder:                      [enrich-waterfall]            # 25cr - always-ask, see gates.yaml
+  identify_email_type:               [enrich-waterfall, list-hygiene, inbound, ads-audience]
+
+  # --- posts_activity ------------------------------------------------------------
+  profile_activities:                [competitive-intel, account-research]
+  post_activities:                   [account-research, build-prospect-list]
+  post_details:                      [account-research, build-prospect-list]
+  linkedin_company_posts:            [account-research, competitive-intel, signal-watch]
+  # post_keyword_search: see unclaimed
+
+  # --- ads_libraries -------------------------------------------------------------
+  linkedin_ad_search:                [competitive-intel, account-research, signal-watch]
+  linkedin_ad_details:               [competitive-intel]           # capped top-3
+  google_ad_transparency_scraper_sync: [competitive-intel]
+  meta_ads_library_scraper_sync:     [competitive-intel, account-research]
+
+  # --- maps_directories ----------------------------------------------------------
+  google_maps_places_scraper_keyword:        [tam-map]
+  google_maps_places_scraper_sync_using_url: [tam-map]
+  google_maps_reviews_scraper_sync:          [account-research]                        # by group
+  directory_yellowpages:                     [tam-map]
+
+  # --- web_intelligence ----------------------------------------------------------
+  website_intelligence:              [account-research, competitive-intel, research-agent, gtm-onboard]
+  web_scrape:                        [research-agent, account-research]
+  web_emails:                        [enrich-waterfall, account-research]
+  web_meta_tags:                     [list-hygiene, account-research, gtm-onboard]   # dead-domain detection; gtm-onboard reads the user own site
+  web_tech_stack:                    [account-research, competitive-intel, signal-watch, play-design, gtm-onboard]
+  web_pixels:                        [competitive-intel, account-research]             # by group
+  web_social_links:                  [account-research]                                # by group
+  web_json_ld:                       [account-research]                                # by group
+  web_sitemap:                       [account-research]                                # by group
+  similarweb_scraper_sync:           [tam-map, account-research, competitive-intel]
+
+  # --- search_trends -------------------------------------------------------------
+  google_search_scraper_sync:        [signal-watch, research-agent]
+  search_bing:                       [signal-watch, research-agent]
+  search_google_trends:              [competitive-intel]
+
+  # --- funding -------------------------------------------------------------------
+  crunchbase_company_scraper_sync:   [tam-map, account-research, signal-watch, research-agent]
+
+  # --- youtube -------------------------------------------------------------------
+  youtube_channel:                   [research-agent, competitive-intel]               # by group
+  youtube_channel_videos:            [research-agent, competitive-intel]               # by group
+  youtube_search:                    [research-agent, competitive-intel]               # by group
+  youtube_video:                     [research-agent, competitive-intel]               # by group
+
+  # --- ai ------------------------------------------------------------------------
+  # local inference preferred; ai_enrich is for Perplexity web grounding or batch scale
+  ai_enrich:                         [research-agent, personalize, org-map, reply-triage,
+                                      icp-review, call-intel]
+
+  # --- social --------------------------------------------------------------------
+  slack_channel_members:             [org-map]                     # BYO Slack credential; by group
+
+  # --- utilities -----------------------------------------------------------------
+  clean_domain:                      [list-hygiene, enrich-waterfall]
+  normalize_company:                 [list-hygiene]
+  normalize_phone:                   [list-hygiene]
+  normalize_list:                    [list-hygiene]
+  remove_whitespace:                 [list-hygiene]
+  count_occurrences:                 [list-hygiene]
+  extract_urls_emails:               [list-hygiene]
+  find_redirect:                     [list-hygiene]                # dead-domain detection
+  find_sitemap_urls:                 [account-research, research-agent]                # by group
+  distribute_leads:                  [launch, inbound]
+
+unclaimed:
+  predict_gender:      "bias risk in outreach - off in default config"
+  post_keyword_search: "enabled and page-gated, but no skill searches posts by keyword yet"
+  encode_uri:          "runtime helper, not a GTM capability"
+  format_datetime:     "runtime helper, not a GTM capability"

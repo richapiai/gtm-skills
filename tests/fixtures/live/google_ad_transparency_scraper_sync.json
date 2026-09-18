@@ -1,0 +1,20 @@
+{
+  "endpoint": "google_ad_transparency_scraper_sync",
+  "path": "/google_ad_transparency_scraper_sync",
+  "http_status": 403,
+  "captured_at": "2026-09-17T16:20:21.727Z",
+  "redacted": true,
+  "body": {
+    "error": "Access to the requested resource is currently restricted.",
+    "supported_fields": {
+      "accepted": [
+        "google_ad_url",
+        "limit"
+      ],
+      "required": [
+        "google_ad_url",
+        "limit"
+      ]
+    }
+  }
+}

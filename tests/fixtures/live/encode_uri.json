@@ -1,0 +1,11 @@
+{
+  "endpoint": "encode_uri",
+  "path": "/encode_uri",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:19:30.196Z",
+  "redacted": true,
+  "body": {
+    "original_value": "RichAPI automates GTM workflows.",
+    "encoded_value": "RichAPI%20automates%20GTM%20workflows."
+  }
+}

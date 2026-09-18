@@ -1,0 +1,24 @@
+{
+  "endpoint": "find_website_by_company_name",
+  "path": "/find_website_by_company_name",
+  "field_map_status": "live_fixture",
+  "field_map": {
+    "name": "name"
+  },
+  "observed_types": {
+    "name": "string",
+    "data": "object",
+    "message": "string"
+  },
+  "unmapped_keys": [
+    "data",
+    "message"
+  ],
+  "sample_status": "hit",
+  "billing_field": null,
+  "billing_field_present_in_response": null,
+  "captured_at": "2026-09-17T16:20:15.811Z",
+  "spec_sha256": "c17a0e7f756abb976e66337c110fd62357324ce7f1fce88c2c5c9ea35d96e171",
+  "source": "live_capture",
+  "field_map_derived": true
+}

@@ -1,0 +1,51 @@
+{
+  "endpoint": "youtube_search",
+  "path": "/youtube_search",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:25:00.686Z",
+  "redacted": true,
+  "body": {
+    "data": {
+      "results": [
+        {
+          "video_id": "60Tlk3UpE0g",
+          "title": "What is Sales Intelligence?",
+          "channel": "Marketing Business Network",
+          "channel_id": "UCI8Xs2oPTMb9DkuYsEqCnnQ",
+          "view_count": 575,
+          "duration": 217,
+          "publish_date": "",
+          "thumbnail": "https://i.ytimg.com/vi/60Tlk3UpE0g/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLA-E_Zm4galyo-2NjFhxqBM1z73qw",
+          "description": "Sales intelligence refers to the process of gathering, analyzing, and leveraging data to inform and enhance sales strategies."
+        },
+        {
+          "video_id": "mydkrl5PfSg",
+          "title": "7 Best Sales Intelligence Software Tools [Full Demo]",
+          "channel": "Business Solution",
+          "channel_id": "UCa0V8AAXKg5TwOTe7SnLP6A",
+          "view_count": 1590,
+          "duration": 851,
+          "publish_date": "",
+          "thumbnail": "https://i.ytimg.com/vi/mydkrl5PfSg/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCtITetPgRPwVTVFVBTWodfXyPEdA",
+          "description": "Here are the best sales intelligence software tools: 1. ZoomInfo SalesOS ▷ Zoominfo free trial: ..."
+        },
+        {
+          "video_id": "aG-vOtiT2no",
+          "title": "6sense Review & Demo | Best Sales Intelligence Platform?",
+          "channel": "How to Hippo 🦛",
+          "channel_id": "UC2T47jvfBgrBkExxfhwUnBw",
+          "view_count": 2795,
+          "duration": 318,
+          "publish_date": "",
+          "thumbnail": "https://i.ytimg.com/vi/aG-vOtiT2no/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBjLItVyT1c_j0QP75GSFmKI6C5rQ",
+          "description": "In this beginner tutorial and training video, we show you how to install and use 6sense software. We show you how to create an ..."
+        }
+      ]
+    },
+    "meta": {
+      "cache_hit": false,
+      "execution_time_ms": 2559,
+      "quality_warning": null
+    }
+  }
+}

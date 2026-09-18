@@ -1,0 +1,107 @@
+{
+  "endpoint": "google_maps_places_scraper_keyword",
+  "path": "/google_maps_places_scraper_keyword",
+  "http_status": 201,
+  "captured_at": "2026-09-17T16:41:35.530Z",
+  "redacted": true,
+  "body": [
+    {
+      "title": "SalesCaptain",
+      "subTitle": null,
+      "description": null,
+      "ownerDescription": null,
+      "price": null,
+      "categoryName": "Software company",
+      "address": "REDACTED",
+      "neighborhood": "Manhattan",
+      "street": "REDACTED",
+      "city": "New York",
+      "postalCode": "10013",
+      "state": "New York",
+      "countryCode": "US",
+      "website": "https://salescaptain.com/",
+      "phone": "+10000000000",
+      "phoneUnformatted": "+10000000000",
+      "claimThisBusiness": false,
+      "location": {
+        "lat": 40.7206058,
+        "lng": -74.0014893
+      },
+      "locatedIn": null,
+      "floor": null,
+      "plusCode": null,
+      "menu": null,
+      "servicesLink": null,
+      "totalScore": 4.9,
+      "permanentlyClosed": false,
+      "temporarilyClosed": false,
+      "placeId": "ChIJdx_pIxtZwokRVHgSEF2M3zQ",
+      "categories": [
+        "Software company"
+      ],
+      "fid": "0x89c2591b23e91f77:0x34df8c5d10127854",
+      "cid": "3809918141108222036",
+      "reviewsCount": 32,
+      "reviewsDistribution": {
+        "oneStar": 1,
+        "twoStar": 0,
+        "threeStar": 0,
+        "fourStar": 0,
+        "fiveStar": 31
+      },
+      "imagesCount": 4,
+      "imageCategories": [],
+      "scrapedAt": "2026-09-17T16:41:28.949Z",
+      "reserveTableUrl": null,
+      "googleFoodUrl": null,
+      "hotelStars": null,
+      "hotelDescription": null,
+      "checkInDate": null,
+      "checkOutDate": null,
+      "hotelAds": [],
+      "popularTimesLiveText": null,
+      "popularTimesLivePercent": null,
+      "popularTimesHistogram": {},
+      "openingHours": [
+        {
+          "day": "Monday",
+          "hours": "9 AM to 6 PM"
+        },
+        {
+          "day": "Tuesday",
+          "hours": "9 AM to 6 PM"
+        },
+        {
+          "day": "Wednesday",
+          "hours": "9 AM to 6 PM"
+        }
+      ],
+      "wasOpenAtScrapeTime": true,
+      "peopleAlsoSearch": [],
+      "placesTags": [],
+      "reviewsTags": [],
+      "additionalInfo": {
+        "Service options": [
+          {
+            "Online appointments": true
+          }
+        ],
+        "Accessibility": [
+          {
+            "Wheelchair accessible entrance": true
+          }
+        ]
+      },
+      "gasPrices": [],
+      "url": "https://www.google.com/maps/search/?api=1&query=SalesCaptain&query_place_id=ChIJdx_pIxtZwokRVHgSEF2M3zQ",
+      "searchPageUrl": "https://www.google.com/maps/search/sales%20intelligence?hl=en",
+      "searchString": "sales intelligence",
+      "language": "en",
+      "rank": 1,
+      "isAdvertisement": false,
+      "imageUrl": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=qYTmy3wdDyeUry9BBSugHg&cb_client=search.gws-prod.gps&w=408&h=240&yaw=303.81058&pitch=0&thumbfov=100",
+      "kgmid": "/g/11jz5rmwkn",
+      "businessProfileId": "8461412202074576671"
+    }
+  ]
+}

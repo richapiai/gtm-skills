@@ -1,0 +1,16 @@
+{
+  "endpoint": "ai_enrich",
+  "path": "/ai_enrich",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:38:05.291Z",
+  "redacted": true,
+  "body": {
+    "content": "ok",
+    "tokens_used": 15,
+    "input_tokens": 14,
+    "output_tokens": 1,
+    "finish_reason": "stop",
+    "provider": "openai",
+    "model": "gpt-4o-mini-2024-07-18"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "endpoint": "web_social_links",
+  "path": "/web_social_links",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:24:42.520Z",
+  "redacted": true,
+  "body": {
+    "data": {
+      "links": {}
+    },
+    "meta": {
+      "cache_hit": false,
+      "execution_time_ms": 41,
+      "quality_warning": "Page returned no relevant data"
+    }
+  }
+}

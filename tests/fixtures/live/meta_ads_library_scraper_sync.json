@@ -1,0 +1,44 @@
+{
+  "endpoint": "meta_ads_library_scraper_sync",
+  "path": "/meta_ads_library_scraper_sync",
+  "http_status": 201,
+  "captured_at": "2026-09-17T16:43:28.436Z",
+  "redacted": true,
+  "body": [
+    {
+      "adArchiveID": "802042705753949",
+      "sourceUrl": "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&country=US&q=microsoft",
+      "pageID": "1698026760415338",
+      "pageName": "Omnicharge - Powering Professionals On The Go",
+      "pageURL": "https://www.facebook.com/1698026760415338",
+      "pageCategory": "Product/service",
+      "pageLikes": 27874,
+      "pageVerified": false,
+      "pageInstagramUser": "omnicharge",
+      "pageInstagramFollowers": 23415,
+      "pageCountry": null,
+      "adText": "Introducing the Omni Power Station 80C+ — built for professionals who turn vision into output.\n\nHigh-capacity, reliable power in a sleek, portable design that integrates seamlessly into any modern workspace. Built for flexibility, it tra...",
+      "adCreativeBodies": [
+        "Introducing the Omni Power Station 80C+ — built for professionals who turn vision into output.\n\nHigh-capacity, reliable power in a sleek, portable design that integrates seamlessly into any modern workspace. Built for flexibility, it tra..."
+      ],
+      "publisherPlatforms": [
+        "facebook",
+        "instagram",
+        "audience_network"
+      ],
+      "adStatus": null,
+      "languages": [
+        "en"
+      ],
+      "startDate": "2025-11-13",
+      "endDate": "2026-02-10",
+      "adCreationTime": "2025-10-15",
+      "estimatedAudienceSize": null,
+      "adLibraryURL": "https://www.facebook.com/ads/library/?id=802042705753949",
+      "adSnapshotUrl": "https://www.facebook.com/ads/archive/render_ad/?id=802042705753949&access_token=EAANavmX418gBSG5SEZA5cf163KSRU7tWLu3zsr2ppoPcsR9xn8741mkc18i2WJz74D3KyKagm8dCsNGHArZCFVabDpCl6ADDVF4AjOGgefmTTgzAvAtzGSuOrUhO3GRZCb8Tah5ZBlaLqKO7Mk3dlUqzoWXu...",
+      "ctaDomain": "omnicharge.co",
+      "ctaHeadline": "⚡Welcome to the future of flexible power.",
+      "ctaDescription": "Portable, high-performance power for the modern enterprise."
+    }
+  ]
+}

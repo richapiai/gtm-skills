@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://richapi.ai/schemas/ledger-line.schema.json",
+  "title": "Cost ledger line (gtm/api-calls.jsonl)",
+  "description": "The honest cost record. An estimate echoed back as an actual is worse than an admitted estimate \u2014 it is the old honor-system math moved into JavaScript.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "ts",
+    "endpoint",
+    "credits_estimated",
+    "cost_status"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "ts": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "run_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "endpoint": {
+      "type": "string"
+    },
+    "credits_estimated": {
+      "type": "number"
+    },
+    "credits_estimated_if_billed": {
+      "type": "number",
+      "description": "Present ONLY on a line that was not billed. The price the call would have carried had it been billed. Deliberately not `credits_estimated`: every consumer sums that field, so a would-have-been price living there overstated spend and could stop a run on a ceiling it never reached."
+    },
+    "billed": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "description": "Did this call cost credits? false for a non-2xx (billing rule) and for a 2xx whose body says `billed: false` (the provider errored). null means UNKNOWN \u2014 http_status 0 is a response never seen, and a request the server may have processed must not be booked at zero."
+    },
+    "not_billed_reason": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "non_2xx",
+        "provider_error",
+        null
+      ],
+      "description": "Why nothing was charged. `provider_error` is NOT a not-found: the row was never looked up and must be retried."
+    },
+    "credits_actual": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "cost_status": {
+      "enum": [
+        "actual",
+        "estimated_unverifiable",
+        "known_zero"
+      ],
+      "description": "`actual` = a real charge was read from the response. `estimated_unverifiable` = the response omits the billing field (11 of 21 metered endpoints); NEVER write `actual` from an estimate. `known_zero` = the rule says no charge occurred (a non-2xx deducts no credits), which is distinct from having verified one."
+    },
+    "result_count": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "balance_after": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "populated free from any 402 body (reserved + balance) or a cached GET /usage"
+    },
+    "balance_source": {
+      "enum": [
+        "usage_endpoint",
+        "402_body",
+        "unknown"
+      ]
+    },
+    "http_status": {
+      "type": "integer"
+    },
+    "estimate_basis": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "How credits_estimated was derived, e.g. '10 base + 0.5/result x 25' or 'assumed 25 results/page'. For the 11 endpoints whose charge is never verifiable the estimate is the ONLY number, so a reader must be able to tell a firm flat price from a page-size guess. The session receipt reuses this math."
+    },
+    "row_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Joins a ledger line back to its journal unit. Without row_id + hop, reconcile() can only compare per-run totals and a per-row cost audit is impossible across the two files."
+    },
+    "hop": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    }
+  },
+  "$comment": "Session end reconciles the sum against GET /usage and reports drift, once the API documents a usage endpoint. The /richapi-gtm receipt reuses this math \u2014 no fork \u2014 and an eval fails CI on any receipt claim exceeding ledger actuals."
+}

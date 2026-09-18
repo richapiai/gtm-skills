@@ -1,0 +1,121 @@
+{
+  "endpoint": "lead_search",
+  "path": "/lead_search",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:47:21.129Z",
+  "redacted": true,
+  "body": {
+    "pagination": {
+      "totalElements": 3476992,
+      "totalPages": 100,
+      "pageNumber": 1,
+      "previousElements": 0,
+      "pageSize": 25
+    },
+    "elements": [
+      {
+        "id": "ACwAAB_kF3MBVeSqD_5uITPUvQnnnmjPSM8AUIw",
+        "linkedinUrl": "https://www.linkedin.com/in/REDACTED/",
+        "firstName": "REDACTED",
+        "lastName": "REDACTED",
+        "summary": "REDACTED",
+        "openProfile": false,
+        "premium": false,
+        "currentPositions": [
+          {
+            "tenureAtPosition": {
+              "numYears": 4,
+              "numMonths": 9
+            },
+            "companyName": "PwC Acceleration Centers",
+            "description": "Senior Associate – Tax M&A / Deals\nPwC Acceleration Centers | Jan 2022 – Present | Kolkata\n\nPromoted to Senior Associate in December 2025.\n\n• Specialize in Australian Tax Due Diligence (TDD) as part of the Deals team, supporting M&A and ...",
+            "title": "Senior Associate – Tax M&A / Deals / Australian Taxation",
+            "current": true,
+            "tenureAtCompany": {
+              "numYears": 4,
+              "numMonths": 9
+            },
+            "startedOn": {
+              "month": 1,
+              "year": 2022
+            },
+            "companyId": "1626120",
+            "companyLinkedinUrl": "https://www.linkedin.com/in/REDACTED/"
+          }
+        ],
+        "pictureUrl": "https://media.example.invalid/REDACTED",
+        "location": {
+          "linkedinText": "Kolkata, West Bengal, India"
+        }
+      },
+      {
+        "id": "ACwAAAF01YABKpFmLVk4MzE27oWhS5KFVAm06rM",
+        "linkedinUrl": "https://www.linkedin.com/in/REDACTED/",
+        "firstName": "REDACTED",
+        "lastName": "REDACTED",
+        "summary": "REDACTED",
+        "openProfile": false,
+        "premium": true,
+        "currentPositions": [
+          {
+            "tenureAtPosition": {
+              "numYears": 2,
+              "numMonths": 3
+            },
+            "companyName": "Hatchproof",
+            "description": "The signal was always there. Who's pulling ahead, who's quietly checked out, which teams are drifting out of sync. Most companies just can't read it until it shows up in churn or a missed number.\n \nHatchproof reads it. We pull the real s...",
+            "title": "Founder & CEO",
+            "current": true,
+            "tenureAtCompany": {
+              "numYears": 2,
+              "numMonths": 3
+            },
+            "startedOn": {
+              "month": 7,
+              "year": 2024
+            },
+            "companyId": "96952919",
+            "companyLinkedinUrl": "https://www.linkedin.com/in/REDACTED/"
+          }
+        ],
+        "pictureUrl": "https://media.example.invalid/REDACTED",
+        "location": {
+          "linkedinText": "San Francisco, California, United States"
+        }
+      },
+      {
+        "id": "ACwAAABq33oBDKigGaQ9Fsh8UxQ3pkpcKlzYsag",
+        "linkedinUrl": "https://www.linkedin.com/in/REDACTED/",
+        "firstName": "REDACTED",
+        "lastName": "REDACTED",
+        "summary": "REDACTED",
+        "openProfile": false,
+        "premium": true,
+        "currentPositions": [
+          {
+            "tenureAtPosition": {
+              "numMonths": 3
+            },
+            "companyName": "Ultra Logistics",
+            "title": "Vice President Sales and Marketing",
+            "current": true,
+            "tenureAtCompany": {
+              "numMonths": 4
+            },
+            "startedOn": {
+              "month": 7,
+              "year": 2026
+            },
+            "companyId": "537803",
+            "companyLinkedinUrl": "https://www.linkedin.com/in/REDACTED/"
+          }
+        ],
+        "pictureUrl": "https://media.example.invalid/REDACTED",
+        "location": {
+          "linkedinText": "New York City Metropolitan Area"
+        }
+      }
+    ],
+    "sessionId": "yAnV5KxsxMn9dP6Yz5xQ-af109f29-122f-42d8-8f32-79b8f484888d"
+  }
+}

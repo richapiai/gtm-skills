@@ -1,0 +1,17 @@
+{
+  "endpoint": "extract_urls_emails",
+  "path": "/extract_urls_emails",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:19:46.791Z",
+  "redacted": true,
+  "body": {
+    "urls": [],
+    "emails": [],
+    "url_count": 0,
+    "email_count": 0,
+    "total_count": 0,
+    "urls_and_emails": [],
+    "urls_string": "",
+    "emails_string": "redacted@example.invalid"
+  }
+}

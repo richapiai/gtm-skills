@@ -1,0 +1,85 @@
+name: Bug report
+description: Something in the pack does not do what it says it does.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Do not report a vulnerability here.** If the bug lets someone run a command,
+        read a key, spend credits they should not, or get PII out of `gtm/`, follow
+        `SECURITY.md` in this repository instead.
+
+        **Do not paste contact data.** `gtm/` is PII. Redact emails, phone numbers and
+        names before you paste anything from a run.
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: The command you ran and what it did.
+      placeholder: |
+        $ richapi enrich leads.csv --dry-run
+        ...output, redacted...
+      render: console
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected instead
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Pack version
+      description: "`cat VERSION`, or the npm version you installed."
+      placeholder: 2.0.0-alpha.0
+    validations:
+      required: true
+
+  - type: input
+    id: node
+    attributes:
+      label: Node version
+      description: "`node --version`. The floor is 18.20.8."
+      placeholder: v22.0.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: install
+    attributes:
+      label: How is it installed
+      options:
+        - clone + npm link
+        - npm install (global)
+        - npm install (project)
+        - other
+    validations:
+      required: true
+
+  - type: input
+    id: skill
+    attributes:
+      label: Skill or command involved
+      placeholder: /enrich-waterfall, or `richapi enrich`
+
+  - type: checkboxes
+    id: money
+    attributes:
+      label: Did this spend credits?
+      options:
+        - label: Yes — this bug cost credits, or would have. Say roughly how many below.
+        - label: No — dry-run or free path only.
+
+  - type: textarea
+    id: checks
+    attributes:
+      label: Local check output
+      description: |
+        Paste the failing part of `bash scripts/ci-local.sh`, or say if it passes.
+        A bug that reproduces under ci-local.sh is a much faster bug to fix.
+      render: console

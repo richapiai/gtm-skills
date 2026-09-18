@@ -1,0 +1,60 @@
+# ===========================================================================
+# FIXTURE: malformed  —  a truncated / invalid spec download
+# ===========================================================================
+# THIS FILE IS NOT VALID YAML AND MUST NEVER BECOME VALID YAML.
+#
+# Three independent defects, so a parser that recovers from one still fails:
+#   1. the document is truncated mid-way through /email_finder's requestBody
+#   2. `description:` opens a double-quoted scalar that is never closed
+#   3. `tags:` is indented inconsistently with its siblings
+#
+# Simulates the realistic failure: a partial or 502-truncated response from the
+# spec host during the monthly refresh.
+#
+# MUST TRIP: the catalog-gen rule "offline or unreachable -> keep cache, warn, NEVER
+# wedge". Feeding this file to richapi-catalog-gen must:
+#   - exit non-zero OR warn, but never write a partial _lib/api-catalog.json
+#   - leave the previously cached catalog byte-identical
+#   - never throw an unhandled exception / stack trace at the user
+#
+# WHAT BREAKING THIS MEANS: one bad download empties the catalog, and because
+# the catalog is the source of truth for cost and routing (law 1), every skill
+# loses its prices at once.
+# ===========================================================================
+openapi: 3.1.0
+info:
+  title: RichAPI API
+  version: 1.0.0
+  description: Public endpoint reference.
+servers:
+  - url: https://api.richapi.ai/api/v1
+paths:
+  /email_finder:
+    post:
+      operationId: email_finder
+      summary: Email Finder
+      description: Find a verified work email using name, domain, or LinkedIn URL.
+        Tries multiple providers automatically.
+      tags:
+        - Enrichment
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  description: First name (required if no linkedin_url)
+                last_name:
+                  type: string
+                  description: Last name (required if no linkedin_url)
+                company_domain:
+                  description: "First name (required if no linkedin_url
+                last_name:
+                  type: string
+      tags:
+      - Enrichment
+      responses:
+        "200":

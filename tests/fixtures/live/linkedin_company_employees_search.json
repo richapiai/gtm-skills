@@ -1,0 +1,53 @@
+{
+  "endpoint": "linkedin_company_employees_search",
+  "path": "/linkedin_company_employees_search",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:23:18.667Z",
+  "redacted": true,
+  "body": {
+    "pagination": {
+      "totalElements": 10,
+      "totalPages": 1,
+      "pageNumber": 1,
+      "previousElements": 0,
+      "pageSize": 10,
+      "totalResultCount": 227073
+    },
+    "elements": [
+      {
+        "id": "ACr___7sizsBGVT9xqBqgBvA1S72153r_qxgNlo",
+        "name": "REDACTED",
+        "position": "Ejecutivo de ventas en Microsoft",
+        "location": {
+          "linkedinText": "Piura, Peru"
+        },
+        "linkedinUrl": null,
+        "publicIdentifier": null,
+        "hidden": true
+      },
+      {
+        "id": "ACoAJTvick4BEWvCPMuu_XziAnkh6spRkm2D50k",
+        "name": "REDACTED",
+        "position": "Servicio de atención al cliente en Microsoft",
+        "location": {
+          "linkedinText": "Lima Metropolitan Area"
+        },
+        "linkedinUrl": null,
+        "publicIdentifier": null,
+        "hidden": true
+      },
+      {
+        "id": "ACr__7OiV00B9HUVa11yTZ3MucDnkB4T9qdWqhY",
+        "name": "REDACTED",
+        "position": "Vendedor en Microsoft",
+        "photo": "https://www.linkedin.com/in/REDACTED/",
+        "location": {
+          "linkedinText": "Lima"
+        },
+        "linkedinUrl": null,
+        "publicIdentifier": null,
+        "hidden": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,168 @@
+# The weekly live-API contract canary.
+#
+# THIS WORKFLOW IS DISABLED. Read this before you enable it.
+#
+# It is the only job in the repo that spends real credits. It probes the ~8 cheapest
+# endpoints in `_lib/api-catalog.json` with a real key and asserts two things:
+#
+#   1. the live response's top-level key set still matches the generated
+#      `field_map_keys`;
+#   2. the cost implied by `x-pricing` at the result count the server BILLED still
+#      matches the cost at the result count the probe REQUESTED.
+#
+# A blocking finding opens an issue. `bin/richapi-canary.mjs` computes the run's cost
+# from the catalog before calling anything and refuses if it reaches the ceiling
+# (<50 credits/week, exclusive). Measured against the pinned catalog on
+# 2026-08-31: the default selection of 8 endpoints costs 1.41 credits per run.
+#
+# ------------------------------------------------------------------------------
+# WHY IT IS OFF, AND EXACTLY WHAT TURNS IT ON
+#
+#   Assertion 1 compares against `field_map_keys`, which today is derived from the
+#   pinned spec's 200 examples on 65 of the 68 catalog entries
+#   (`field_map_status: keys_from_spec_example`) and absent on the other 3
+#   (`TODO_no_usable_example`). `field_map` itself is null on all 68. Those examples
+#   are known-bad as a schema source — that is Law 2 in CLAUDE.md, and the reason the live
+#   fixture capture exists.
+#
+#   Switching this on now would flag near-everything as drift on the very first live
+#   run. A weekly gate that is red on week one is switched off in week two, and then
+#   it protects nothing — the known failure mode of binary gates at the
+#   measured churn rate. So the CLI itself refuses: `--run` exits 2, naming every
+#   endpoint that is not `live_fixture`, unless `--force-unverified-field-map` is
+#   passed. Enabling the schedule below without doing the work would therefore not
+#   even produce a false alarm; it would produce a weekly exit 2.
+#
+#   ENABLE CONDITION — all four, in this order:
+#     1. the live fixture capture has run: `bin/richapi-capture-fixtures.mjs --run` has recorded live
+#        responses and the catalog has been regenerated, so the endpoints this canary
+#        selects read `field_map_status: live_fixture`.
+#     2. `node bin/richapi-canary.mjs` (plan mode, zero calls) shows a selection you
+#        are willing to pay for every week.
+#     3. the `RICHAPI_API_KEY` repository SECRET is set.
+#     4. the `RICHAPI_CANARY_ENABLED` repository VARIABLE is set to `true`.
+#
+#   Then uncomment the `schedule:` trigger below. Until step 4 is done, a manual
+#   dispatch still runs — but plan-only, spending nothing. Both guards are kept: the
+#   trigger stops it running on its own, and the variable stops a dispatch from
+#   spending credits by accident.
+# ------------------------------------------------------------------------------
+
+name: canary
+
+on:
+  # Deliberately dispatch-only. Uncomment the schedule ONLY after the four steps in
+  # the ENABLE CONDITION above are done. Monday 09:00 UTC, an hour after the weekly
+  # spec absorption in validate.yml, so the catalog it asserts against is the fresh
+  # one.
+  #
+  # schedule:
+  #   - cron: "0 9 * * 1"
+  workflow_dispatch:
+    inputs:
+      force_unverified_field_map:
+        description: "Assert against spec-derived key sets anyway (maintainer one-off; the issue says so)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  canary:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    env:
+      ISSUE_FILE: ${{ github.workspace }}/canary-issue.json
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # An exact version, for the same reason validate.yml pins exact matrix rows:
+          # a floating major resolves to the newest patch and proves nothing about the
+          # rest of the range.
+          node-version: "22.0.0"
+
+      - run: npm ci --no-audit --no-fund
+      - run: chmod +x bin/*
+
+      # Always runs, on every dispatch, enabled or not. Zero HTTP calls and zero
+      # credits — it prints what would be probed and what it would cost. Law 3: every
+      # paid call is named and costed before it runs.
+      - name: Plan the run (no calls, no credits)
+        run: node bin/richapi-canary.mjs --endpoints 8 --budget 50
+
+      - name: Is the canary enabled?
+        id: gate
+        env:
+          ENABLED: ${{ vars.RICHAPI_CANARY_ENABLED }}
+          HAVE_KEY: ${{ secrets.RICHAPI_API_KEY != '' }}
+        run: |
+          if [ "${ENABLED:-}" != "true" ]; then
+            echo "RICHAPI_CANARY_ENABLED is not 'true' — plan only, nothing was called." >&2
+            echo "See the ENABLE CONDITION at the top of this file." >&2
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          elif [ "$HAVE_KEY" != "true" ]; then
+            echo "RICHAPI_CANARY_ENABLED is 'true' but the RICHAPI_API_KEY secret is unset." >&2
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # The only step that spends money.
+      #
+      # It always exits 0 and reports what happened through its outputs instead. A
+      # blocking finding (exit 1) is reported by the issue below; letting the job go
+      # red as well reports the same event twice, and the second report is the one
+      # that trains people to ignore red. A REFUSAL (exit 2 — unverified field maps,
+      # over budget, no key, unsafe origin) means nothing ran at all, and that IS a
+      # job failure; the last step turns it into one.
+      - name: Probe the live API and assert both contracts
+        id: canary
+        if: steps.gate.outputs.run == 'true'
+        env:
+          richapi_API_KEY: ${{ secrets.RICHAPI_API_KEY }}
+          FORCE: ${{ inputs.force_unverified_field_map }}
+        run: |
+          args="--run --endpoints 8 --budget 50 --issue-file $ISSUE_FILE"
+          if [ "${FORCE:-false}" = "true" ]; then
+            args="$args --force-unverified-field-map"
+          fi
+          set +e
+          node bin/richapi-canary.mjs $args
+          code=$?
+          set -e
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          if [ -f "$ISSUE_FILE" ]; then
+            echo "issue=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "issue=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # The payload is written only when something BLOCKS, and a clean run deletes a
+      # stale one, so the presence of the file is the whole condition. Transport
+      # failures — an outage, a 5xx, a rate limit — are warnings and write nothing: a
+      # third-party outage on a Monday must not open an issue every Monday.
+      - name: Blocking finding — open an issue
+        if: steps.canary.outputs.issue == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          jq -r .title "$ISSUE_FILE" > "${RUNNER_TEMP}/title.txt"
+          jq -r .body  "$ISSUE_FILE" > "${RUNNER_TEMP}/body.md"
+          gh issue create \
+            --title "$(cat "${RUNNER_TEMP}/title.txt")" \
+            --body-file "${RUNNER_TEMP}/body.md"
+
+      # Exit 0 is clean, exit 1 is a finding the issue above already carries. Anything
+      # else means the canary did not run, and nobody would otherwise be told.
+      - name: A refusal is a job failure — the canary did not run
+        if: steps.gate.outputs.run == 'true' && steps.canary.outputs.exit_code != '0' && steps.canary.outputs.exit_code != '1'
+        run: |
+          echo "The canary REFUSED to run (exit ${{ steps.canary.outputs.exit_code }})." >&2
+          echo "Read the probe step's log: it names the reason — unverified field maps," >&2
+          echo "over budget, no API key, or an unsafe origin. No credits were spent." >&2
+          exit 1

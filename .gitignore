@@ -1,0 +1,16 @@
+# ---------------------------------------------------------------------------
+# PII GUARD — gtm/ holds personal data. It must NEVER be tracked.
+# `setup` refuses to run in a repo where gtm/ is already git-tracked.
+# ---------------------------------------------------------------------------
+gtm/
+
+node_modules/
+.worktrees/
+*.log
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# live-recorded API fixtures may carry real contact data
+tests/fixtures/live/**/*.raw.json

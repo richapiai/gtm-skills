@@ -1,0 +1,12 @@
+{
+  "endpoint": "profile_social_metrics",
+  "path": "/profile_social_metrics",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:36:20.030Z",
+  "redacted": true,
+  "body": {
+    "verified": true,
+    "followersCount": 40658749,
+    "connectionsCount": 8
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "endpoint": "post_activities",
+  "path": "/post_activities",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:47:38.020Z",
+  "redacted": true,
+  "body": {
+    "last": false,
+    "size": 10,
+    "sort": {
+      "empty": true,
+      "sorted": false,
+      "unsorted": true
+    },
+    "empty": false,
+    "first": true,
+    "number": 0,
+    "content": [
+      {
+        "id": "urn:li:comment:(ugcPost:7506353323579457536,7506381025418231808)",
+        "url": "https://www.linkedin.com/in/REDACTED/",
+        "comment": "REDACTED",
+        "commenter": {
+          "headline": "REDACTED",
+          "lastName": "REDACTED",
+          "entityUrn": "REDACTED",
+          "firstName": "REDACTED",
+          "objectUrn": 0,
+          "profileId": "REDACTED",
+          "profileType": "PERSON",
+          "profilePicture": "https://media.example.invalid/REDACTED",
+          "profileBackground": "https://media.example.invalid/REDACTED"
+        },
+        "reactionType": {},
+        "totalComments": 0,
+        "totalReactions": 0
+      },
+      {
+        "id": "urn:li:comment:(ugcPost:7506353323579457536,7506361398638338049)",
+        "url": "https://www.linkedin.com/in/REDACTED/",
+        "comment": "REDACTED",
+        "commenter": {
+          "headline": "REDACTED",
+          "lastName": "REDACTED",
+          "entityUrn": "REDACTED",
+          "firstName": "REDACTED",
+          "objectUrn": 0,
+          "profileId": "REDACTED",
+          "profileType": "PERSON",
+          "profilePicture": "https://media.example.invalid/REDACTED",
+          "profileBackground": "https://media.example.invalid/REDACTED"
+        },
+        "reactionType": {},
+        "totalComments": 0,
+        "totalReactions": 0
+      },
+      {
+        "id": "urn:li:comment:(ugcPost:7506353323579457536,7506387428233064449)",
+        "url": "https://www.linkedin.com/in/REDACTED/",
+        "comment": "REDACTED",
+        "commenter": {
+          "headline": "REDACTED",
+          "lastName": "REDACTED",
+          "entityUrn": "REDACTED",
+          "firstName": "REDACTED",
+          "objectUrn": 0,
+          "profileId": "REDACTED",
+          "profileType": "PERSON",
+          "profilePicture": "https://media.example.invalid/REDACTED"
+        },
+        "reactionType": {},
+        "totalComments": 0,
+        "totalReactions": 0
+      }
+    ],
+    "pageable": {
+      "sort": {
+        "empty": true,
+        "sorted": false,
+        "unsorted": true
+      },
+      "paged": true,
+      "offset": 0,
+      "unpaged": false,
+      "pageSize": 10,
+      "pageNumber": 0
+    },
+    "totalPages": 2,
+    "totalElements": 16,
+    "numberOfElements": 10
+  }
+}

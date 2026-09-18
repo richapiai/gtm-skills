@@ -1,0 +1,12 @@
+{
+  "endpoint": "clean_domain",
+  "path": "/clean_domain",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:19:06.975Z",
+  "redacted": true,
+  "body": {
+    "clean_url": "https://www.richapi.ai/pricing?utm=1",
+    "clean_domain": "richapi.ai",
+    "validated_domain": true
+  }
+}

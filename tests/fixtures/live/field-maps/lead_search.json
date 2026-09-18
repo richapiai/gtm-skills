@@ -1,0 +1,24 @@
+{
+  "endpoint": "lead_search",
+  "path": "/lead_search",
+  "field_map_status": "live_fixture",
+  "field_map": {
+    "elements": "result_list"
+  },
+  "observed_types": {
+    "pagination": "object",
+    "elements": "array",
+    "sessionId": "string"
+  },
+  "unmapped_keys": [
+    "pagination",
+    "sessionId"
+  ],
+  "sample_status": "hit",
+  "billing_field": "elements",
+  "billing_field_present_in_response": true,
+  "captured_at": "2026-09-17T16:47:21.130Z",
+  "spec_sha256": "a6e69f460e6f304661dd582b67308ccca89cd58ae67f94c4e66960ae706d8fa5",
+  "source": "live_capture",
+  "field_map_derived": true
+}

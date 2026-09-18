@@ -1,0 +1,62 @@
+{
+  "endpoint": "web_meta_tags",
+  "path": "/web_meta_tags",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:24:30.782Z",
+  "redacted": true,
+  "body": {
+    "data": {
+      "og": {
+        "title": "RichAPI — One API key. 50+ GTM data endpoints. Full price only on results.",
+        "description": "LinkedIn enrichment, people & company search, email and phone waterfalls, post signals, website intelligence — behind one key, for REST and MCP. Results-only billing: pay only for verified results, misses and provider failures cost nothi...",
+        "image": "https://richapi.ai/opengraph-image?a73bec90557f686e",
+        "url": "https://richapi.ai",
+        "type": "website",
+        "site_name": "REDACTED",
+        "locale": "en_US",
+        "extra": {
+          "image:type": "image/png",
+          "image:width": "1200",
+          "image:height": "630",
+          "image:alt": "RichAPI — One API key. 50+ GTM data endpoints."
+        }
+      },
+      "twitter": {
+        "card": "summary_large_image",
+        "site": null,
+        "creator": null,
+        "title": "RichAPI — One API key. 50+ GTM data endpoints. Full price only on results.",
+        "description": "LinkedIn enrichment, people & company search, email and phone waterfalls, post signals, website intelligence — behind one key, for REST and MCP. Results-only billing: pay only for verified results, misses and provider failures cost nothi...",
+        "image": "https://richapi.ai/opengraph-image?a73bec90557f686e",
+        "extra": {
+          "image:alt": "RichAPI — One API key. 50+ GTM data endpoints.",
+          "image:type": "image/png",
+          "image:width": "1200",
+          "image:height": "630"
+        }
+      },
+      "seo": {
+        "title": "RichAPI — One API key. 50+ GTM data endpoints. Full price only on results.",
+        "description": "LinkedIn enrichment, people & company search, email and phone waterfalls, post signals, website intelligence — behind one key, for REST and MCP. Results-only billing: pay only for verified results, misses and provider failures cost nothi...",
+        "canonical": "https://richapi.ai",
+        "robots": "index, follow",
+        "viewport": "width=device-width, initial-scale=1",
+        "charset": "utf-8",
+        "author": null,
+        "keywords": "gtm data api, enrichment api, linkedin enrichment api, email finder api, mcp server enrichment, clay alternative api, proxycurl alternative",
+        "language": "en"
+      },
+      "favicon": "/favicon.ico?favicon.3jr30vkdtdpvl.ico?dpl=dpl_29qLwdKyVqEAWbkak8Kkw419HpBn",
+      "hreflang": [],
+      "other": {
+        "application-name": "RichAPI",
+        "googlebot": "index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1"
+      }
+    },
+    "meta": {
+      "cache_hit": false,
+      "execution_time_ms": 123,
+      "quality_warning": null
+    }
+  }
+}

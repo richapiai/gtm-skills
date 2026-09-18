@@ -1,0 +1,91 @@
+{
+  "name": "@richapi/gtm-skills",
+  "version": "2.0.0-alpha.0",
+  "description": "Agent-native GTM workflow pack over the RichAPI data plane — opinionated pipeline, review gates before launch, compounding memory, compliance as a hard gate.",
+  "private": false,
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/richapiai/gtm-skills.git"
+  },
+  "bugs": {
+    "url": "https://github.com/richapiai/gtm-skills/issues"
+  },
+  "homepage": "https://github.com/richapiai/gtm-skills#readme",
+  "bin": {
+    "richapi-skills-preflight": "bin/richapi-skills-preflight",
+    "richapi-skills-config": "bin/richapi-skills-config",
+    "richapi": "bin/richapi.mjs",
+    "richapi-skills-sync": "bin/richapi-skills-sync.mjs",
+    "richapi-setup": "setup.mjs"
+  },
+  "scripts": {
+    "test": "node --test $(find tests -name '*.test.mjs' | sort)",
+    "validate": "node scripts/validate-skills.mjs",
+    "catalog:gen": "node bin/richapi-catalog-gen.mjs",
+    "catalog:diff": "node bin/richapi-catalog-diff.mjs",
+    "check": "npm run catalog:diff && npm run validate && npm test",
+    "guard:placeholders": "node tests/contracts/no-placeholder-metadata.mjs",
+    "prepublishOnly": "npm run guard:placeholders && npm run check",
+    "enrich": "node bin/richapi.mjs enrich",
+    "sync": "node bin/richapi-skills-sync.mjs",
+    "docs:llms": "node scripts/gen-llms-txt.mjs"
+  },
+  "files": [
+    "bin/",
+    "!bin/richapi-capture-fixtures.mjs",
+    "!bin/richapi-canary.mjs",
+    "!bin/richapi-catalog-drift.mjs",
+    "_lib/",
+    "skills/",
+    ".claude-plugin/",
+    "spec/",
+    "setup",
+    "setup.mjs",
+    "VERSION",
+    "CLAUDE.md",
+    "README.md",
+    "ROADMAP.md",
+    "LIMITATIONS.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    "CODE_OF_CONDUCT.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "docs/GETTING-STARTED.md",
+    "docs/TROUBLESHOOTING.md",
+    "docs/skills/",
+    "docs/skill-shape.md",
+    "docs/INSTALL.md",
+    "docs/validation.md",
+    "llms.txt",
+    "AGENTS.md",
+    "docs/claims.yaml",
+    "docs/demo-script.md"
+  ],
+  "keywords": [
+    "claude",
+    "claude-skills",
+    "claude-code",
+    "richapi",
+    "gtm",
+    "sales-intelligence",
+    "prospecting",
+    "email-enrichment",
+    "b2b"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "richapi",
+    "url": "https://richapi.ai"
+  },
+  "engines": {
+    "node": ">=18.20.8"
+  },
+  "dependencies": {
+    "yaml": "^2.9.0"
+  }
+}

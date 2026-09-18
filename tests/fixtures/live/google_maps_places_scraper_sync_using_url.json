@@ -1,0 +1,110 @@
+{
+  "endpoint": "google_maps_places_scraper_sync_using_url",
+  "path": "/google_maps_places_scraper_sync_using_url",
+  "http_status": 201,
+  "captured_at": "2026-09-17T16:42:11.206Z",
+  "redacted": true,
+  "body": [
+    {
+      "title": "Seattle Espresso Inc.",
+      "subTitle": null,
+      "description": null,
+      "ownerDescription": "Seattle Espresso has been a staple in the Tempe coffee scene for over three decades, serving thoughtfully crafted espresso drinks in a warm, welcoming space. It’s a place where regulars and new visitors alike can slow down, connect, and ...",
+      "price": null,
+      "categoryName": "Cafe",
+      "address": "REDACTED",
+      "neighborhood": "South Tempe",
+      "street": "REDACTED",
+      "city": "Tempe",
+      "postalCode": "85284",
+      "state": "Arizona",
+      "countryCode": "US",
+      "website": "http://www.seattleespressoaz.com/",
+      "phone": "+10000000000",
+      "phoneUnformatted": "+10000000000",
+      "claimThisBusiness": false,
+      "location": {
+        "lat": 33.3358335,
+        "lng": -111.9078596
+      },
+      "locatedIn": "McClintock Fountains",
+      "floor": "Floor 3",
+      "plusCode": "83PR+8V Tempe, Arizona",
+      "menu": null,
+      "servicesLink": null,
+      "totalScore": 4.7,
+      "permanentlyClosed": false,
+      "temporarilyClosed": false,
+      "placeId": "ChIJiWdBKeMGK4cRouYWAQDgLvQ",
+      "categories": [
+        "Cafe",
+        "Coffee shop"
+      ],
+      "fid": "0x872b06e329416789:0xf42ee0000116e6a2",
+      "cid": "17595247084806006434",
+      "reviewsCount": 403,
+      "reviewsDistribution": {
+        "oneStar": 11,
+        "twoStar": 3,
+        "threeStar": 12,
+        "fourStar": 45,
+        "fiveStar": 332
+      },
+      "imagesCount": 174,
+      "imageCategories": [],
+      "scrapedAt": "2026-09-17T16:42:04.312Z",
+      "reserveTableUrl": null,
+      "googleFoodUrl": null,
+      "hotelStars": null,
+      "hotelDescription": null,
+      "checkInDate": null,
+      "checkOutDate": null,
+      "hotelAds": [],
+      "popularTimesLiveText": null,
+      "popularTimesLivePercent": null,
+      "popularTimesHistogram": {},
+      "openingHours": [
+        {
+          "day": "Monday",
+          "hours": "5:30 AM to 6 PM"
+        },
+        {
+          "day": "Tuesday",
+          "hours": "5:30 AM to 6 PM"
+        },
+        {
+          "day": "Wednesday",
+          "hours": "5:30 AM to 6 PM"
+        }
+      ],
+      "wasOpenAtScrapeTime": true,
+      "peopleAlsoSearch": [],
+      "placesTags": [],
+      "reviewsTags": [],
+      "additionalInfo": {
+        "Accessibility": [
+          {
+            "Wheelchair accessible entrance": true
+          },
+          {
+            "Wheelchair accessible parking lot": true
+          },
+          {
+            "Wheelchair accessible restroom": true
+          }
+        ]
+      },
+      "gasPrices": [],
+      "url": "https://www.google.com/maps/search/?api=1&query=Seattle%20Espresso%20Inc.&query_place_id=ChIJiWdBKeMGK4cRouYWAQDgLvQ",
+      "searchPageUrl": "https://www.google.com/maps/search/coffee+seattle?hl=en",
+      "searchString": "coffee+seattle",
+      "language": "en",
+      "inputStartUrl": "https://www.google.com/maps/search/coffee+seattle",
+      "rank": 1,
+      "isAdvertisement": false,
+      "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWnZfvHyFPgzFJP-lYtPFGG7p5J1T05dWdGRhwu_JrboHVonifmou4yKbKNlz64j-8KCLhcPMJ-yqNEnwzuT0v8fSwcT5wFQTPY5S9qW0M3m4mvGuN7J6E_VFZmLNYpWkSH9J2BY_vknbjR2=w408-h544-k-no",
+      "kgmid": "/g/1tj5872n",
+      "businessProfileId": "13134529001311998223"
+    }
+  ]
+}

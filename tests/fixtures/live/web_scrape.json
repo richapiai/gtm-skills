@@ -1,0 +1,20 @@
+{
+  "endpoint": "web_scrape",
+  "path": "/web_scrape",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:24:37.456Z",
+  "redacted": true,
+  "body": {
+    "data": {
+      "html": "<!DOCTYPE html><html lang=\"en\" class=\"h-full antialiased\"><body class=\"min-h-full flex flex-col\"><div><!--$--><!--/$--></div><div class=\"w-full\"><section class=\"hero\" data-screen-label=\"Hero\"><div class=\"hero__wash\"></div><div class=\"her...",
+      "markdown": "# Verified B2B data, fetched the moment you ask.\n\nOne API for enrichment, search, email and phone find-and-verify, company data, and signals — fetched live, not resold from a database that went stale months ago. Call it from your own cod...",
+      "links": [],
+      "title": "RichAPI — One API key. 50+ GTM data endpoints. Full price only on results."
+    },
+    "meta": {
+      "cache_hit": false,
+      "execution_time_ms": 370,
+      "quality_warning": null
+    }
+  }
+}

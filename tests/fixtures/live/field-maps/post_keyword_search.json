@@ -1,0 +1,40 @@
+{
+  "endpoint": "post_keyword_search",
+  "path": "/post_keyword_search",
+  "field_map_status": "live_fixture",
+  "field_map": {
+    "totalElements": "result_total",
+    "numberOfElements": "result_count"
+  },
+  "observed_types": {
+    "content": "array",
+    "pageable": "object",
+    "last": "boolean",
+    "totalElements": "number",
+    "totalPages": "number",
+    "sort": "object",
+    "size": "number",
+    "number": "number",
+    "first": "boolean",
+    "numberOfElements": "number",
+    "empty": "boolean"
+  },
+  "unmapped_keys": [
+    "content",
+    "pageable",
+    "last",
+    "totalPages",
+    "sort",
+    "size",
+    "number",
+    "first",
+    "empty"
+  ],
+  "sample_status": "hit",
+  "billing_field": "numberOfElements",
+  "billing_field_present_in_response": true,
+  "captured_at": "2026-09-17T16:47:43.174Z",
+  "spec_sha256": "a6e69f460e6f304661dd582b67308ccca89cd58ae67f94c4e66960ae706d8fa5",
+  "source": "live_capture",
+  "field_map_derived": true
+}

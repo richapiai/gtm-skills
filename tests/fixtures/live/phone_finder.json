@@ -1,0 +1,23 @@
+{
+  "endpoint": "phone_finder",
+  "path": "/phone_finder",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:40:00.484Z",
+  "redacted": true,
+  "body": {
+    "success": true,
+    "result": {
+      "phone": "+10000000000",
+      "phone_status": "+10000000000"
+    },
+    "provider": "provider_1",
+    "providers_tried": 1,
+    "execution_log": [
+      {
+        "provider": "provider_1",
+        "status": "success",
+        "latency_ms": 335
+      }
+    ]
+  }
+}

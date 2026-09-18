@@ -1,0 +1,18 @@
+{
+  "endpoint": "web_pixels",
+  "path": "/web_pixels",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:24:34.613Z",
+  "redacted": true,
+  "body": {
+    "data": {
+      "pixels": {},
+      "total_pixels_found": 0
+    },
+    "meta": {
+      "cache_hit": false,
+      "execution_time_ms": 1368,
+      "quality_warning": null
+    }
+  }
+}

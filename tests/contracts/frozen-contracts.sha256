@@ -1,0 +1,74 @@
+# FROZEN shared contracts — content hashes.
+#
+# CLAUDE.md: amending a contract is a deliberate, announced change. This file is the
+# mechanism. tests/contracts/frozen.test.mjs recomputes each sha256 and fails
+# if it moved, so a change that edits a schema to fit its own code is caught at
+# merge instead of at runtime by whichever consumer assumed the other shape.
+#
+# CHANGING A CONTRACT IS A DELIBERATE, ANNOUNCED ACT:
+#   1. propose the change to the other consumers (it is a shared contract)
+#   2. edit _lib/contracts/<name>.schema.json
+#   3. update the hash below IN THE SAME COMMIT, with the reason in the message
+#   4. re-run:  node --test 'tests/**/*.test.mjs'
+#
+# Recompute with:  shasum -a 256 _lib/contracts/*.schema.json
+#
+# Frozen at: 2026-08-28.
+#
+# AMENDED 2026-08-28, applying the change requests the consumers
+# filed instead of editing the schemas themselves (the procedure worked):
+#   api-catalog  + pricing.page_gated      (cost runtime: `bounded` and "needs page-gating"
+#                                           are different predicates; two consumers each
+#                                           computed 11 endpoints and got different sets)
+#   journal-line + dry_run, list_key, an `error` short-code pattern, attempt minimum 0
+#                                          (journal: a planned row must be distinguishable
+#                                           from a row killed mid-call, and a free-text
+#                                           error is the easiest PII leak into a journal)
+#   ledger-line  + estimate_basis, row_id, hop, and a `known_zero` cost_status
+#                                          (cost runtime: an estimate is the only number for 11
+#                                           endpoints, so its basis must be legible;
+#                                           journal: a ledger line could not join to a
+#                                           journal unit, so per-row cost audit was impossible)
+#
+# AMENDED 2026-08-30, authorised by the merge owner:
+#   api-catalog  field_map_status + "keys_from_spec_example"
+#                                          (catalog: the generator now publishes
+#                                           `field_map_keys` — the top-level key NAMES of
+#                                           the spec's 200 example, corroborated
+#                                           byte-identical against the backend's generated
+#                                           richapi-endpoints.manifest.json output_schema.
+#                                           `field_map` itself stays null, so law 2 is
+#                                           intact: this is a key list, not a mapping, and
+#                                           it is a DIFFERENT TYPE (array, not object) so
+#                                           no consumer can confuse the two. The old
+#                                           two-value enum forced every such row to claim
+#                                           TODO_no_usable_example, which was a lie in the
+#                                           other direction.)
+#
+# AMENDED 2026-09-17, description text only, authorised by the repository owner:
+#   api-catalog, journal-line, ledger-line: internal planning references removed from
+#   `description` and `$comment` strings before the public release. No type, enum,
+#   `required` or pattern changed.
+
+# AMENDED 2026-09-17, on live-run evidence:
+#   ledger-line  + billed, not_billed_reason, credits_estimated_if_billed
+#                                          (cost runtime: the ledger booked the
+#                                           would-have-been price of calls the API never
+#                                           billed. Measured on the 2026-09-17
+#                                           local-business-outbound rerun: 27 lines summing
+#                                           41.5 credits in `credits_estimated`, of which 14
+#                                           non-2xx lines carried 28.0 — while the receipt
+#                                           for the same run correctly reported those as
+#                                           free. /measure, /cost-optimizer and every budget
+#                                           gate sum the LEDGER, so a run could be stopped by
+#                                           a ceiling it had not approached. `credits_estimated`
+#                                           is now 0 on an unbilled line and the estimate moves
+#                                           to `credits_estimated_if_billed`, a name nothing
+#                                           sums by accident. `billed`/`not_billed_reason` make
+#                                           the second unbilled case legible: a 2xx whose body
+#                                           says `billed: false` because the provider errored —
+#                                           recorded live from email_finder, and NOT a not-found.)
+
+4badf6f1d1d2833d5c0f16bf5051ed932e030143cd717ab424588c9c996c93d3  api-catalog
+45fc8a5858495e901c55345689eb25010eb8a3493e01f2071911c32a236698d0  journal-line
+8cafea7b2b9423f82fdb85cdccfb383e06bf6c76a4bf7cb93a01921c20ddd09b  ledger-line

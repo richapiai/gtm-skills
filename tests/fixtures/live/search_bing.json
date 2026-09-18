@@ -1,0 +1,48 @@
+{
+  "endpoint": "search_bing",
+  "path": "/search_bing",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:40:10.849Z",
+  "redacted": true,
+  "body": {
+    "data": {
+      "results": [
+        {
+          "title": "BLOOKET - Reddit",
+          "url": "https://www.reddit.com/r/BLOOKET/",
+          "description": "This community is for BLOOKET users. Spamming will not be tolerated. Posts that are not Blooket related will be warned and then …",
+          "position": 1,
+          "displayed_url": "https://www.reddit.com › BLOOKET",
+          "date_published": null,
+          "thumbnail": null
+        },
+        {
+          "title": "custom blooks i have created ;) : r/BLOOKET - Reddit",
+          "url": "https://www.reddit.com/r/BLOOKET/comments/wn3ogi/custom_blooks_i_have_created/",
+          "description": "· i love creating blooks :D This community is for BLOOKET users. Spamming will not be tolerated. Posts that are not …",
+          "position": 2,
+          "displayed_url": "https://www.reddit.com › BLOOKET › comments › custom_blooks_i_have_cre…",
+          "date_published": "Aug 13, 2022",
+          "thumbnail": null
+        },
+        {
+          "title": "Anyway to block cheat codes? : r/BLOOKET - Reddit",
+          "url": "https://www.reddit.com/r/BLOOKET/comments/rcyg78/anyway_to_block_cheat_codes/",
+          "description": "· As a teacher, students knowing that some students are using cheat codes in Blooket makes this awesome game …",
+          "position": 3,
+          "displayed_url": "https://www.reddit.com › BLOOKET › comments › anyway_to_block_cheat_co…",
+          "date_published": "Dec 10, 2021",
+          "thumbnail": null
+        }
+      ],
+      "total_results": 10,
+      "query": "richapi",
+      "related_searches": []
+    },
+    "meta": {
+      "cache_hit": true,
+      "execution_time_ms": 0,
+      "quality_warning": null
+    }
+  }
+}

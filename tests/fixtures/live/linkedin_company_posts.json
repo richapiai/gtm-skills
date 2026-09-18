@@ -1,0 +1,386 @@
+{
+  "endpoint": "linkedin_company_posts",
+  "path": "/linkedin_company_posts",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:47:24.981Z",
+  "redacted": true,
+  "body": {
+    "pagination": {
+      "totalElements": 227,
+      "totalPages": 5,
+      "pageNumber": 1,
+      "previousElements": 0,
+      "pageSize": 50,
+      "paginationToken": "1746793796-1789663642315-c8f7ee16a10c05ce0d826212b101f640"
+    },
+    "elements": [
+      {
+        "id": "7506360360753364993",
+        "linkedinUrl": "https://www.linkedin.com/in/REDACTED/",
+        "content": "I've seen many periods of significant change over the course of my career. This moment feels different, not only because of how quickly AI is advancing, but because of the choices it asks leaders to make about how work changes and how pe...",
+        "contentAttributes": [
+          {
+            "start": 708,
+            "length": 9,
+            "type": "COMPANY_NAME",
+            "hyperlink": "https://www.linkedin.com/in/REDACTED/",
+            "textLink": null,
+            "company": {
+              "id": "1035",
+              "name": "REDACTED",
+              "linkedinUrl": "https://www.linkedin.com/in/REDACTED/"
+            }
+          }
+        ],
+        "author": {
+          "id": "ACoAAAyoNO4BqKHVt2g8JpbZdgjw_wiRhQ9o5eE",
+          "universalName": null,
+          "publicIdentifier": "REDACTED",
+          "type": "profile",
+          "name": "REDACTED",
+          "linkedinUrl": "https://www.linkedin.com/in/REDACTED/",
+          "info": "EVP, Chief Strategy and Transformation Officer",
+          "website": null,
+          "websiteLabel": null,
+          "avatar": {
+            "url": "https://media.example.invalid/REDACTED",
+            "width": 400,
+            "height": 400
+          },
+          "urn": "212350190",
+          "profileId": "REDACTED"
+        },
+        "postedAt": {
+          "timestamp": 1789655771435,
+          "date": "2026-09-17T14:36:11.435Z",
+          "postedAgoShort": "2h",
+          "postedAgoText": "2 hours ago • Visible to anyone on or off LinkedIn"
+        },
+        "postImages": [],
+        "document": {
+          "title": "Microsoft Frontier Playbook",
+          "transcribedDocumentUrl": "https://media.example.invalid/REDACTED",
+          "coverPages": [
+            {
+              "width": 1545,
+              "imageUrls": [
+                "https://media.example.invalid/REDACTED",
+                "https://media.example.invalid/REDACTED",
+                "https://media.example.invalid/REDACTED"
+              ],
+              "height": 1931
+            }
+          ],
+          "totalPageCount": 7,
+          "manifestUrl": "https://media.example.invalid/REDACTED",
+          "manifest": {
+            "asset": "urn:li:digitalmediaAsset:D561FAQEclHz3fplLxw",
+            "transcriptManifestUrl": "https://media.example.invalid/REDACTED",
+            "transcribedDocumentUrl": "https://media.example.invalid/REDACTED",
+            "scanRequiredForDownload": true,
+            "perResolutions": [
+              {
+                "width": 135,
+                "height": 168,
+                "imageManifestUrl": "https://media.example.invalid/REDACTED"
+              },
+              {
+                "width": 645,
+                "height": 806,
+                "imageManifestUrl": "https://media.example.invalid/REDACTED"
+              },
+              {
+                "width": 1545,
+                "height": 1931,
+                "imageManifestUrl": "https://media.example.invalid/REDACTED"
+              }
+            ]
+          }
+        },
+        "repostedBy": {
+          "name": "REDACTED",
+          "publicIdentifier": null,
+          "universalName": "microsoft",
+          "linkedinUrl": "https://www.linkedin.com/in/REDACTED/"
+        },
+        "repostedAt": {
+          "timestamp": 1789655771435,
+          "date": "2026-09-17T14:36:11.435Z"
+        },
+        "socialContent": {
+          "hideCommentsCount": false,
+          "hideReactionsCount": false,
+          "hideSocialActivityCounts": false,
+          "hideShareAction": false,
+          "hideSendAction": false,
+          "hideRepostsCount": false,
+          "hideViewsCount": false,
+          "trustInterventionBanner": null,
+          "hideReactAction": false,
+          "hideCommentAction": false,
+          "shareUrl": "https://www.linkedin.com/in/REDACTED/",
+          "showContributionExperience": false,
+          "showSocialDetail": true
+        },
+        "comments": [],
+        "header": {
+          "linkedinUrl": "https://www.linkedin.com/in/REDACTED/",
+          "imageLink": "https://www.linkedin.com/in/REDACTED/",
+          "text": "Microsoft reposted this"
+        },
+        "entityId": "7506360360753364993",
+        "shareUrn": "urn:li:ugcPost:7506353323579457536",
+        "shareLinkedinUrl": "https://www.linkedin.com/in/REDACTED/",
+        "engagement": {
+          "id": "7506353323579457536",
+          "likes": 158,
+          "comments": 20,
+          "shares": 19,
+          "reactions": [
+            {
+              "type": "LIKE",
+              "count": 110
+            },
+            {
+              "type": "PRAISE",
+              "count": 19
+            },
+            {
+              "type": "INTEREST",
+              "count": 19
+            }
+          ]
+        }
+      },
+      {
+        "id": "7506078317121327105",
+        "linkedinUrl": "https://www.linkedin.com/in/REDACTED/",
+        "content": "Microsoft began applying biomimicry at a datacenter in the Netherlands in 2022. Now it’s expanding the practice to more than 20 datacenter sites across the U.S. and in Germany, as well as making it part of all new datacenter projects in ...",
+        "contentAttributes": [],
+        "author": {
+          "id": "99417441",
+          "universalName": "microsoft-news-and-stories",
+          "publicIdentifier": null,
+          "type": "company",
+          "name": "REDACTED",
+          "linkedinUrl": "https://www.linkedin.com/in/REDACTED/",
+          "info": "43,207 followers",
+          "website": null,
+          "websiteLabel": null,
+          "avatar": {
+            "url": "https://media.example.invalid/REDACTED",
+            "width": 400,
+            "height": 400
+          },
+          "urn": "99417441",
+          "companyId": "99417441"
+        },
+        "postedAt": {
+          "timestamp": 1789588526993,
+          "date": "2026-09-16T19:55:26.993Z",
+          "postedAgoShort": "1d",
+          "postedAgoText": "1 day ago • Visible to anyone on or off LinkedIn"
+        },
+        "postImages": [],
+        "document": {
+          "title": "How nature-inspired design is taking root around datacenters",
+          "transcribedDocumentUrl": "https://media.example.invalid/REDACTED",
+          "coverPages": [
+            {
+              "width": 1545,
+              "imageUrls": [
+                "https://media.example.invalid/REDACTED",
+                "https://media.example.invalid/REDACTED",
+                "https://media.example.invalid/REDACTED"
+              ],
+              "height": 1931
+            }
+          ],
+          "totalPageCount": 3,
+          "manifestUrl": "https://media.example.invalid/REDACTED",
+          "manifest": {
+            "asset": "urn:li:digitalmediaAsset:D4E10AQES4Hf0U5cO7w",
+            "transcriptManifestUrl": "https://media.example.invalid/REDACTED",
+            "transcribedDocumentUrl": "https://media.example.invalid/REDACTED",
+            "scanRequiredForDownload": true,
+            "perResolutions": [
+              {
+                "width": 135,
+                "height": 168,
+                "imageManifestUrl": "https://media.example.invalid/REDACTED"
+              },
+              {
+                "width": 390,
+                "height": 487,
+                "imageManifestUrl": "https://media.example.invalid/REDACTED"
+              },
+              {
+                "width": 645,
+                "height": 806,
+                "imageManifestUrl": "https://media.example.invalid/REDACTED"
+              }
+            ]
+          }
+        },
+        "repostedBy": {
+          "name": "REDACTED",
+          "publicIdentifier": null,
+          "universalName": "microsoft",
+          "linkedinUrl": "https://www.linkedin.com/in/REDACTED/"
+        },
+        "repostedAt": {
+          "timestamp": 1789588526993,
+          "date": "2026-09-16T19:55:26.993Z"
+        },
+        "socialContent": {
+          "hideCommentsCount": false,
+          "hideReactionsCount": false,
+          "hideSocialActivityCounts": false,
+          "hideShareAction": false,
+          "hideSendAction": false,
+          "hideRepostsCount": false,
+          "hideViewsCount": false,
+          "trustInterventionBanner": null,
+          "hideReactAction": false,
+          "hideCommentAction": false,
+          "shareUrl": "https://www.linkedin.com/in/REDACTED/",
+          "showContributionExperience": false,
+          "showSocialDetail": true
+        },
+        "comments": [],
+        "header": {
+          "linkedinUrl": "https://www.linkedin.com/in/REDACTED/",
+          "imageLink": "https://www.linkedin.com/in/REDACTED/",
+          "text": "Microsoft reposted this"
+        },
+        "entityId": "7506078317121327105",
+        "shareUrn": "urn:li:ugcPost:7506004451271430145",
+        "shareLinkedinUrl": "https://www.linkedin.com/in/REDACTED/",
+        "engagement": {
+          "id": "7506004451271430145",
+          "likes": 132,
+          "comments": 15,
+          "shares": 21,
+          "reactions": [
+            {
+              "type": "LIKE",
+              "count": 109
+            },
+            {
+              "type": "EMPATHY",
+              "count": 13
+            },
+            {
+              "type": "PRAISE",
+              "count": 8
+            }
+          ]
+        }
+      },
+      {
+        "id": "7503582702164574208",
+        "linkedinUrl": "https://www.linkedin.com/in/REDACTED/",
+        "content": "With the National Football League (NFL) back tonight, love seeing Seattle Seahawks analyst Brian Eayrs and coaches across the league using new Copilot and Excel tools to help with decision making in the booths and on the sidelines.\n\nLear...",
+        "contentAttributes": [
+          {
+            "start": 9,
+            "length": 30,
+            "type": "COMPANY_NAME",
+            "hyperlink": "https://www.linkedin.com/in/REDACTED/",
+            "textLink": null,
+            "company": {
+              "id": "4541",
+              "name": "REDACTED",
+              "linkedinUrl": "https://www.linkedin.com/in/REDACTED/"
+            }
+          },
+          {
+            "start": 66,
+            "length": 16,
+            "type": "COMPANY_NAME",
+            "hyperlink": "https://www.linkedin.com/in/REDACTED/",
+            "textLink": null,
+            "company": {
+              "id": "21099",
+              "name": "REDACTED",
+              "linkedinUrl": "https://www.linkedin.com/in/REDACTED/"
+            }
+          }
+        ],
+        "author": {
+          "id": "ACoAAAEkwwAB9KEc2TrQgOLEQ-vzRyZeCDyc6DQ",
+          "universalName": null,
+          "publicIdentifier": "REDACTED",
+          "type": "profile",
+          "name": "REDACTED",
+          "linkedinUrl": "https://www.linkedin.com/in/REDACTED/",
+          "info": "Chairman and CEO at Microsoft",
+          "website": null,
+          "websiteLabel": null,
+          "avatar": {
+            "url": "https://media.example.invalid/REDACTED",
+            "width": 800,
+            "height": 800
+          },
+          "urn": "19186432",
+          "profileId": "REDACTED"
+        },
+        "postedAt": {
+          "timestamp": 1788993526021,
+          "date": "2026-09-09T22:38:46.021Z",
+          "postedAgoShort": "1w",
+          "postedAgoText": "1 week ago • Visible to anyone on or off LinkedIn"
+        },
+        "postImages": [],
+        "postVideo": {
+          "thumbnailUrl": "https://dms.licdn.com/playlist/vid/v2/D5605AQEX9zAMoT8e-g/thumbnail-shrink_720_1280/B56aCIS2tTJUAg-/0/1788993048351?e=1790269200&v=beta&t=G1stqEv89A_sR6oJ7AiGt6qLrTL3L2m_TMKjpwKuhUs",
+          "videoUrl": "https://dms.licdn.com/playlist/vid/v2/D5605AQEX9zAMoT8e-g/mp4-720p-30fp-crf28/B56aCIS2tTJUCM-/0/1788993066552?e=1790269200&v=beta&t=SAFnnNLE9vvbE8guYgBN8euGsdJCG7NU9bNd9MQFg_k"
+        },
+        "socialContent": {
+          "hideCommentsCount": false,
+          "hideReactionsCount": false,
+          "hideSocialActivityCounts": false,
+          "hideShareAction": false,
+          "hideSendAction": false,
+          "hideRepostsCount": false,
+          "hideViewsCount": false,
+          "trustInterventionBanner": null,
+          "hideReactAction": false,
+          "hideCommentAction": false,
+          "shareUrl": "https://www.linkedin.com/in/REDACTED/",
+          "showContributionExperience": false,
+          "showSocialDetail": true
+        },
+        "comments": [],
+        "header": {
+          "linkedinUrl": "https://www.linkedin.com/in/REDACTED/",
+          "imageLink": "https://www.linkedin.com/in/REDACTED/",
+          "text": "Microsoft collaborated on this"
+        },
+        "entityId": "7503582702164574208",
+        "shareUrn": "urn:li:ugcPost:7503580660893118464",
+        "shareLinkedinUrl": "https://www.linkedin.com/in/REDACTED/",
+        "engagement": {
+          "id": "7503580660893118464",
+          "likes": 2959,
+          "comments": 241,
+          "shares": 0,
+          "reactions": [
+            {
+              "type": "LIKE",
+              "count": 2612
+            },
+            {
+              "type": "EMPATHY",
+              "count": 170
+            },
+            {
+              "type": "PRAISE",
+              "count": 137
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

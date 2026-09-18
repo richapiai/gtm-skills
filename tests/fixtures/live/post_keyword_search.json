@@ -1,0 +1,96 @@
+{
+  "endpoint": "post_keyword_search",
+  "path": "/post_keyword_search",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:47:43.173Z",
+  "redacted": true,
+  "body": {
+    "content": [
+      {
+        "urn": "urn:li:activity:7505260075490443264",
+        "threadUrn": "urn:li:activity:7505260075490443264",
+        "shareUrn": "urn:li:share:7505260072604835840",
+        "commentary": "REDACTED",
+        "numComments": 0,
+        "numReactions": 0,
+        "reactionType": {},
+        "shareUrl": "https://www.linkedin.com/in/REDACTED/",
+        "actor": {
+          "id": 105711264,
+          "name": "REDACTED",
+          "logo": "https://media.example.invalid/REDACTED",
+          "url": "https://www.linkedin.com/in/REDACTED/",
+          "followerCount": 27,
+          "profileType": "COMPANY"
+        }
+      },
+      {
+        "urn": "urn:li:activity:7472650404602736640",
+        "threadUrn": "urn:li:activity:7472650404602736640",
+        "shareUrn": "urn:li:share:7472650401855586305",
+        "commentary": "REDACTED",
+        "numComments": 0,
+        "numReactions": 12,
+        "reactionType": {
+          "empathy": 1,
+          "like": 11
+        },
+        "shareUrl": "https://www.linkedin.com/in/REDACTED/",
+        "actor": {
+          "profileId": "REDACTED",
+          "entityUrn": "REDACTED",
+          "objectUrn": 0,
+          "firstName": "REDACTED",
+          "lastName": "REDACTED",
+          "headline": "REDACTED",
+          "profileType": "PERSON"
+        }
+      },
+      {
+        "urn": "urn:li:activity:7506370905887989760",
+        "threadUrn": "urn:li:activity:7506370905887989760",
+        "shareUrn": "urn:li:share:7506370905225400321",
+        "commentary": "REDACTED",
+        "numComments": 0,
+        "numReactions": 0,
+        "reactionType": {},
+        "shareUrl": "https://www.linkedin.com/in/REDACTED/",
+        "actor": {
+          "profileId": "REDACTED",
+          "entityUrn": "REDACTED",
+          "objectUrn": 0,
+          "firstName": "REDACTED",
+          "lastName": "REDACTED",
+          "headline": "REDACTED",
+          "profilePicture": "https://media.example.invalid/REDACTED",
+          "profileType": "PERSON"
+        }
+      }
+    ],
+    "pageable": {
+      "pageNumber": 0,
+      "pageSize": 5,
+      "sort": {
+        "sorted": false,
+        "empty": true,
+        "unsorted": true
+      },
+      "offset": 0,
+      "paged": true,
+      "unpaged": false
+    },
+    "last": false,
+    "totalElements": 242,
+    "totalPages": 49,
+    "sort": {
+      "sorted": false,
+      "empty": true,
+      "unsorted": true
+    },
+    "size": 5,
+    "number": 0,
+    "first": true,
+    "numberOfElements": 5,
+    "empty": false
+  }
+}

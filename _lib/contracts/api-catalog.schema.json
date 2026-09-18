@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://richapi.ai/schemas/api-catalog.schema.json",
+  "title": "Generated API catalog (_lib/api-catalog.json)",
+  "description": "Produced by richapi-catalog-gen from a pinned openapi.yaml. The spec is a COST-AND-ROUTE source, not a schema source: field_map comes from recorded live fixtures, never from spec examples.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "spec_sha256",
+    "spec_version",
+    "endpoints"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "spec_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "sha256 of the pinned openapi.yaml this catalog was generated from"
+    },
+    "spec_version": {
+      "type": "string"
+    },
+    "endpoints": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/endpoint"
+      }
+    }
+  },
+  "$defs": {
+    "endpoint": {
+      "type": "object",
+      "required": [
+        "name",
+        "path",
+        "capability_group",
+        "pricing",
+        "required_request_fields",
+        "field_map_status"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "capability_group": {
+          "description": "OUR taxonomy (plan \u00a71 table), not spec tags. The spec tag axis is incoherent \u2014 8 singleton tags, email_finder=Enrichment vs email_verifier=Waterfall.",
+          "enum": [
+            "people_search",
+            "enrichment",
+            "email_and_phone",
+            "posts_activity",
+            "ads_libraries",
+            "maps_directories",
+            "web_intelligence",
+            "search_trends",
+            "funding",
+            "youtube",
+            "ai",
+            "social",
+            "utilities"
+          ]
+        },
+        "spec_tag": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "tiebreak hint only"
+        },
+        "pricing": {
+          "$ref": "#/$defs/pricing"
+        },
+        "required_request_fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "10 endpoints declare none, incl. email_finder and phone_finder (25cr). An empty array here is a KNOWN HAZARD, not a green light \u2014 the runtime must supply its own validation."
+        },
+        "request_body_required": {
+          "type": "boolean"
+        },
+        "bulk_variant": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "endpoint name of the bulk form, if any"
+        },
+        "max_batch": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "field_map": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "Response key -> semantic field. Source: RECORDED LIVE FIXTURES. NEVER derived from spec examples \u2014 39 of 68 are >=40% the literal string \"example\"."
+        },
+        "field_map_status": {
+          "enum": [
+            "live_fixture",
+            "keys_from_spec_example",
+            "TODO_no_usable_example"
+          ]
+        },
+        "deprecated": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "pricing": {
+      "type": "object",
+      "required": [
+        "model"
+      ],
+      "properties": {
+        "model": {
+          "enum": [
+            "flat",
+            "per_result",
+            "base_plus_per_result",
+            "unknown"
+          ]
+        },
+        "credits_per_call": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "credits_base": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "credits_per_result": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "result_count_field": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Response field the charge is computed from. 10 endpoints declare `_list_count`, a synthetic field appearing in zero examples."
+        },
+        "billing_field_present_in_response": {
+          "type": "boolean",
+          "description": "false for 11 of 21 metered endpoints. When false the ledger MUST write cost_status=estimated_unverifiable and never fabricate an actual."
+        },
+        "bounded": {
+          "type": "boolean",
+          "description": "false for the 11 per-result endpoints with no limit-style parameter. Unbounded endpoints page-gate: one page at a time with a confirm between pages."
+        },
+        "disabled_by_default": {
+          "type": "boolean",
+          "default": false
+        },
+        "disabled_reason": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "e.g. post_keyword_search: billing semantics self-contradict, worst case 60,000 credits/call. Disabled until the billing basis is documented."
+        },
+        "page_gated": {
+          "type": "boolean",
+          "description": "Whether this endpoint must run one page at a time with a confirm between pages. NOT the same predicate as `bounded`: people_search and post_keyword_search DO expose a `limit`, but limit bounds the page and not the total, so they still need page-gating. The catalog generator and the cost runtime each computed 'eleven unbounded endpoints' and got DIFFERENT sets because they were answering these two different questions. Keep them separate."
+        }
+      }
+    }
+  }
+}

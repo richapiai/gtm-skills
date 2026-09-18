@@ -1,0 +1,67 @@
+{
+  "endpoint": "search_google_trends",
+  "path": "/search_google_trends",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:43:32.782Z",
+  "redacted": true,
+  "body": {
+    "data": {
+      "keyword": "sales intelligence",
+      "geo": "US",
+      "timeframe": "today 12-m",
+      "timeline": [
+        {
+          "date": "2025-09-14",
+          "value": 46
+        },
+        {
+          "date": "2025-09-21",
+          "value": 61
+        },
+        {
+          "date": "2025-09-28",
+          "value": 48
+        }
+      ],
+      "related": [
+        {
+          "query": "sales intelligence tools",
+          "value": 100
+        },
+        {
+          "query": "sales intelligence software",
+          "value": 94
+        },
+        {
+          "query": "sales intelligence platforms",
+          "value": 85
+        }
+      ],
+      "rising": [
+        {
+          "query": "b2b sales intelligence",
+          "value": 50
+        }
+      ],
+      "interest_by_region": [
+        {
+          "region": "Wyoming",
+          "value": 100
+        },
+        {
+          "region": "Kansas",
+          "value": 21
+        },
+        {
+          "region": "District of Columbia",
+          "value": 12
+        }
+      ]
+    },
+    "meta": {
+      "cache_hit": true,
+      "execution_time_ms": 1,
+      "quality_warning": null
+    }
+  }
+}

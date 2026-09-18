@@ -1,0 +1,71 @@
+{
+  "endpoint": "google_search_scraper_sync",
+  "path": "/google_search_scraper_sync",
+  "http_status": 201,
+  "captured_at": "2026-09-17T16:43:08.384Z",
+  "redacted": true,
+  "body": [
+    {
+      "searchQuery": {
+        "term": "sales intelligence",
+        "url": "http://www.google.com/search?q=sales+intelligence",
+        "device": "DESKTOP",
+        "page": 1,
+        "type": "SEARCH",
+        "domain": "google.com",
+        "countryCode": "US",
+        "languageCode": null,
+        "locationUule": null,
+        "resultsPerPage": 10
+      },
+      "url": "http://www.google.com/search?q=sales+intelligence",
+      "hasNextPage": true,
+      "serpProviderCode": "OX",
+      "organicResults": [
+        {
+          "title": "¿Qué es la inteligencia de ventas?",
+          "websiteTitle": "IBM",
+          "url": "https://www.ibm.com/es-es/think/topics/sales-intelligence",
+          "displayedUrl": "https://www.ibm.com › topics › sa...",
+          "description": "La inteligencia de ventas se refiere a la recopilación de datos para mejorar el rendimiento de las ventas y la toma de decisiones.",
+          "emphasizedKeywords": [
+            "recopilación de datos para mejorar el rendimiento de las ventas"
+          ],
+          "siteLinks": [],
+          "productInfo": {},
+          "type": "organic",
+          "position": 1
+        },
+        {
+          "title": "What is Sales Intelligence?",
+          "websiteTitle": "Salesforce",
+          "url": "https://www.salesforce.com/sales/sales-intelligence/",
+          "displayedUrl": "https://www.salesforce.com › sales › sales-intelligence",
+          "description": "Sales intelligence is the collection of data and insights used to make informed and strategic decisions throughout the sales process.",
+          "date": "2025-01-27T12:00:00.000Z",
+          "emphasizedKeywords": [
+            "Sales intelligence"
+          ],
+          "siteLinks": [],
+          "productInfo": {},
+          "type": "organic",
+          "position": 2
+        },
+        {
+          "title": "¿Qué es Sales Intelligence? - X-DATA",
+          "websiteTitle": "x-data.mx",
+          "url": "https://x-data.mx/blog/en/Que-es-Sales-Intelligence/",
+          "displayedUrl": "https://x-data.mx › blog › Que-es-S...",
+          "description": "Sales Intelligence es un sistema integrado por tecnologías, software y tecnologías avanzadas para proporcionar información valiosa y procesar la data de los ...",
+          "emphasizedKeywords": [
+            "Sales Intelligence"
+          ],
+          "siteLinks": [],
+          "productInfo": {},
+          "type": "organic",
+          "position": 3
+        }
+      ]
+    }
+  ]
+}

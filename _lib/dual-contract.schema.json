@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://richapi.ai/schemas/dual-contract.schema.json",
+  "title": "Dual contract — the shape of every LLM-derived value",
+  "description": "Every response from `ai_enrich` (or any other LLM hop) MUST validate against this before it is allowed near an artifact. `ai_enrich`'s `output_schema` is specified as 'used to guide structured output' — guidance, not enforcement — so the runtime validates the response itself. A response that fails is written `ai_inferred_invalid` and NEVER lands in an artifact as verified. A response that passes is marked `ai_inferred` and is never mixed into verified fields. This replaces the four conflicting null conventions found across 175 analyzed custom-research prompts with exactly ONE explicit null enum.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["result", "confidence", "reasoning", "source"],
+  "properties": {
+    "result": {
+      "description": "The answer, or ONE of the three explicit nulls. There is no other way to say 'no answer': not JSON null, not \"\", not \"N/A\", not \"unknown\", not [] and not {}.",
+      "oneOf": [
+        {
+          "title": "explicit null",
+          "enum": ["not_found", "not_verifiable", "not_applicable"],
+          "description": "not_found = looked, nothing there. not_verifiable = something there, cannot be confirmed from the given source. not_applicable = the question does not apply to this row."
+        },
+        {
+          "title": "a real value",
+          "type": ["string", "number", "boolean", "array", "object"],
+          "not": { "enum": ["not_found", "not_verifiable", "not_applicable", "", [], {}] },
+          "x-forbidden-null-aliases": true,
+          "description": "Any real value. Empty string, empty array, empty object and the alias strings below are rejected — an empty answer must use the explicit null enum instead."
+        }
+      ]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Numeric 0..1 only. \"high\"/\"medium\"/\"low\" is one of the conflicting conventions this contract removes."
+    },
+    "reasoning": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Why the model answered this way. Required even for the explicit nulls — a null with no reasoning is indistinguishable from a failed call."
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1,
+      "description": "What the answer was derived from: a URL, an endpoint name, or `model_prior` when the model used nothing but itself. `model_prior` is still `ai_inferred`, never verified."
+    },
+    "provenance": {
+      "const": "ai_inferred",
+      "description": "Optional in the response; always stamped by the runtime on store. LLM-derived values are ALWAYS marked ai_inferred and are NEVER mixed into verified fields."
+    }
+  },
+  "x-null-enum": ["not_found", "not_verifiable", "not_applicable"],
+  "x-null-aliases-rejected": [
+    "", "-", "--", "—", "n/a", "n.a.", "na", "none", "null", "nil", "nan", "undefined",
+    "unknown", "not found", "notfound", "no data", "no_data", "no result", "no results",
+    "not available", "not_available", "empty", "tbd", "?", "false negative"
+  ],
+  "x-storage": {
+    "valid": "artifact.ai_inferred[<field>] — marked provenance:'ai_inferred', never merged into artifact.verified",
+    "invalid": "artifact.ai_inferred_invalid[] — the raw response plus the validation errors, quarantined"
+  },
+  "$comment": "Validator lives in _lib/dual-contract.mjs (this schema's sibling implementation). The skill-lint rule `checkSkillDualContract({ label, body })` needs wiring into scripts/validate-skills.mjs at merge time."
+}

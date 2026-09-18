@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://richapi.ai/schemas/journal-line.schema.json",
+  "title": "Run journal line (gtm/runs/{run-id}.jsonl)",
+  "description": "One line per row per hop. Written BEFORE and AFTER each call so a kill mid-call is recoverable. Substrate for --dry-run (all rows pending, zero calls), resume, the share-safe aggregate render, and /learn's provider hit-rates.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "run_id",
+    "row_id",
+    "hop",
+    "endpoint",
+    "status",
+    "ts"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "row_id": {
+      "type": "string",
+      "description": "stable per input row; the resume key"
+    },
+    "hop": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "0-based position in the waterfall"
+    },
+    "endpoint": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "pending",
+        "ok",
+        "failed",
+        "skipped_cache",
+        "skipped_suppressed",
+        "skipped_budget"
+      ],
+      "description": "skipped_cache = read-through cache hit, not charged. skipped_suppressed = fail-closed suppression drop."
+    },
+    "ts": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "credits_estimated": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "credits_actual": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "null when the response carries no billing field \u2014 see ledger cost_status"
+    },
+    "response_hash": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "sha256 of the response body; row-level data itself is NOT stored here"
+    },
+    "provider": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "email_finder returns this; the input to /learn's per-segment hit-rate memory"
+    },
+    "confidence": {
+      "type": [
+        "number",
+        "string",
+        "null"
+      ]
+    },
+    "error": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[A-Za-z0-9_.:\\-/]{1,64}$",
+      "description": "Short machine code only (e.g. `http.429`, `provider.no_match`). The pattern is the point: a free-text error is the easiest way for a contact to leak into the journal, e.g. \"no result for ada@example.com\"."
+    },
+    "attempt": {
+      "type": "integer",
+      "default": 1,
+      "description": "429 Retry-After discipline; a retried row must not double-charge the ledger",
+      "minimum": 0
+    },
+    "dry_run": {
+      "type": "boolean",
+      "default": false,
+      "description": "True for a line written by --dry-run: planned, never attempted, zero calls made. Without this a dry-run row is indistinguishable from a row killed mid-call, so resume would treat every planned row as a possible double-charge."
+    },
+    "list_key": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Identifies the input list this run covers. Needed so /comply erase and the TTL sweep can find a run's sidecar concurrency lock (gtm/runs/.locks/*.lock), which otherwise no contract covers."
+    }
+  },
+  "$comment": "PII rule: this file carries row_id and response_hash, never contact fields. The shareable dry-run render is aggregate-only BY CONSTRUCTION and has a PII-strip regression test."
+}

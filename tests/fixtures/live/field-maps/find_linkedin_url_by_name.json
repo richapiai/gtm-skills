@@ -1,0 +1,24 @@
+{
+  "endpoint": "find_linkedin_url_by_name",
+  "path": "/find_linkedin_url_by_name",
+  "field_map_status": "live_fixture",
+  "field_map": {
+    "id": "id"
+  },
+  "observed_types": {
+    "id": "string",
+    "data": "object",
+    "message": "string"
+  },
+  "unmapped_keys": [
+    "data",
+    "message"
+  ],
+  "sample_status": "hit",
+  "billing_field": null,
+  "billing_field_present_in_response": null,
+  "captured_at": "2026-09-17T16:19:59.879Z",
+  "spec_sha256": "c17a0e7f756abb976e66337c110fd62357324ce7f1fce88c2c5c9ea35d96e171",
+  "source": "live_capture",
+  "field_map_derived": true
+}

@@ -1,0 +1,26 @@
+{
+  "endpoint": "directory_yellowpages",
+  "path": "/directory_yellowpages",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:38:16.941Z",
+  "redacted": true,
+  "body": {
+    "data": {
+      "businesses": [
+        {
+          "name": "REDACTED",
+          "phone": "+10000000000",
+          "address": "REDACTED",
+          "website": "",
+          "categories": [],
+          "rating": ""
+        }
+      ]
+    },
+    "meta": {
+      "cache_hit": true,
+      "execution_time_ms": 1,
+      "quality_warning": null
+    }
+  }
+}

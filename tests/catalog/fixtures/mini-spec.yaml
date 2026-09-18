@@ -1,0 +1,240 @@
+openapi: 3.1.0
+info:
+  title: RichAPI API (mini fixture)
+  version: 9.9.9
+  description: Purpose-built fixture for the catalog generator tests. Not a subset of the real spec.
+servers:
+  - url: https://api.richapi.ai/api/v1
+paths:
+  # flat, required field present, has a bulk variant
+  /enrich_profile:
+    post:
+      operationId: enrich_profile
+      summary: Profile Enrichment
+      description: Get a LinkedIn profile.
+      tags:
+        - Enrichment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+              required:
+                - url
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                name: example
+      x-pricing:
+        credits_per_call: 1
+
+  # bulk form: per_result on the synthetic _list_count, no example at all
+  /enrich_profiles_bulk:
+    post:
+      operationId: enrich_profiles_bulk
+      summary: Bulk Profile Enrichment
+      description: Fetch up to 50 LinkedIn profiles in a single call using entity URNs.
+      tags:
+        - Enrichment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                urns:
+                  type: array
+              required:
+                - urns
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+      x-pricing:
+        credits_per_result: 1
+        result_count_field: _list_count
+
+  # flat, requestBody required:false and zero required fields - the known hazard
+  /email_finder:
+    post:
+      operationId: email_finder
+      summary: Email Finder
+      description: Find a work email.
+      tags:
+        - Enrichment
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                company_domain:
+                  type: string
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                confidence: example
+                email: example
+                provider: example
+      x-pricing:
+        credits_per_call: 5
+
+  # base_plus_per_result, billing field IS in the example, no limit param -> unbounded
+  /lead_search:
+    post:
+      operationId: lead_search
+      summary: Lead Search
+      description: Advanced LinkedIn lead search.
+      tags:
+        - Leads
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                search_query:
+                  type: string
+                company_size:
+                  type: string
+                page:
+                  type: integer
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                elements:
+                  - name: example
+                page: 0
+      x-pricing:
+        base_credits_per_call: 10
+        credits_per_result: 0.5
+        result_count_field: elements
+
+  # per_result WITH a real limit param -> bounded; also the disabled-by-default seed
+  /post_keyword_search:
+    post:
+      operationId: post_keyword_search
+      summary: Post Keyword Search
+      description: Search LinkedIn posts by keyword.
+      tags:
+        - Search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                keyword:
+                  type: string
+                limit:
+                  type: integer
+                page:
+                  type: integer
+              required:
+                - keyword
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                content: []
+                totalElements: 1
+      x-pricing:
+        credits_per_result: 6
+        result_count_field: totalElements
+
+  # per_result whose count field never arrives, and a bare `page` only -> unbounded
+  /profile_search:
+    post:
+      operationId: profile_search
+      summary: LinkedIn Profile Search
+      description: Live LinkedIn profile search.
+      tags:
+        - Search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                search:
+                  type: string
+                page:
+                  type: integer
+              required:
+                - search
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                results: []
+      x-pricing:
+        credits_per_result: 0.1
+        result_count_field: elements
+
+  # a free utility
+  /clean_domain:
+    post:
+      operationId: clean_domain
+      summary: Clean Domain
+      description: Normalize a messy URL to a root domain.
+      tags:
+        - Utilities
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                domain:
+                  type: string
+              required:
+                - domain
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                domain: example.com
+      x-pricing:
+        credits_per_call: 0

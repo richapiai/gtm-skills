@@ -1,0 +1,148 @@
+{
+  "endpoint": "post_details",
+  "path": "/post_details",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:47:40.744Z",
+  "redacted": true,
+  "body": {
+    "urn": "urn:li:activity:7506360360753364993",
+    "threadUrn": "urn:li:ugcPost:7506353323579457536",
+    "shareUrn": "urn:li:ugcPost:7506353323579457536",
+    "commentary": "REDACTED",
+    "numComments": 17,
+    "numReactions": 150,
+    "reactionType": {
+      "empathy": 9,
+      "like": 105,
+      "interest": 17,
+      "praise": 19
+    },
+    "shareUrl": "https://www.linkedin.com/in/REDACTED/",
+    "actor": {
+      "profileId": "REDACTED",
+      "entityUrn": "REDACTED",
+      "objectUrn": 0,
+      "firstName": "REDACTED",
+      "lastName": "REDACTED",
+      "headline": "REDACTED",
+      "profilePicture": "https://media.example.invalid/REDACTED",
+      "profileBackground": "https://media.example.invalid/REDACTED",
+      "profileType": "PERSON"
+    },
+    "comments": [
+      {
+        "id": "urn:li:comment:(ugcPost:7506353323579457536,7506381025418231808)",
+        "comment": "REDACTED",
+        "totalComments": 0,
+        "totalReactions": 0,
+        "reactionType": {},
+        "url": "https://www.linkedin.com/in/REDACTED/",
+        "commenter": {
+          "profileId": "REDACTED",
+          "entityUrn": "REDACTED",
+          "objectUrn": 0,
+          "firstName": "REDACTED",
+          "lastName": "REDACTED",
+          "headline": "REDACTED",
+          "profilePicture": "https://media.example.invalid/REDACTED",
+          "profileBackground": "https://media.example.invalid/REDACTED",
+          "profileType": "PERSON"
+        }
+      },
+      {
+        "id": "urn:li:comment:(ugcPost:7506353323579457536,7506361398638338049)",
+        "comment": "REDACTED",
+        "totalComments": 0,
+        "totalReactions": 0,
+        "reactionType": {},
+        "url": "https://www.linkedin.com/in/REDACTED/",
+        "commenter": {
+          "profileId": "REDACTED",
+          "entityUrn": "REDACTED",
+          "objectUrn": 0,
+          "firstName": "REDACTED",
+          "lastName": "REDACTED",
+          "headline": "REDACTED",
+          "profilePicture": "https://media.example.invalid/REDACTED",
+          "profileBackground": "https://media.example.invalid/REDACTED",
+          "profileType": "PERSON"
+        }
+      },
+      {
+        "id": "urn:li:comment:(ugcPost:7506353323579457536,7506387428233064449)",
+        "comment": "REDACTED",
+        "totalComments": 0,
+        "totalReactions": 0,
+        "reactionType": {},
+        "url": "https://www.linkedin.com/in/REDACTED/",
+        "commenter": {
+          "profileId": "REDACTED",
+          "entityUrn": "REDACTED",
+          "objectUrn": 0,
+          "firstName": "REDACTED",
+          "lastName": "REDACTED",
+          "headline": "REDACTED",
+          "profilePicture": "https://media.example.invalid/REDACTED",
+          "profileType": "PERSON"
+        }
+      }
+    ],
+    "reactions": [
+      {
+        "reaction": "INTEREST",
+        "reactor": {
+          "profileId": "REDACTED",
+          "entityUrn": "REDACTED",
+          "objectUrn": 0,
+          "firstName": "REDACTED",
+          "lastName": "REDACTED",
+          "headline": "REDACTED",
+          "profileType": "PERSON"
+        }
+      },
+      {
+        "reaction": "PRAISE",
+        "reactor": {
+          "profileId": "REDACTED",
+          "entityUrn": "REDACTED",
+          "objectUrn": 0,
+          "firstName": "REDACTED",
+          "lastName": "REDACTED",
+          "headline": "REDACTED",
+          "profilePicture": "https://media.example.invalid/REDACTED",
+          "profileBackground": "https://media.example.invalid/REDACTED",
+          "profileType": "PERSON"
+        }
+      },
+      {
+        "reaction": "INTEREST",
+        "reactor": {
+          "profileId": "REDACTED",
+          "entityUrn": "REDACTED",
+          "objectUrn": 0,
+          "firstName": "REDACTED",
+          "lastName": "REDACTED",
+          "headline": "REDACTED",
+          "profileBackground": "https://media.example.invalid/REDACTED",
+          "profileType": "PERSON"
+        }
+      }
+    ],
+    "content": {
+      "image": null,
+      "video": null,
+      "article": null,
+      "document": {
+        "title": "Microsoft Frontier Playbook",
+        "totalPages": 7,
+        "documentUrl": "https://media.example.invalid/REDACTED",
+        "expiry": 1790269200000
+      },
+      "poll": null,
+      "celebration": null,
+      "entity": null,
+      "showcase": null
+    },
+    "sponsored": false
+  }
+}

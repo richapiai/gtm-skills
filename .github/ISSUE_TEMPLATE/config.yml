@@ -1,0 +1,4 @@
+# Blank issues are disabled: every issue this repo gets should be routable to one of
+# the three forms below. A vulnerability is NOT one of them — see SECURITY.md, which
+# asks you not to open a public issue for anything exploitable.
+blank_issues_enabled: false

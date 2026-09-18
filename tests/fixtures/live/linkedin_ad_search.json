@@ -1,0 +1,26 @@
+{
+  "endpoint": "linkedin_ad_search",
+  "path": "/linkedin_ad_search",
+  "http_status": 403,
+  "captured_at": "2026-09-17T16:23:15.330Z",
+  "redacted": true,
+  "body": {
+    "elements": [],
+    "pagination": {
+      "pageSize": 24,
+      "totalElements": null,
+      "totalPages": null,
+      "paginationToken": null,
+      "pageNumber": null,
+      "previousElements": null
+    },
+    "supported_fields": {
+      "accepted": [
+        "account_owner",
+        "countries",
+        "date_option"
+      ],
+      "required": []
+    }
+  }
+}

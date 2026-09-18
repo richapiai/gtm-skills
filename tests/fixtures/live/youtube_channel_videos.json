@@ -1,0 +1,44 @@
+{
+  "endpoint": "youtube_channel_videos",
+  "path": "/youtube_channel_videos",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:36:33.574Z",
+  "redacted": true,
+  "body": {
+    "data": {
+      "channel": "Microsoft",
+      "videos": [
+        {
+          "video_id": "fdq3aYCVIL0",
+          "title": "Why Seattle Seahawks coaches rely on this analyst every game",
+          "view_count": null,
+          "duration": 120,
+          "publish_date": "",
+          "thumbnail": "https://i.ytimg.com/vi/fdq3aYCVIL0/hq720_custom_2.jpg?sqp=CLStsNUG-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBJ0ay_xGTGnrCJLtMdZAIiMq_Kuw"
+        },
+        {
+          "video_id": "qAQTJKZrEeM",
+          "title": "2,000 people. One team. | Microsoft x Mercedes-AMG PETRONAS F1",
+          "view_count": null,
+          "duration": 81,
+          "publish_date": "",
+          "thumbnail": "https://i.ytimg.com/vi/qAQTJKZrEeM/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAHuX8q2UNGZZzr9hZNuf6Fb0UKZw"
+        },
+        {
+          "video_id": "3_sQZRkwU2g",
+          "title": "This company has more AI agents than employees",
+          "view_count": null,
+          "duration": 1780,
+          "publish_date": "",
+          "thumbnail": "https://i.ytimg.com/vi/3_sQZRkwU2g/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCFg0m8EpczMV89MoVJafJTEUTp4A"
+        }
+      ],
+      "total_count": 50
+    },
+    "meta": {
+      "cache_hit": false,
+      "execution_time_ms": 1802,
+      "quality_warning": null
+    }
+  }
+}

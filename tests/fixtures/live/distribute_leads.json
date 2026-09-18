@@ -1,0 +1,14 @@
+{
+  "endpoint": "distribute_leads",
+  "path": "/distribute_leads",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:35:40.286Z",
+  "redacted": true,
+  "body": {
+    "assigned_label": "Team A",
+    "assigned_value": "redacted@example.invalid",
+    "assignment_index": 0,
+    "next_index": 1,
+    "total_assignments": 3
+  }
+}

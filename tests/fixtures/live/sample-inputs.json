@@ -1,0 +1,130 @@
+{
+  "_readme": "Per-endpoint request bodies for bin/richapi-capture-fixtures.mjs. An entry here overrides the body the harness would otherwise synthesise from the spec's required fields. Everything in this file MUST be public, non-personal data: a capture run sends these to a live API and stores the answer. Never put a real prospect here.",
+  "_when_to_add_one": "The harness reports `SKIP <endpoint> — needs sample input for <field>` when it has no placeholder for a required field. Add that endpoint here and re-run.",
+  "_cost_note": "For per-result endpoints, keep the input as narrow as the API allows. These bodies are what makes a capture run cost ~100 credits instead of thousands.",
+  "inputs": {
+    "email_finder": {
+      "first_name": "Bill",
+      "last_name": "Gates",
+      "company_domain": "microsoft.com"
+    },
+    "email_verifier": {
+      "email": "support@richapi.ai"
+    },
+    "phone_finder": {
+      "linkedin_url": "https://www.linkedin.com/in/williamhgates/"
+    },
+    "find_personal_email": {
+      "linkedin_url": "https://www.linkedin.com/in/williamhgates/"
+    },
+    "enrich_profile": {
+      "url": "https://www.linkedin.com/in/williamhgates/"
+    },
+    "enrich_company": {
+      "url": "https://www.linkedin.com/company/microsoft/"
+    },
+    "distribute_leads": {
+      "assignment_labels": "Team A,Team B,Team C",
+      "values_associated_with_labels": "a@example.com,b@example.com,c@example.com",
+      "current_index": 0
+    },
+    "enrich_profiles_bulk": {
+      "urns": [
+        "ACoAAAEkwwAB9KEc2TrQgOLEQ-vzRyZeCDyc6DQ",
+        "ACoAAA8BYqEBCGLg_vT_ca6mMEqkpp9nVffJ3hc",
+        "ACoAAAFqmHMBRvI7O6GyhdtaXPyuHZSa4aQUEnw"
+      ]
+    },
+    "enrich_companies_bulk": {
+      "urns": [
+        "1035",
+        "1441"
+      ]
+    },
+    "ai_enrich": {
+      "provider": "openai",
+      "prompt": "Reply with the single word: ok",
+      "max_tokens": 8
+    },
+    "clean_domain": {
+      "messy_url": "https://www.RichAPI.ai/pricing?utm=1"
+    },
+    "web_emails": {
+      "url": "https://richapi.ai",
+      "max_pages": 1
+    },
+    "search_reference_data": {},
+    "_comment_urls": "These need a real, public, stable URL of the right shape; a generic placeholder would 400 and waste the call.",
+    "crunchbase_company_scraper_sync": {
+      "crunchbase_company_url": "https://www.crunchbase.com/organization/microsoft"
+    },
+    "google_ad_transparency_scraper_sync": {
+      "google_ad_url": "https://adstransparency.google.com/advertiser/AR01614014350098432001",
+      "limit": 1
+    },
+    "google_maps_places_scraper_sync_using_url": {
+      "google_map_search_url": "https://www.google.com/maps/search/coffee+seattle",
+      "limit": 1
+    },
+    "google_maps_reviews_scraper_sync": {
+      "google_map_review_url": "https://www.google.com/maps/place/Space+Needle/@47.6205,-122.3493,17z",
+      "limit": 1
+    },
+    "meta_ads_library_scraper_sync": {
+      "meta_ad_url": "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&country=US&q=microsoft",
+      "limit": 1
+    },
+    "linkedin_ad_details": {
+      "ad_url": "https://www.linkedin.com/ad-library/detail/1440550993"
+    },
+    "linkedin_company_posts": {
+      "linkedin_company_url": "https://www.linkedin.com/company/microsoft/"
+    },
+    "find_redirect": {
+      "link": "https://richapi.ai"
+    },
+    "_comment_manual": "slack_channel_members needs the caller's own Slack workspace credentials. There is no safe placeholder: leave it uncaptured rather than putting a token in a committed file. The harness reports it as SKIP, which is the correct visible gap.",
+    "slack_channel_members": null,
+    "post_details": {
+      "urn": "urn:li:activity:7506360360753364993"
+    },
+    "post_activities": {
+      "urn": "urn:li:activity:7506360360753364993",
+      "type": "COMMENT",
+      "page": 0,
+      "limit": 10
+    },
+    "post_keyword_search": {
+      "keyword": "richapi",
+      "page": 0,
+      "limit": 5
+    },
+    "profile_activities": {
+      "urn": "ACoAAA8BYqEBCGLg_vT_ca6mMEqkpp9nVffJ3hc",
+      "type": "POST",
+      "limit": 5
+    },
+    "profile_social_metrics": {
+      "url": "https://www.linkedin.com/in/williamhgates/"
+    },
+    "search_bing": {
+      "query": "richapi",
+      "limit": 5,
+      "page": 1
+    },
+    "youtube_channel": {
+      "url": "https://www.youtube.com/channel/UCFtEEv80fQVKkD4h1PF-Xqw"
+    },
+    "youtube_channel_videos": {
+      "url": "https://www.youtube.com/channel/UCFtEEv80fQVKkD4h1PF-Xqw"
+    },
+    "youtube_video": {
+      "url": "https://www.youtube.com/watch?v=FFMm454fxNA",
+      "include_captions": true
+    },
+    "linkedin_job_detail": {
+      "job_id": "4468623653"
+    }
+  },
+  "_comment_bulk": "enrich_profiles_bulk sends three public profiles in a deliberately different order from their lookup order, so the recording shows whether results come back in request order."
+}

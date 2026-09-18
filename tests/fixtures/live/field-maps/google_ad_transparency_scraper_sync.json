@@ -1,0 +1,15 @@
+{
+  "endpoint": "google_ad_transparency_scraper_sync",
+  "path": "/google_ad_transparency_scraper_sync",
+  "field_map_status": "TODO_no_usable_example",
+  "field_map": null,
+  "observed_types": {},
+  "unmapped_keys": [],
+  "sample_status": "http_error",
+  "billing_field": "_list_count",
+  "billing_field_present_in_response": false,
+  "captured_at": "2026-09-17T16:20:21.728Z",
+  "spec_sha256": "c17a0e7f756abb976e66337c110fd62357324ce7f1fce88c2c5c9ea35d96e171",
+  "source": "live_capture",
+  "field_map_derived": false
+}

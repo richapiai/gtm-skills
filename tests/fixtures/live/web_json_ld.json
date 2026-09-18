@@ -1,0 +1,61 @@
+{
+  "endpoint": "web_json_ld",
+  "path": "/web_json_ld",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:24:28.164Z",
+  "redacted": true,
+  "body": {
+    "data": {
+      "items": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              "name": "REDACTED",
+              "url": "https://richapi.ai",
+              "logo": "https://richapi.ai/images/logos/RichAPI_primary_full-color.png",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Tallinn",
+                "addressCountry": "EE"
+              }
+            },
+            {
+              "@type": "WebSite",
+              "name": "REDACTED",
+              "url": "https://richapi.ai"
+            },
+            {
+              "@type": "SoftwareApplication",
+              "name": "REDACTED",
+              "applicationCategory": "DeveloperApplication",
+              "operatingSystem": "Web",
+              "description": "GTM data API (REST + MCP) with 50+ enrichment, search, and signal endpoints behind one key. Results-only billing: you pay only when a call returns results.",
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD",
+                "description": "25 free sandbox credits, no card"
+              }
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "REDACTED",
+          "url": "https://richapi.ai",
+          "logo": "https://richapi.ai/images/logos/RichAPI_primary_full-color.png",
+          "description": "LinkedIn enrichment, people & company search, email and phone waterfalls, post signals, website intelligence — behind one key, for REST and MCP. Results-only billing: pay only for verified results, misses and provider failures cost nothi..."
+        }
+      ],
+      "count": 2
+    },
+    "meta": {
+      "cache_hit": false,
+      "execution_time_ms": 167,
+      "quality_warning": null
+    }
+  }
+}

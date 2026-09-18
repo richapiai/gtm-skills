@@ -1,0 +1,201 @@
+{
+  "endpoint": "website_intelligence",
+  "path": "/website_intelligence",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:43:45.568Z",
+  "redacted": true,
+  "body": {
+    "data": {
+      "url": "https://richapi.ai",
+      "final_url": "https://www.richapi.ai/",
+      "http_status": 200,
+      "redirect_chain": [
+        "https://richapi.ai -> https://www.richapi.ai/"
+      ],
+      "page_load_time_ms": 1263.9,
+      "content_length_bytes": 90484,
+      "meta_tags": {
+        "og": {
+          "title": "RichAPI — One API key. 50+ GTM data endpoints. Full price only on results.",
+          "description": "LinkedIn enrichment, people & company search, email and phone waterfalls, post signals, website intelligence — behind one key, for REST and MCP. Results-only billing: pay only for verified results, misses and provider failures cost nothi...",
+          "image": "https://richapi.ai/opengraph-image?a73bec90557f686e",
+          "url": "https://richapi.ai",
+          "type": "website",
+          "site_name": "REDACTED",
+          "locale": "en_US",
+          "extra": {
+            "image:type": "image/png",
+            "image:width": "1200",
+            "image:height": "630",
+            "image:alt": "RichAPI — One API key. 50+ GTM data endpoints."
+          }
+        },
+        "twitter": {
+          "card": "summary_large_image",
+          "site": null,
+          "creator": null,
+          "title": "RichAPI — One API key. 50+ GTM data endpoints. Full price only on results.",
+          "description": "LinkedIn enrichment, people & company search, email and phone waterfalls, post signals, website intelligence — behind one key, for REST and MCP. Results-only billing: pay only for verified results, misses and provider failures cost nothi...",
+          "image": "https://richapi.ai/opengraph-image?a73bec90557f686e",
+          "extra": {
+            "image:alt": "RichAPI — One API key. 50+ GTM data endpoints.",
+            "image:type": "image/png",
+            "image:width": "1200",
+            "image:height": "630"
+          }
+        },
+        "seo": {
+          "title": "RichAPI — One API key. 50+ GTM data endpoints. Full price only on results.",
+          "description": "LinkedIn enrichment, people & company search, email and phone waterfalls, post signals, website intelligence — behind one key, for REST and MCP. Results-only billing: pay only for verified results, misses and provider failures cost nothi...",
+          "canonical": "https://richapi.ai",
+          "robots": "index, follow",
+          "viewport": "width=device-width, initial-scale=1",
+          "charset": "utf-8",
+          "author": null,
+          "keywords": "gtm data api, enrichment api, linkedin enrichment api, email finder api, mcp server enrichment, clay alternative api, proxycurl alternative",
+          "language": "en"
+        },
+        "favicon": "/favicon.ico?favicon.3jr30vkdtdpvl.ico?dpl=dpl_29qLwdKyVqEAWbkak8Kkw419HpBn",
+        "hreflang": [],
+        "other": {
+          "application-name": "RichAPI",
+          "googlebot": "index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1"
+        }
+      },
+      "seo_score": 75,
+      "seo_issues": [
+        "Title too long (74 chars, ideal: 50-60)",
+        "Description too long (268 chars, ideal: 150-160)",
+        "Missing hreflang tags"
+      ],
+      "tech_stack": {
+        "technologies": [
+          {
+            "name": "REDACTED",
+            "category": "Framework",
+            "confidence": 1
+          },
+          {
+            "name": "REDACTED",
+            "category": "Backend Framework",
+            "confidence": 0.7
+          },
+          {
+            "name": "REDACTED",
+            "category": "SEO",
+            "confidence": 0.7
+          }
+        ],
+        "categories_count": {
+          "Framework": 1,
+          "Backend Framework": 2,
+          "SEO": 1,
+          "CMS": 1,
+          "Build Tool": 1,
+          "Library": 1
+        },
+        "gtm_signals": {
+          "company_stage": "startup",
+          "estimated_monthly_tech_spend": 0,
+          "tools_by_function": {},
+          "buying_signals": []
+        }
+      },
+      "pixels": {
+        "pixels": {},
+        "total_pixels_found": 0
+      },
+      "social_links": {
+        "links": {},
+        "total_links_found": 0
+      },
+      "emails": {
+        "emails": [
+          "redacted@example.invalid",
+          "redacted@example.invalid"
+        ]
+      },
+      "json_ld": {
+        "items": [
+          {
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "Organization",
+                "name": "REDACTED",
+                "url": "https://richapi.ai",
+                "logo": "https://richapi.ai/images/logos/RichAPI_primary_full-color.png",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Tallinn",
+                  "addressCountry": "EE"
+                }
+              },
+              {
+                "@type": "WebSite",
+                "name": "REDACTED",
+                "url": "https://richapi.ai"
+              },
+              {
+                "@type": "SoftwareApplication",
+                "name": "REDACTED",
+                "applicationCategory": "DeveloperApplication",
+                "operatingSystem": "Web",
+                "description": "GTM data API (REST + MCP) with 50+ enrichment, search, and signal endpoints behind one key. Results-only billing: you pay only when a call returns results.",
+                "offers": {
+                  "@type": "Offer",
+                  "price": "0",
+                  "priceCurrency": "USD",
+                  "description": "25 free sandbox credits, no card"
+                }
+              }
+            ]
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "REDACTED",
+            "url": "https://richapi.ai",
+            "logo": "https://richapi.ai/images/logos/RichAPI_primary_full-color.png",
+            "description": "LinkedIn enrichment, people & company search, email and phone waterfalls, post signals, website intelligence — behind one key, for REST and MCP. Results-only billing: pay only for verified results, misses and provider failures cost nothi..."
+          }
+        ],
+        "count": 2
+      },
+      "headers": {
+        "security_score": 20,
+        "hsts": true,
+        "csp": false,
+        "x_frame_options": null,
+        "x_content_type_options": null,
+        "x_xss_protection": null,
+        "referrer_policy": null,
+        "permissions_policy": false
+      },
+      "dns": {
+        "a_records": [
+          "216.150.1.193",
+          "216.150.16.193"
+        ],
+        "mx_records": [],
+        "email_provider": null
+      },
+      "ssl": {
+        "issuer": "Let's Encrypt",
+        "expires": "2026-11-10",
+        "days_until_expiry": 53,
+        "grade": "A"
+      }
+    },
+    "meta": {
+      "cache_hit": false,
+      "execution_time_ms": 2758,
+      "modules_run": [
+        "meta_tags",
+        "tech_stack",
+        "emails"
+      ],
+      "modules_failed": []
+    }
+  }
+}

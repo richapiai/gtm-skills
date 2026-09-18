@@ -1,0 +1,1650 @@
+{
+  "$comment": "175 real custom-research prompts, as used as AI/enrichment columns in spreadsheet-style GTM tools, classified by hand against the RichAPI catalog. The prompt texts and titles are third-party content and are not vendored; only the classification is. It exists so the coverage claim in SKILL.md is a measurement rather than an impression, and so a reviewer can disagree with a specific row instead of with a vibe. tests/skills/research-agent/question-corpus.test.mjs re-derives every count from `prompts`.",
+  "source": "175 custom-research column prompts from real GTM workflows (not vendored)",
+  "source_prompt_count": 175,
+  "classified_by": "by hand, one row at a time",
+  "tiers": {
+    "routed": "a named endpoint's own output IS the answer; the plan prices it exactly",
+    "grounded": "the route is deterministic but returns a DOCUMENT; a reader has to find the answer in it, and may not",
+    "local": "no fetch at all — reasoning or formatting over columns the row already carries. Zero credits",
+    "unreachable": "no endpoint and no public document carries it; the answer is an explicit null"
+  },
+  "summary": {
+    "total": 175,
+    "routed": 61,
+    "routed_owned_here": 11,
+    "routed_handoff": 50,
+    "grounded": 64,
+    "local": 34,
+    "unreachable": 16,
+    "reachable_at_all": 159,
+    "needs_a_paid_call": 125,
+    "this_skill_answers": 109
+  },
+  "by_template": {
+    "local_reasoning": 34,
+    "site_page_lookup": 26,
+    "undiscoverable": 16,
+    "handoff": 50,
+    "open_web_fact": 42,
+    "funding_history": 5,
+    "youtube_presence": 1,
+    "page_read": 1
+  },
+  "handoff_targets": {
+    "account-research": 21,
+    "build-prospect-list": 3,
+    "enrich-waterfall": 15,
+    "list-hygiene": 6,
+    "tam-map": 2,
+    "signal-watch": 3
+  },
+  "prompts": [
+    {
+      "i": 0,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 1,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 2,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 3,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 4,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 5,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 6,
+      "tier": "unreachable",
+      "owned_by_research_agent": true,
+      "template": "undiscoverable",
+      "endpoints": [],
+      "why": "private operational data — fleet size is not published anywhere the pack can read"
+    },
+    {
+      "i": 7,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "account-research",
+      "endpoints": [
+        "enrich_company"
+      ]
+    },
+    {
+      "i": 8,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "account-research",
+      "endpoints": [
+        "web_social_links"
+      ]
+    },
+    {
+      "i": 9,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 10,
+      "tier": "unreachable",
+      "owned_by_research_agent": true,
+      "template": "undiscoverable",
+      "endpoints": [],
+      "why": "the body of an SEC filing; no filings endpoint, and web_scrape does not read a PDF"
+    },
+    {
+      "i": 11,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "build-prospect-list",
+      "endpoints": [
+        "lead_search"
+      ]
+    },
+    {
+      "i": 12,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "enrich-waterfall",
+      "endpoints": [
+        "enrich_profile"
+      ]
+    },
+    {
+      "i": 13,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "enrich-waterfall",
+      "endpoints": [
+        "enrich_profile"
+      ]
+    },
+    {
+      "i": 14,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 15,
+      "tier": "unreachable",
+      "owned_by_research_agent": true,
+      "template": "undiscoverable",
+      "endpoints": [],
+      "why": "a design rating needs a rendered page; web_scrape returns markup, not pixels"
+    },
+    {
+      "i": 16,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 17,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "list-hygiene",
+      "endpoints": [
+        "find_redirect"
+      ]
+    },
+    {
+      "i": 18,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "list-hygiene",
+      "endpoints": [
+        "find_redirect"
+      ]
+    },
+    {
+      "i": 19,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 20,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "list-hygiene",
+      "endpoints": [
+        "find_redirect"
+      ]
+    },
+    {
+      "i": 21,
+      "tier": "unreachable",
+      "owned_by_research_agent": true,
+      "template": "undiscoverable",
+      "endpoints": [],
+      "why": "a private energy contract"
+    },
+    {
+      "i": 22,
+      "tier": "unreachable",
+      "owned_by_research_agent": true,
+      "template": "undiscoverable",
+      "endpoints": [],
+      "why": "private financial data"
+    },
+    {
+      "i": 23,
+      "tier": "unreachable",
+      "owned_by_research_agent": true,
+      "template": "undiscoverable",
+      "endpoints": [],
+      "why": "private operational data"
+    },
+    {
+      "i": 24,
+      "tier": "unreachable",
+      "owned_by_research_agent": true,
+      "template": "undiscoverable",
+      "endpoints": [],
+      "why": "private operational data"
+    },
+    {
+      "i": 25,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "build-prospect-list",
+      "endpoints": [
+        "linkedin_company_search"
+      ]
+    },
+    {
+      "i": 26,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "enrich-waterfall",
+      "endpoints": [
+        "enrich_profile"
+      ]
+    },
+    {
+      "i": 27,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "enrich-waterfall",
+      "endpoints": [
+        "find_linkedin_url_by_name"
+      ]
+    },
+    {
+      "i": 28,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "build-prospect-list",
+      "endpoints": [
+        "lead_search"
+      ]
+    },
+    {
+      "i": 29,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 30,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 31,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "account-research",
+      "endpoints": [
+        "web_tech_stack"
+      ]
+    },
+    {
+      "i": 32,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 33,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 34,
+      "tier": "unreachable",
+      "owned_by_research_agent": true,
+      "template": "undiscoverable",
+      "endpoints": [],
+      "why": "the body of an SEC filing"
+    },
+    {
+      "i": 35,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 36,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "account-research",
+      "endpoints": [
+        "enrich_company"
+      ]
+    },
+    {
+      "i": 37,
+      "tier": "routed",
+      "owned_by_research_agent": true,
+      "template": "funding_history",
+      "endpoints": [
+        "crunchbase_company_scraper_sync"
+      ]
+    },
+    {
+      "i": 38,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 39,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 40,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "account-research",
+      "endpoints": [
+        "enrich_company"
+      ]
+    },
+    {
+      "i": 41,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 42,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 43,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 44,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 45,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "account-research",
+      "endpoints": [
+        "profile_activities"
+      ]
+    },
+    {
+      "i": 46,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "account-research",
+      "endpoints": [
+        "enrich_company"
+      ]
+    },
+    {
+      "i": 47,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 48,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "enrich-waterfall",
+      "endpoints": [
+        "enrich_profile"
+      ]
+    },
+    {
+      "i": 49,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "enrich-waterfall",
+      "endpoints": [
+        "find_linkedin_url_by_name"
+      ]
+    },
+    {
+      "i": 50,
+      "tier": "unreachable",
+      "owned_by_research_agent": true,
+      "template": "undiscoverable",
+      "endpoints": [],
+      "why": "an internal reporting edge; this is /org-map's Iron Law and its answer is not_found"
+    },
+    {
+      "i": 51,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 52,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 53,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 54,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 55,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "account-research",
+      "endpoints": [
+        "web_social_links"
+      ]
+    },
+    {
+      "i": 56,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 57,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 58,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 59,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 60,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 61,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 62,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 63,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 64,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 65,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 66,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "account-research",
+      "endpoints": [
+        "web_tech_stack"
+      ]
+    },
+    {
+      "i": 67,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 68,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 69,
+      "tier": "routed",
+      "owned_by_research_agent": true,
+      "template": "funding_history",
+      "endpoints": [
+        "crunchbase_company_scraper_sync"
+      ]
+    },
+    {
+      "i": 70,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 71,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "account-research",
+      "endpoints": [
+        "web_tech_stack"
+      ]
+    },
+    {
+      "i": 72,
+      "tier": "unreachable",
+      "owned_by_research_agent": true,
+      "template": "undiscoverable",
+      "endpoints": [],
+      "why": "no whois or DNS endpoint exists in the catalog"
+    },
+    {
+      "i": 73,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 74,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 75,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 76,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "account-research",
+      "endpoints": [
+        "enrich_company"
+      ]
+    },
+    {
+      "i": 77,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 78,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 79,
+      "tier": "routed",
+      "owned_by_research_agent": true,
+      "template": "funding_history",
+      "endpoints": [
+        "crunchbase_company_scraper_sync"
+      ]
+    },
+    {
+      "i": 80,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 81,
+      "tier": "unreachable",
+      "owned_by_research_agent": true,
+      "template": "undiscoverable",
+      "endpoints": [],
+      "why": "private valuations; a YoY change needs two of them"
+    },
+    {
+      "i": 82,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "account-research",
+      "endpoints": [
+        "enrich_company"
+      ]
+    },
+    {
+      "i": 83,
+      "tier": "routed",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls"
+      ]
+    },
+    {
+      "i": 84,
+      "tier": "routed",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 85,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "account-research",
+      "endpoints": [
+        "web_emails"
+      ]
+    },
+    {
+      "i": 86,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "account-research",
+      "endpoints": [
+        "web_meta_tags"
+      ]
+    },
+    {
+      "i": 87,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "account-research",
+      "endpoints": [
+        "enrich_company"
+      ]
+    },
+    {
+      "i": 88,
+      "tier": "unreachable",
+      "owned_by_research_agent": true,
+      "template": "undiscoverable",
+      "endpoints": [],
+      "why": "an economic judgement, not a retrievable fact"
+    },
+    {
+      "i": 89,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 90,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 91,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 92,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "tam-map",
+      "endpoints": [
+        "linkedin_company_search"
+      ]
+    },
+    {
+      "i": 93,
+      "tier": "unreachable",
+      "owned_by_research_agent": true,
+      "template": "undiscoverable",
+      "endpoints": [],
+      "why": "internal org design; not published"
+    },
+    {
+      "i": 94,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "enrich-waterfall",
+      "endpoints": [
+        "find_website_by_company_name"
+      ]
+    },
+    {
+      "i": 95,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "account-research",
+      "endpoints": [
+        "web_social_links"
+      ]
+    },
+    {
+      "i": 96,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "account-research",
+      "endpoints": [
+        "web_social_links"
+      ]
+    },
+    {
+      "i": 97,
+      "tier": "routed",
+      "owned_by_research_agent": true,
+      "template": "youtube_presence",
+      "endpoints": [
+        "youtube_search"
+      ]
+    },
+    {
+      "i": 98,
+      "tier": "routed",
+      "owned_by_research_agent": true,
+      "template": "funding_history",
+      "endpoints": [
+        "crunchbase_company_scraper_sync"
+      ]
+    },
+    {
+      "i": 99,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 100,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 101,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "account-research",
+      "endpoints": [
+        "enrich_company"
+      ]
+    },
+    {
+      "i": 102,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 103,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 104,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "enrich-waterfall",
+      "endpoints": [
+        "find_website_by_company_name"
+      ]
+    },
+    {
+      "i": 105,
+      "tier": "routed",
+      "owned_by_research_agent": true,
+      "template": "funding_history",
+      "endpoints": [
+        "crunchbase_company_scraper_sync"
+      ]
+    },
+    {
+      "i": 106,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 107,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 108,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 109,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 110,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 111,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 112,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 113,
+      "tier": "unreachable",
+      "owned_by_research_agent": true,
+      "template": "undiscoverable",
+      "endpoints": [],
+      "why": "the body of an SEC filing"
+    },
+    {
+      "i": 114,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 115,
+      "tier": "routed",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls"
+      ]
+    },
+    {
+      "i": 116,
+      "tier": "unreachable",
+      "owned_by_research_agent": true,
+      "template": "undiscoverable",
+      "endpoints": [],
+      "why": "an MX lookup; no DNS endpoint exists in the catalog"
+    },
+    {
+      "i": 117,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "list-hygiene",
+      "endpoints": [
+        "normalize_company"
+      ]
+    },
+    {
+      "i": 118,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "enrich-waterfall",
+      "endpoints": [
+        "find_website_by_company_name"
+      ]
+    },
+    {
+      "i": 119,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 120,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "list-hygiene",
+      "endpoints": [
+        "find_redirect"
+      ]
+    },
+    {
+      "i": 121,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 122,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 123,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "list-hygiene",
+      "endpoints": [
+        "identify_email_type"
+      ]
+    },
+    {
+      "i": 124,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 125,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "signal-watch",
+      "endpoints": [
+        "linkedin_job_detail"
+      ]
+    },
+    {
+      "i": 126,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 127,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 128,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 129,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 130,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 131,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "account-research",
+      "endpoints": [
+        "enrich_company"
+      ]
+    },
+    {
+      "i": 132,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "signal-watch",
+      "endpoints": [
+        "linkedin_job_detail"
+      ]
+    },
+    {
+      "i": 133,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "enrich-waterfall",
+      "endpoints": [
+        "enrich_profile"
+      ]
+    },
+    {
+      "i": 134,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "enrich-waterfall",
+      "endpoints": [
+        "enrich_profile"
+      ]
+    },
+    {
+      "i": 135,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 136,
+      "tier": "unreachable",
+      "owned_by_research_agent": true,
+      "template": "undiscoverable",
+      "endpoints": [],
+      "why": "needs a review corpus (G2/Trustpilot); google_maps_reviews covers physical places only"
+    },
+    {
+      "i": 137,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "account-research",
+      "endpoints": [
+        "web_meta_tags"
+      ]
+    },
+    {
+      "i": 138,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 139,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 140,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 141,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "signal-watch",
+      "endpoints": [
+        "linkedin_job_detail"
+      ]
+    },
+    {
+      "i": 142,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "enrich-waterfall",
+      "endpoints": [
+        "enrich_profile"
+      ]
+    },
+    {
+      "i": 143,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "enrich-waterfall",
+      "endpoints": [
+        "enrich_profile"
+      ]
+    },
+    {
+      "i": 144,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 145,
+      "tier": "routed",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls"
+      ]
+    },
+    {
+      "i": 146,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "enrich-waterfall",
+      "endpoints": [
+        "enrich_profile"
+      ]
+    },
+    {
+      "i": 147,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "enrich-waterfall",
+      "endpoints": [
+        "enrich_profile"
+      ]
+    },
+    {
+      "i": 148,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 149,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 150,
+      "tier": "routed",
+      "owned_by_research_agent": true,
+      "template": "page_read",
+      "endpoints": [
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 151,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "account-research",
+      "endpoints": [
+        "linkedin_company_posts"
+      ]
+    },
+    {
+      "i": 152,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 153,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 154,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 155,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 156,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 157,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "site_page_lookup",
+      "endpoints": [
+        "find_sitemap_urls",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 158,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 159,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 160,
+      "tier": "routed",
+      "owned_by_research_agent": false,
+      "template": "handoff",
+      "handoff_to": "tam-map",
+      "endpoints": [
+        "google_maps_places_scraper_keyword"
+      ]
+    },
+    {
+      "i": 161,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 162,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 163,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 164,
+      "tier": "grounded",
+      "owned_by_research_agent": true,
+      "template": "open_web_fact",
+      "endpoints": [
+        "google_search_scraper_sync",
+        "web_scrape"
+      ]
+    },
+    {
+      "i": 165,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 166,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 167,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 168,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 169,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 170,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 171,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 172,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 173,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    },
+    {
+      "i": 174,
+      "tier": "local",
+      "owned_by_research_agent": true,
+      "template": "local_reasoning",
+      "endpoints": []
+    }
+  ]
+}

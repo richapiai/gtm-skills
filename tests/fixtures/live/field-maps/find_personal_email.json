@@ -1,0 +1,24 @@
+{
+  "endpoint": "find_personal_email",
+  "path": "/find_personal_email",
+  "field_map_status": "live_fixture",
+  "field_map": {
+    "id": "id",
+    "status": "status"
+  },
+  "observed_types": {
+    "id": "string",
+    "data": "object",
+    "status": "string"
+  },
+  "unmapped_keys": [
+    "data"
+  ],
+  "sample_status": "hit",
+  "billing_field": null,
+  "billing_field_present_in_response": null,
+  "captured_at": "2026-09-17T16:20:06.586Z",
+  "spec_sha256": "c17a0e7f756abb976e66337c110fd62357324ce7f1fce88c2c5c9ea35d96e171",
+  "source": "live_capture",
+  "field_map_derived": true
+}

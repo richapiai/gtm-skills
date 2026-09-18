@@ -1,0 +1,57 @@
+{
+  "endpoint": "linkedin_company_search",
+  "path": "/linkedin_company_search",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:47:30.239Z",
+  "redacted": true,
+  "body": {
+    "pagination": {
+      "totalElements": 1000,
+      "totalPages": 20,
+      "pageNumber": 1,
+      "previousElements": 0,
+      "pageSize": 50,
+      "totalResultCount": 31808
+    },
+    "elements": [
+      {
+        "id": "27023063",
+        "universalName": "sales-intelligence-pl",
+        "linkedinUrl": "https://www.linkedin.com/in/REDACTED/",
+        "name": "REDACTED",
+        "industry": "Marketing Services",
+        "location": {
+          "linkedinText": "Rybnik, Śląskie"
+        },
+        "followers": "600 followers",
+        "summary": "REDACTED",
+        "logo": "https://media.example.invalid/REDACTED"
+      },
+      {
+        "id": "105230311",
+        "universalName": "sales-intelligence-io",
+        "linkedinUrl": "https://www.linkedin.com/in/REDACTED/",
+        "name": "REDACTED",
+        "industry": "Software Development",
+        "location": {},
+        "followers": "84 followers",
+        "summary": "REDACTED",
+        "logo": "https://media.example.invalid/REDACTED"
+      },
+      {
+        "id": "5053151",
+        "universalName": "salesintelligence-by-altares",
+        "linkedinUrl": "https://www.linkedin.com/in/REDACTED/",
+        "name": "REDACTED",
+        "industry": "Advertising Services",
+        "location": {
+          "linkedinText": "13090"
+        },
+        "followers": "5K followers",
+        "summary": "REDACTED",
+        "logo": "https://media.example.invalid/REDACTED"
+      }
+    ],
+    "error": null
+  }
+}

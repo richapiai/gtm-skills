@@ -1,0 +1,15 @@
+{
+  "endpoint": "linkedin_ad_search",
+  "path": "/linkedin_ad_search",
+  "field_map_status": "TODO_no_usable_example",
+  "field_map": null,
+  "observed_types": {},
+  "unmapped_keys": [],
+  "sample_status": "http_error",
+  "billing_field": "elements",
+  "billing_field_present_in_response": true,
+  "captured_at": "2026-09-17T16:23:15.331Z",
+  "spec_sha256": "c17a0e7f756abb976e66337c110fd62357324ce7f1fce88c2c5c9ea35d96e171",
+  "source": "live_capture",
+  "field_map_derived": false
+}

@@ -1,0 +1,635 @@
+{
+  "_provenance": "VERBATIM tool rows from GET https://api.richapi.ai/api/v1/catalog, fetched 2026-08-30 with no API key (HTTP 200), sliced to the same 10 endpoints as pinned-baseline.json. Adapting this payload reproduces pinned-baseline.json exactly, so a diff against it is zero — that is the fidelity test the mutation fixtures are all deltas on.",
+  "tools": [
+    {
+      "name": "ai_enrich",
+      "api_path": "ai_enrich",
+      "description": "Run an LLM completion against the configured AI provider (OpenAI, Anthropic, Gemini, or Perplexity). Used for classification, extraction, summarization, etc.",
+      "input_schema": {
+        "provider": {
+          "type": "string",
+          "required": true,
+          "description": "AI provider: openai, anthropic, gemini, or perplexity"
+        },
+        "prompt": {
+          "type": "string",
+          "required": true,
+          "description": "Prompt template; use {{fieldName}} placeholders for dynamic values"
+        },
+        "model": {
+          "type": "string",
+          "required": false,
+          "description": "Model override; defaults to provider default model"
+        },
+        "temperature": {
+          "type": "float",
+          "required": false,
+          "description": "Sampling temperature between 0 and 2"
+        },
+        "context": {
+          "type": "object",
+          "required": false,
+          "description": "Key-value pairs used for {{placeholder}} substitution in the prompt"
+        },
+        "system_prompt": {
+          "type": "string",
+          "required": false,
+          "description": "Optional system prompt or instructions"
+        },
+        "output_type": {
+          "type": "string",
+          "required": false,
+          "description": "Output format: text or json"
+        },
+        "output_schema": {
+          "type": "object",
+          "required": false,
+          "description": "JSON schema used to guide structured output when output_type is json"
+        },
+        "max_tokens": {
+          "type": "int",
+          "required": false,
+          "description": "Maximum output tokens; defaults to provider default"
+        },
+        "use_web_search": {
+          "type": "bool",
+          "required": false,
+          "description": "Enable web search when supported by the selected provider"
+        },
+        "search_domain_filter": {
+          "type": "array",
+          "required": false,
+          "description": "Perplexity only; limit search to specific domains"
+        },
+        "search_recency_filter": {
+          "type": "string",
+          "required": false,
+          "description": "Perplexity only; filter by recency: day, week, month, year"
+        }
+      },
+      "method": "POST",
+      "path_params": [],
+      "category": "AI",
+      "pricing": {
+        "credits_per_call": 2
+      },
+      "example_input": {
+        "output_schema": {
+          "properties": {
+            "reason": {
+              "type": "string"
+            },
+            "score": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "score",
+            "reason"
+          ],
+          "type": "object"
+        },
+        "output_type": "json",
+        "prompt": "Jane Smith — VP Sales at Acme — logistics SaaS, 200 employees",
+        "provider": "openai",
+        "system_prompt": "You are a B2B lead scorer. Return JSON matching the schema."
+      },
+      "next_steps": "Returns {result: <text or parsed JSON>}. When output_type='json', the response is already parsed — no extra parsing needed.",
+      "compact_support": false
+    },
+    {
+      "name": "clean_domain",
+      "api_path": "clean_domain",
+      "description": "Local utility endpoint.",
+      "input_schema": {
+        "messy_url": {
+          "type": "string",
+          "required": true,
+          "description": "URL or domain to normalize (e.g. https://www.Example.COM/page?q=1)"
+        }
+      },
+      "method": "POST",
+      "path_params": [],
+      "category": "Utilities",
+      "pricing": {
+        "credits_per_call": 0.5
+      },
+      "example_input": {
+        "messy_url": "https://www.acme.com/about?ref=google"
+      },
+      "next_steps": "Returns domain. Feed into email_finder, company_enricher, or web_scrape.",
+      "compact_support": false
+    },
+    {
+      "name": "enrich_profile",
+      "api_path": "enrich_profile",
+      "description": "Enrich a LinkedIn profile URL and return structured personal data: full name, headline, current role, company, location, industry, skills, education, and the LinkedIn URN needed for profile_activities. Cached ~24h by default (set useCache=false for fresh data).",
+      "input_schema": {
+        "url": {
+          "type": "string",
+          "required": true,
+          "description": "LinkedIn profile URL"
+        }
+      },
+      "method": "POST",
+      "path_params": [],
+      "category": "Enrichment",
+      "pricing": {
+        "credits_per_call": 1
+      },
+      "example_input": {
+        "url": "https://www.linkedin.com/in/satyanadella/"
+      },
+      "next_steps": "Returns {entityUrn, firstname, lastname, company.name, company.website, headline, ...}. Feed entityUrn into profile_activities for the person's posts/comments/reactions, or pipe firstname/lastname + company.website into email_finder.",
+      "compact_support": false
+    },
+    {
+      "name": "enrich_profiles_bulk",
+      "api_path": "enrich_profiles_bulk",
+      "description": "Bulk-enrich up to 50 LinkedIn profiles in a single call by entityUrn. 1 credit per RESULT returned, not per call — cheaper than calling enrich_profile in a loop when you have ≥10 URNs already.",
+      "input_schema": {
+        "urns": {
+          "type": "array",
+          "required": true,
+          "description": "List of LinkedIn entity URNs (max 50)"
+        }
+      },
+      "method": "POST",
+      "path_params": [],
+      "category": "Enrichment",
+      "pricing": {
+        "credits_per_result": 1,
+        "result_count_field": "_list_count"
+      },
+      "example_input": {
+        "urns": [
+          "ACoAAAGhXV8B9jFBu7w3NLhsepBqpzJ1FdGgkuA"
+        ]
+      },
+      "next_steps": "Returns an array of profile records. Missing URNs are silently skipped — diff the input and output to detect misses. Use enrich_profile for single lookups under ~5 URNs.",
+      "compact_support": false
+    },
+    {
+      "name": "lead_search",
+      "api_path": "lead_search",
+      "description": "Search LinkedIn leads (people) using seniority, title, function, industry, geography, and company filters. Costs 10 + (0.5 * returned results) credits.",
+      "input_schema": {
+        "search_query": {
+          "type": "text",
+          "required": false,
+          "description": "Fuzzy keyword search."
+        },
+        "sales_nav_url": {
+          "type": "text",
+          "required": false,
+          "description": "Full LinkedIn Sales Navigator search URL. May be combined with individual filters."
+        },
+        "locations": {
+          "type": "array",
+          "required": false,
+          "description": "Location names"
+        },
+        "geo_ids": {
+          "type": "array",
+          "required": false,
+          "description": "LinkedIn geo IDs or location names"
+        },
+        "seniority": {
+          "type": "array",
+          "required": false,
+          "description": "Seniority labels resolved to LinkedIn seniorityLevelIds."
+        },
+        "functions": {
+          "type": "array",
+          "required": false,
+          "description": "Job function labels resolved to LinkedIn functionIds."
+        },
+        "industries": {
+          "type": "array",
+          "required": false,
+          "description": "Industry labels resolved to LinkedIn industryIds."
+        },
+        "company_size": {
+          "type": "array",
+          "required": false,
+          "description": "Company size ranges."
+        },
+        "years_of_experience": {
+          "type": "array",
+          "required": false,
+          "description": "Experience range labels resolved to LinkedIn yearsOfExperienceIds."
+        },
+        "years_at_current_company": {
+          "type": "array",
+          "required": false,
+          "description": "Tenure range labels resolved to LinkedIn yearsAtCurrentCompanyIds."
+        },
+        "profile_languages": {
+          "type": "array",
+          "required": false,
+          "description": "Profile language labels resolved to language codes."
+        },
+        "current_companies": {
+          "type": "array",
+          "required": false,
+          "description": "Current company LinkedIn URLs or IDs."
+        },
+        "past_companies": {
+          "type": "array",
+          "required": false,
+          "description": "Past company LinkedIn URLs or IDs."
+        },
+        "current_job_titles": {
+          "type": "array",
+          "required": false,
+          "description": "Current job title filters."
+        },
+        "past_job_titles": {
+          "type": "array",
+          "required": false,
+          "description": "Past job title filters."
+        },
+        "first_names": {
+          "type": "array",
+          "required": false,
+          "description": "First name filters."
+        },
+        "last_names": {
+          "type": "array",
+          "required": false,
+          "description": "Last name filters."
+        },
+        "schools": {
+          "type": "array",
+          "required": false,
+          "description": "School LinkedIn URLs or IDs."
+        },
+        "recently_changed_jobs": {
+          "type": "bool",
+          "required": false,
+          "description": "Filter for people who recently changed jobs."
+        },
+        "company_headquarter_locations": {
+          "type": "array",
+          "required": false,
+          "description": "Company headquarters location filters."
+        },
+        "exclude_seniority": {
+          "type": "array",
+          "required": false,
+          "description": "Seniority labels to exclude."
+        },
+        "exclude_industries": {
+          "type": "array",
+          "required": false,
+          "description": "Industry labels to exclude."
+        },
+        "exclude_functions": {
+          "type": "array",
+          "required": false,
+          "description": "Job function labels to exclude."
+        },
+        "exclude_locations": {
+          "type": "array",
+          "required": false,
+          "description": "Location text values to exclude."
+        },
+        "exclude_geo_ids": {
+          "type": "array",
+          "required": false,
+          "description": "LinkedIn geo IDs or location names to exclude."
+        },
+        "exclude_current_companies": {
+          "type": "array",
+          "required": false,
+          "description": "Current company LinkedIn URLs or IDs to exclude."
+        },
+        "exclude_past_companies": {
+          "type": "array",
+          "required": false,
+          "description": "Past company LinkedIn URLs or IDs to exclude."
+        },
+        "exclude_current_job_titles": {
+          "type": "array",
+          "required": false,
+          "description": "Current job titles to exclude."
+        },
+        "exclude_past_job_titles": {
+          "type": "array",
+          "required": false,
+          "description": "Past job titles to exclude."
+        },
+        "exclude_schools": {
+          "type": "array",
+          "required": false,
+          "description": "School LinkedIn URLs or IDs to exclude."
+        },
+        "exclude_company_headquarter_locations": {
+          "type": "array",
+          "required": false,
+          "description": "Company headquarters locations to exclude."
+        },
+        "page": {
+          "type": "int",
+          "required": false,
+          "description": "Positive page number for pagination. Defaults to 1."
+        },
+        "session_id": {
+          "type": "text",
+          "required": false,
+          "description": "Optional unique ID used to keep pagination requests on the same scraping resource. Generate a random string (for example, a UUID) and send the same value with each page request"
+        }
+      },
+      "method": "POST",
+      "path_params": [],
+      "category": "Leads",
+      "pricing": {
+        "base_credits_per_call": 10,
+        "credits_per_result": 0.5,
+        "result_count_field": "elements"
+      },
+      "example_input": {
+        "locations": [
+          "United States"
+        ],
+        "seniority": [
+          "Senior",
+          "Director"
+        ],
+        "page": 1
+      },
+      "next_steps": "Feed results into email_finder or enrich_profile for contact data.",
+      "compact_support": false
+    },
+    {
+      "name": "people_search",
+      "api_path": "people_search",
+      "description": "Search 700M+ indexed LinkedIn profiles by job title, seniority, industry, company, or location. Returns a paginated list of profile previews. 0.1 credits per result returned.",
+      "input_schema": {
+        "page": {
+          "type": "int",
+          "required": true,
+          "description": "Page number, zero-based."
+        },
+        "limit": {
+          "type": "int",
+          "required": true,
+          "description": "Number of items per page."
+        },
+        "linkedin": {
+          "type": "array",
+          "required": false,
+          "description": "LinkedIn account URLs."
+        },
+        "domain": {
+          "type": "array",
+          "required": false,
+          "description": "Company domains."
+        },
+        "industry": {
+          "type": "array",
+          "required": false,
+          "description": "Industry names."
+        },
+        "employee_size_start": {
+          "type": "int",
+          "required": false,
+          "description": "Minimum employee count."
+        },
+        "employee_size_end": {
+          "type": "int",
+          "required": false,
+          "description": "Maximum employee count."
+        },
+        "job_title": {
+          "type": "array",
+          "required": false,
+          "description": "Job titles to match."
+        },
+        "location": {
+          "type": "array",
+          "required": false,
+          "description": "Locations to match."
+        }
+      },
+      "method": "POST",
+      "path_params": [],
+      "category": "Search",
+      "pricing": {
+        "credits_per_result": 0.1,
+        "result_count_field": "numberOfElements"
+      },
+      "example_input": {
+        "account": {
+          "industry": [
+            "software development"
+          ]
+        },
+        "contact": {
+          "jobTitle": [
+            "founder"
+          ],
+          "location": [
+            "united states"
+          ]
+        },
+        "page": 0,
+        "size": 10
+      },
+      "next_steps": "Feed linkedin_url values into enrich_profile for fuller records, or into email_finder with the company domain.",
+      "compact_support": false
+    },
+    {
+      "name": "phone_finder",
+      "api_path": "phone_finder",
+      "description": "Find a mobile phone number from a LinkedIn profile URL. Returns the first match found across multiple providers.",
+      "input_schema": {
+        "linkedin_url": {
+          "type": "string",
+          "required": false,
+          "description": "LinkedIn profile URL (preferred)"
+        },
+        "first_name": {
+          "type": "string",
+          "required": false,
+          "description": "First name (required if no linkedin_url)"
+        },
+        "last_name": {
+          "type": "string",
+          "required": false,
+          "description": "Last name (required if no linkedin_url)"
+        },
+        "domain": {
+          "type": "string",
+          "required": false,
+          "description": "Company domain (required if no linkedin_url)"
+        }
+      },
+      "method": "POST",
+      "path_params": [],
+      "category": "Enrichment",
+      "pricing": {
+        "credits_per_call": 25
+      },
+      "example_input": {
+        "linkedin_url": "https://www.linkedin.com/in/satyanadella/"
+      },
+      "next_steps": "Returns result.phone. Soft-fail means no mobile on file — do not retry with same inputs.",
+      "compact_support": false
+    },
+    {
+      "name": "profile_search",
+      "api_path": "profile_search",
+      "description": "Live LinkedIn profile search by name, title, current company, or keywords. Lower latency but smaller filter surface than people_search. 0.1 credits per result.",
+      "input_schema": {
+        "search": {
+          "type": "string",
+          "required": false,
+          "description": "Name to search (supports fuzzy matching)"
+        },
+        "first_name": {
+          "type": "string",
+          "required": false,
+          "description": "Strict first-name filter"
+        },
+        "last_name": {
+          "type": "string",
+          "required": false,
+          "description": "Strict last-name filter"
+        },
+        "title": {
+          "type": "string",
+          "required": false,
+          "description": "Job title filter"
+        },
+        "current_company": {
+          "type": "string",
+          "required": false,
+          "description": "Company ID or LinkedIn URL; comma-separated for multiple"
+        },
+        "past_company": {
+          "type": "string",
+          "required": false,
+          "description": "Past company ID or URL; comma-separated for multiple"
+        },
+        "school": {
+          "type": "string",
+          "required": false,
+          "description": "School ID or URL; comma-separated for multiple"
+        },
+        "location": {
+          "type": "string",
+          "required": false,
+          "description": "Location text (LinkedIn autocomplete)"
+        },
+        "geo_id": {
+          "type": "string",
+          "required": false,
+          "description": "LinkedIn Geo ID — overrides location; use geo_id_search to resolve"
+        },
+        "industry_id": {
+          "type": "string",
+          "required": false,
+          "description": "Industry ID; comma-separated for multiple"
+        },
+        "page": {
+          "type": "int",
+          "required": false,
+          "description": "Page number for pagination (1-based)"
+        },
+        "follower_of": {
+          "type": "string",
+          "required": false,
+          "description": "Filter profiles following a LinkedIn profile. URL or ID. Comma-separated."
+        },
+        "keywords_company": {
+          "type": "string",
+          "required": false,
+          "description": "Keyword filter on company name"
+        },
+        "keywords_school": {
+          "type": "string",
+          "required": false,
+          "description": "Keyword filter on school name"
+        }
+      },
+      "method": "POST",
+      "path_params": [],
+      "category": "Search",
+      "pricing": {
+        "credits_per_result": 0.1,
+        "result_count_field": "elements"
+      },
+      "example_input": {
+        "currentCompany": "Microsoft",
+        "search": "Satya Nadella"
+      },
+      "next_steps": "Returns a list of profile hits. When multiple people share a name, always pass currentCompany to disambiguate — otherwise take the top hit at your own risk.",
+      "compact_support": false
+    },
+    {
+      "name": "profile_social_metrics",
+      "api_path": "profile_social_metrics",
+      "description": "API endpoint: profile_social_metrics",
+      "input_schema": {
+        "url": {
+          "type": "string",
+          "required": true,
+          "description": "LinkedIn profile URL to retrieve social metrics for."
+        },
+        "useCache": {
+          "type": "bool",
+          "required": false,
+          "description": "Use the provider's cached profile data when available."
+        }
+      },
+      "method": "POST",
+      "path_params": [],
+      "category": "Enrichment",
+      "pricing": {
+        "credits_per_call": 1
+      },
+      "example_input": {
+        "url": "https://microsoft.com"
+      },
+      "compact_support": false
+    },
+    {
+      "name": "web_scrape",
+      "api_path": "web_scrape",
+      "description": "Fetch the full HTML of a page, optionally also rendering Markdown. 2 credits per call. Use for contextual grounding before summarisation.",
+      "input_schema": {
+        "url": {
+          "type": "string",
+          "required": true,
+          "description": "URL of the page to scrape"
+        },
+        "formats": {
+          "type": "array",
+          "required": false,
+          "description": "Output formats to include (e.g. html, markdown, links)"
+        },
+        "cache": {
+          "type": "bool",
+          "required": false,
+          "description": "Use cached data if available"
+        }
+      },
+      "method": "POST",
+      "path_params": [],
+      "category": "Web Scraping",
+      "pricing": {
+        "credits_per_call": 1
+      },
+      "example_input": {
+        "formats": [
+          "markdown"
+        ],
+        "url": "https://microsoft.com"
+      },
+      "next_steps": "Returns {html, markdown}. Pipe markdown into ai_enrich for summarisation.",
+      "compact_support": false
+    }
+  ],
+  "total": 10
+}

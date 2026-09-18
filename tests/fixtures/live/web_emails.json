@@ -1,0 +1,19 @@
+{
+  "endpoint": "web_emails",
+  "path": "/web_emails",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:36:25.988Z",
+  "redacted": true,
+  "body": {
+    "data": {
+      "emails": [],
+      "pages_crawled": 1,
+      "pages_scraped_via_firecrawl": 1
+    },
+    "meta": {
+      "cache_hit": false,
+      "execution_time_ms": 1535,
+      "quality_warning": "Page returned no relevant data"
+    }
+  }
+}

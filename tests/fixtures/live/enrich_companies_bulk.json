@@ -1,0 +1,158 @@
+{
+  "endpoint": "enrich_companies_bulk",
+  "path": "/enrich_companies_bulk",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:46:58.402Z",
+  "redacted": true,
+  "body": [
+    {
+      "url": "https://www.linkedin.com/in/REDACTED/",
+      "name": "REDACTED",
+      "universalName": "microsoft",
+      "type": "Public Company",
+      "objectUrn": 0,
+      "description": "Every company has a mission. What's ours? To empower every person and every organization to achieve more. We believe technology can and should be a force for good and that meaningful innovation contributes to a brighter world in the futu...",
+      "phone": null,
+      "followers": 29109809,
+      "website": "https://news.microsoft.com/",
+      "logo": "https://media.example.invalid/REDACTED",
+      "cover": "https://media.example.invalid/REDACTED",
+      "tagline": null,
+      "foundedYear": null,
+      "staff": {
+        "total": 232018,
+        "range": {
+          "start": 10001,
+          "end": null
+        }
+      },
+      "locations": {
+        "headquarter": {
+          "country": "US",
+          "geographicArea": "Washington",
+          "city": "Redmond",
+          "postalCode": "98052",
+          "line1": "1 Microsoft Way",
+          "line2": null,
+          "isPrimary": null
+        },
+        "other": [
+          {
+            "country": "US",
+            "geographicArea": "Washington",
+            "city": "Redmond",
+            "postalCode": "98052",
+            "line1": "1 Microsoft Way",
+            "line2": null,
+            "isPrimary": null
+          },
+          {
+            "country": "AU",
+            "geographicArea": "NSW",
+            "city": "North Sydney",
+            "postalCode": "2060",
+            "line1": "1 Denison Street ",
+            "line2": null,
+            "isPrimary": null
+          },
+          {
+            "country": "CA",
+            "geographicArea": "Ontario",
+            "city": "Mississauga",
+            "postalCode": "L5N 8L9",
+            "line1": "1950 Meadowvale Blvd",
+            "line2": null,
+            "isPrimary": null
+          }
+        ]
+      },
+      "fundingData": null,
+      "specialities": [
+        "Business Software",
+        "Developer Tools",
+        "Home & Educational Software"
+      ],
+      "industries": [
+        "Software Development"
+      ],
+      "hashtags": [
+        "microsoftlife",
+        "microsoft"
+      ]
+    },
+    {
+      "url": "https://www.linkedin.com/in/REDACTED/",
+      "name": "REDACTED",
+      "universalName": "google",
+      "type": "Public Company",
+      "objectUrn": 0,
+      "description": "A problem isn't truly solved until it's solved for all. Googlers build products that help create opportunities for everyone, whether down the street or across the globe. Bring your insight, imagination and a healthy disregard for the imp...",
+      "phone": null,
+      "followers": 42380347,
+      "website": "https://goo.gle/3DLEokh",
+      "logo": "https://media.example.invalid/REDACTED",
+      "cover": "https://media.example.invalid/REDACTED",
+      "tagline": null,
+      "foundedYear": null,
+      "staff": {
+        "total": 294065,
+        "range": {
+          "start": 10001,
+          "end": null
+        }
+      },
+      "locations": {
+        "headquarter": {
+          "country": "US",
+          "geographicArea": "CA",
+          "city": "Mountain View",
+          "postalCode": "94043",
+          "line1": "1600 Amphitheatre Parkway",
+          "line2": null,
+          "isPrimary": null
+        },
+        "other": [
+          {
+            "country": "US",
+            "geographicArea": "CA",
+            "city": "Mountain View",
+            "postalCode": "94043",
+            "line1": "1600 Amphitheatre Parkway",
+            "line2": null,
+            "isPrimary": null
+          },
+          {
+            "country": "US",
+            "geographicArea": "NY",
+            "city": "New York",
+            "postalCode": "10011",
+            "line1": "111 8th Ave",
+            "line2": null,
+            "isPrimary": null
+          },
+          {
+            "country": "NL",
+            "geographicArea": "North Holland",
+            "city": "Amsterdam",
+            "postalCode": "1082 MD",
+            "line1": "Claude Debussylaan 34",
+            "line2": null,
+            "isPrimary": null
+          }
+        ]
+      },
+      "fundingData": null,
+      "specialities": [
+        "search",
+        "ads",
+        "mobile"
+      ],
+      "industries": [
+        "Software Development"
+      ],
+      "hashtags": [
+        "google"
+      ]
+    }
+  ]
+}

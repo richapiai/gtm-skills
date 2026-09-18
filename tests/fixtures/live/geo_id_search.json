@@ -1,0 +1,12 @@
+{
+  "endpoint": "geo_id_search",
+  "path": "/geo_id_search",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:20:19.843Z",
+  "redacted": true,
+  "body": {
+    "elements": [],
+    "pagination": null,
+    "error": null
+  }
+}

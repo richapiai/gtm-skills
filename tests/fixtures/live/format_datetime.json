@@ -1,0 +1,27 @@
+{
+  "endpoint": "format_datetime",
+  "path": "/format_datetime",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:41:22.303Z",
+  "redacted": true,
+  "body": {
+    "formatted_date": "2026-08-28 00:00:00",
+    "localized_short_date": "08/28/2026",
+    "localized_date_with_month_name": "REDACTED",
+    "localized_date_with_weekday": "Friday, August 28, 2026",
+    "full_date_time": "2026-08-28 00:00:00",
+    "localized_time": "12:00:00 AM",
+    "localized_date_time": "August 28, 2026 12:00:00 AM",
+    "month_name": "REDACTED",
+    "time": "00:00:00",
+    "year": 2026,
+    "short_year": 26,
+    "day": 28,
+    "month_number": 8,
+    "unix_timestamp": 1787875200,
+    "original_input": "2026-08-28T00:00:00Z",
+    "parsed_successfully": true,
+    "applied_timezone": "UTC",
+    "applied_locale": "en"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "endpoint": "identify_email_type",
+  "path": "/identify_email_type",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:22:53.329Z",
+  "redacted": true,
+  "body": {
+    "guessed_name": "REDACTED",
+    "address": "REDACTED",
+    "username": "REDACTED",
+    "domain": "richapi.ai",
+    "email_provider": "redacted@example.invalid",
+    "is_gmail": false,
+    "is_hotmail": false,
+    "is_yahoo": false,
+    "is_icloud": false,
+    "is_proton": false,
+    "is_yandex": false,
+    "is_likely_education_email": false,
+    "is_likely_personal_email": false,
+    "is_likely_company_email": true
+  }
+}

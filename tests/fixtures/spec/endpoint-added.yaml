@@ -1,0 +1,1203 @@
+# ===========================================================================
+# FIXTURE: endpoint-added  —  a new endpoint appears
+# ===========================================================================
+# DIFF DIRECTION:  baseline = current.yaml   candidate = THIS FILE
+#
+# DELTA (exactly one): + /slack_channel_members  (2 credits / call, flat)
+#
+# Grounded in reality: 15 endpoints really appeared in the 2026-05 -> 2026-08
+# window, and /slack_channel_members is one of them. The block below is a
+# byte-identical slice of the pinned spec.
+#
+# MUST TRIP: the owner gate — the endpoint appears in neither `endpoints:` nor
+# `unclaimed:` of _lib/endpoint-owners.yaml, so CI must fail UNMAPPED. The
+# catalog diff must additionally report it as a non-blocking ADDED finding.
+#
+# WHAT BREAKING THIS MEANS: a new paid endpoint can land in the catalog with
+# no owner and no reviewed cost. That is how a skill starts quoting a price
+# nobody checked.
+# ===========================================================================
+openapi: 3.1.0
+info:
+  title: RichAPI API
+  version: 1.0.0
+  description: Public endpoint reference.
+servers:
+  - url: https://api.richapi.ai/api/v1
+paths:
+  /clean_domain:
+    post:
+      operationId: clean_domain
+      summary: Clean Domain
+      description: |-
+        Normalize a messy URL or domain string to a clean root domain.
+
+        **Pricing:** 0.5 credits per call
+      tags:
+        - Utilities
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                messy_url:
+                  type: string
+                  description: URL or domain to normalize (e.g. https://www.Example.COM/page?q=1)
+              required:
+                - messy_url
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                clean_domain: acme.com
+                clean_url: https://www.acme.com
+                validated_domain: true
+        4XX:
+          description: Client error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        5XX:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+      security:
+        - API Key: []
+      x-pricing:
+        credits_per_call: 0.5
+  /email_finder:
+    post:
+      operationId: email_finder
+      summary: Email Finder
+      description: >-
+        Find a verified work email using name, domain, or LinkedIn URL. Tries
+        multiple providers automatically.
+
+
+        **Pricing:** 5 credits per call
+      tags:
+        - Enrichment
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  description: First name (required if no linkedin_url)
+                last_name:
+                  type: string
+                  description: Last name (required if no linkedin_url)
+                company_domain:
+                  type: string
+                  description: Company domain (required if no linkedin_url)
+                linkedin_url:
+                  type: string
+                  description: LinkedIn profile URL (alternative to name + domain)
+                company_name:
+                  type: string
+                  description: Company name (optional, improves accuracy)
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                confidence: example
+                email: example
+                provider: example
+        4XX:
+          description: Client error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        5XX:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+      security:
+        - API Key: []
+      x-pricing:
+        credits_per_call: 5
+  /email_verifier:
+    post:
+      operationId: email_verifier
+      summary: Email Verifier
+      description: |-
+        Verify email deliverability and validity via multi-provider waterfall.
+
+        **Pricing:** 2 credits per call
+      tags:
+        - Waterfall
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: Email address to verify
+                  pattern: ^[^\s@]+@[^\s@]+\.[^\s@]+$
+              required:
+                - email
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                disposable: true
+                email: example
+                mxFound: true
+                status: example
+                valid: true
+        4XX:
+          description: Client error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        5XX:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+      security:
+        - API Key: []
+      x-pricing:
+        credits_per_call: 2
+  /enrich_companies_bulk:
+    post:
+      operationId: enrich_companies_bulk
+      summary: Bulk Company Enrichment
+      description: >-
+        Fetch up to 50 LinkedIn company profiles in a single call using company
+        IDs.
+
+
+        **Pricing:** 1 credit per result
+      tags:
+        - Enrichment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                urns:
+                  type: array
+                  description: List of numeric LinkedIn company IDs (max 50)
+              required:
+                - urns
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+        4XX:
+          description: Client error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        5XX:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+      security:
+        - API Key: []
+      x-pricing:
+        credits_per_result: 1
+        result_count_field: _list_count
+  /enrich_profile:
+    post:
+      operationId: enrich_profile
+      summary: Profile Enrichment
+      description: >-
+        Get LinkedIn profile data including name, headline, location,
+        experience, education and more. Base price is 1 credits per call. When
+        `include_social_metrics` is `True`, the optional component adds 1
+        credits; it is not charged when unavailable.
+
+
+        **Pricing:** 1 credit per call
+      tags:
+        - Enrichment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  description: LinkedIn profile URL
+                include_social_metrics:
+                  type: boolean
+                  description: Include optional social metrics when available.
+                  default: false
+              required:
+                - url
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                certifications: []
+                connectionCount: 1
+                currentCompany: example
+                currentTitle: example
+                education: []
+                experience: []
+                firstname: example
+                followerCount: 1
+                headline: example
+                languages: []
+                lastname: example
+                linkedinUrl: example
+                location: example
+                profilePicture: example
+                skills: []
+                summary: example
+        4XX:
+          description: Client error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        5XX:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+      security:
+        - API Key: []
+      x-pricing:
+        credits_per_call: 1
+        min_credits_per_call: 1
+        max_credits_per_call: 2
+        conditional_components:
+          - id: social_metrics
+            when:
+              field: include_social_metrics
+              equals: true
+            credits_per_call: 1
+            description: Optional component; unavailable components are not charged.
+  /enrich_profiles_bulk:
+    post:
+      operationId: enrich_profiles_bulk
+      summary: Bulk Profile Enrichment
+      description: |-
+        Fetch up to 50 LinkedIn profiles in a single call using entity URNs.
+
+        **Pricing:** 1 credit per result
+      tags:
+        - Enrichment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                urns:
+                  type: array
+                  description: List of LinkedIn entity URNs (max 50)
+              required:
+                - urns
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+        4XX:
+          description: Client error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        5XX:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+      security:
+        - API Key: []
+      x-pricing:
+        credits_per_result: 1
+        result_count_field: _list_count
+  /find_personal_email:
+    post:
+      operationId: find_personal_email
+      summary: Find Personal Email
+      description: >-
+        Finds a person's personal email addresses using their LinkedIn profile
+        URL.
+
+
+        **Pricing:** 5 credits per call
+      tags:
+        - Enrichment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                linkedin_url:
+                  type: string
+                  description: LinkedIn profile URL of the person
+              required:
+                - linkedin_url
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                data:
+                  email: jane.doe@example.com
+                  status: ok
+                  verifier: Million Verifier
+                id: 6a6874c544af2d8d82d07ed3
+                status: success
+        4XX:
+          description: Client error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        5XX:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+      security:
+        - API Key: []
+      x-pricing:
+        credits_per_call: 5
+  /lead_search:
+    post:
+      operationId: lead_search
+      summary: Lead Search
+      description: >-
+        Advanced LinkedIn lead search with 30+ filters including seniority,
+        function, geography, company, title, Sales Navigator URL, and exclusion
+        filter support.
+
+
+        **Pricing:** 10 credits base + 0.5 credits per result
+      tags:
+        - Leads
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                search_query:
+                  type: string
+                  description: Fuzzy keyword search.
+                sales_nav_url:
+                  type: string
+                  description: Full LinkedIn Sales Navigator search URL. May be combined with
+                    individual filters.
+                locations:
+                  type: array
+                  description: Location names
+                geo_ids:
+                  type: array
+                  description: LinkedIn geo IDs or location names
+                seniority:
+                  type: array
+                  description: Seniority labels resolved to LinkedIn seniorityLevelIds.
+                functions:
+                  type: array
+                  description: Job function labels resolved to LinkedIn functionIds.
+                industries:
+                  type: array
+                  description: Industry labels resolved to LinkedIn industryIds.
+                company_size:
+                  type: array
+                  description: Company size ranges.
+                years_of_experience:
+                  type: array
+                  description: Experience range labels resolved to LinkedIn yearsOfExperienceIds.
+                years_at_current_company:
+                  type: array
+                  description: Tenure range labels resolved to LinkedIn yearsAtCurrentCompanyIds.
+                profile_languages:
+                  type: array
+                  description: Profile language labels resolved to language codes.
+                current_companies:
+                  type: array
+                  description: Current company LinkedIn URLs or IDs.
+                past_companies:
+                  type: array
+                  description: Past company LinkedIn URLs or IDs.
+                current_job_titles:
+                  type: array
+                  description: Current job title filters.
+                past_job_titles:
+                  type: array
+                  description: Past job title filters.
+                first_names:
+                  type: array
+                  description: First name filters.
+                last_names:
+                  type: array
+                  description: Last name filters.
+                schools:
+                  type: array
+                  description: School LinkedIn URLs or IDs.
+                recently_changed_jobs:
+                  type: boolean
+                  description: Filter for people who recently changed jobs.
+                company_headquarter_locations:
+                  type: array
+                  description: Company headquarters location filters.
+                exclude_seniority:
+                  type: array
+                  description: Seniority labels to exclude.
+                exclude_industries:
+                  type: array
+                  description: Industry labels to exclude.
+                exclude_functions:
+                  type: array
+                  description: Job function labels to exclude.
+                exclude_locations:
+                  type: array
+                  description: Location text values to exclude.
+                exclude_geo_ids:
+                  type: array
+                  description: LinkedIn geo IDs or location names to exclude.
+                exclude_current_companies:
+                  type: array
+                  description: Current company LinkedIn URLs or IDs to exclude.
+                exclude_past_companies:
+                  type: array
+                  description: Past company LinkedIn URLs or IDs to exclude.
+                exclude_current_job_titles:
+                  type: array
+                  description: Current job titles to exclude.
+                exclude_past_job_titles:
+                  type: array
+                  description: Past job titles to exclude.
+                exclude_schools:
+                  type: array
+                  description: School LinkedIn URLs or IDs to exclude.
+                exclude_company_headquarter_locations:
+                  type: array
+                  description: Company headquarters locations to exclude.
+                page:
+                  type: integer
+                  description: Positive page number for pagination. Defaults to 1.
+                  default: 1
+                session_id:
+                  type: string
+                  description: Optional unique ID used to keep pagination requests on the same
+                    scraping resource. Generate a random string (for example, a
+                    UUID) and send the same value with each page request
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                elements:
+                  - firstName: Rayara
+                    id: ACwAAAExampleMemberUrn0000000000000000
+                    lastName: Chambela Geronimo
+                    linkedinUrl: https://www.linkedin.com/in/ACwAAAExampleMemberUrn0000000000000000
+                    location:
+                      countryCode: br
+                      geoId: "101165590"
+                      linkedinText: Santo Andre, Sao Paulo, Brazil
+                    openProfile: false
+                    pictureUrl: https://media.licdn.com/dms/image/example-logo.jpg
+                    premium: false
+                    summary: Currently pursuing a degree in Systems Analysis and Development...
+                pagination:
+                  pageNumber: 1
+                  pageSize: 25
+                  previousElements: 0
+                  totalElements: 12345678
+                  totalPages: 100
+                sessionId: session_abc123
+        4XX:
+          description: Client error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        5XX:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+      security:
+        - API Key: []
+      x-pricing:
+        base_credits_per_call: 10
+        credits_per_result: 0.5
+        result_count_field: elements
+  /linkedin_ad_search:
+    post:
+      operationId: linkedin_ad_search
+      summary: LinkedIn Ad Search
+      description: >-
+        Search LinkedIn Ad Library for active ads by advertiser, keyword, or
+        country.
+
+
+        **Pricing:** 0.2 credits per result
+      tags:
+        - Ads
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                keyword:
+                  type: string
+                  description: Keyword to search ads for
+                account_owner:
+                  type: string
+                  description: Advertiser or company name
+                countries:
+                  type: string
+                  description: Comma-separated country codes (e.g. 'US,GB') or 'ALL'
+                  default: ALL
+                date_option:
+                  type: string
+                  description: "Date range: last-30-days, current-month, current-year, last-year,
+                    or custom-date-range"
+                  enum:
+                    - last-30-days
+                    - current-month
+                    - current-year
+                    - last-year
+                    - custom-date-range
+                start_date:
+                  type: string
+                  description: Start date for custom range (YYYY-MM-DD)
+                end_date:
+                  type: string
+                  description: End date for custom range (YYYY-MM-DD)
+                pagination_token:
+                  type: string
+                  description: Pagination token from previous response
+                search_url:
+                  type: string
+                  description: Full LinkedIn Ad Library search URL (alternative to individual
+                    filters)
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                elements:
+                  - advertiser:
+                      headline: Promoted
+                      imageUrl: https://media.licdn.com/dms/image/example-logo.jpg
+                      name: Example Advertiser
+                    content:
+                      description: >-
+                        Why did I spend so much time and money building an
+                        Applicant Tracking System for small employers?
+
+
+                        Because after 25 year…
+                      headline: Gatekeeper - HRmango
+                      imageUrl: https://media.licdn.com/dms/image/example-logo.jpg
+                      pageUrl: https://www.linkedin.com/ad-library/detail/1000000000
+                    creativeType: SPONSORED_STATUS_UPDATE
+                    id: "1440550993"
+                pagination:
+                  pageNumber: null
+                  pageSize: 1
+                  paginationToken: 1460308964-1782143461901
+                  previousElements: null
+                  totalElements: 1
+                  totalPages: 1
+                query:
+                  account_owner: example
+                  countries: US
+                  date_option: last-30-days
+                  keyword: marketing automation
+                status: 200
+        4XX:
+          description: Client error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        5XX:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+      security:
+        - API Key: []
+      x-pricing:
+        credits_per_result: 0.2
+        result_count_field: elements
+  /people_search:
+    post:
+      operationId: people_search
+      summary: People Search
+      description: >-
+        Search LinkedIn profiles by company/account and contact filters such as
+        domain, industry, employee size, job title, and location.
+
+
+        **Pricing:** 0.1 credits per result
+      tags:
+        - Search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                page:
+                  type: integer
+                  description: Page number, zero-based.
+                  default: 0
+                limit:
+                  type: integer
+                  description: Number of items per page.
+                  default: 10
+                linkedin:
+                  type: array
+                  description: LinkedIn account URLs.
+                domain:
+                  type: array
+                  description: Company domains.
+                industry:
+                  type: array
+                  description: Industry names.
+                employee_size_start:
+                  type: integer
+                  description: Minimum employee count.
+                employee_size_end:
+                  type: integer
+                  description: Maximum employee count.
+                job_title:
+                  type: array
+                  description: Job titles to match.
+                location:
+                  type: array
+                  description: Locations to match.
+              required:
+                - limit
+                - page
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                content:
+                  - firstname: example
+                    headline: example
+                    lastname: example
+                    url: example
+                first: true
+                last: true
+                number: 0
+                numberOfElements: 1
+                size: 10
+                totalElements: 1
+                totalPages: 1
+        4XX:
+          description: Client error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        5XX:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+      security:
+        - API Key: []
+      x-pricing:
+        credits_per_result: 0.1
+        result_count_field: numberOfElements
+  /phone_finder:
+    post:
+      operationId: phone_finder
+      summary: Phone Finder
+      description: >-
+        Find a mobile phone number using a LinkedIn URL or name and company.
+        Tries multiple providers automatically.
+
+
+        **Pricing:** 25 credits per call
+      tags:
+        - Enrichment
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                linkedin_url:
+                  type: string
+                  description: LinkedIn profile URL (preferred)
+                first_name:
+                  type: string
+                  description: First name (required if no linkedin_url)
+                last_name:
+                  type: string
+                  description: Last name (required if no linkedin_url)
+                domain:
+                  type: string
+                  description: Company domain (required if no linkedin_url)
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                phone: "+14155552671"
+                status: verified
+        4XX:
+          description: Client error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        5XX:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+      security:
+        - API Key: []
+      x-pricing:
+        credits_per_call: 25
+  /post_keyword_search:
+    post:
+      operationId: post_keyword_search
+      summary: Post Keyword Search
+      description: >-
+        Search LinkedIn posts by keyword to discover trending content and
+        engagement opportunities.
+
+
+        **Pricing:** 0.1 credits per result
+      tags:
+        - Search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                keyword:
+                  type: string
+                  description: Keyword or phrase to search LinkedIn posts for.
+                page:
+                  type: integer
+                  description: Page number, zero-based.
+                  default: 0
+                limit:
+                  type: integer
+                  description: Results per page, 1-50.
+                  default: 10
+                sort:
+                  type: string
+                  description: "Sort order: RELEVANCE or DATE_POSTED."
+                  default: RELEVANCE
+                  pattern: ^(RELEVANCE|DATE_POSTED)$
+                  enum:
+                    - RELEVANCE
+                    - DATE_POSTED
+                datePosted:
+                  type: string
+                  description: "Date filter: PAST_24_HOURS, PAST_WEEK, or PAST_MONTH."
+                  pattern: ^(PAST_24_HOURS|PAST_WEEK|PAST_MONTH)$
+                  enum:
+                    - PAST_24_HOURS
+                    - PAST_WEEK
+                    - PAST_MONTH
+                contentType:
+                  type: string
+                  description: "Content type: VIDEO, IMAGE, JOB, LIVE_VIDEO, DOCUMENT, or
+                    COLLABORATIVE_ARTICLE."
+                  pattern: ^(VIDEO|IMAGE|JOB|LIVE_VIDEO|DOCUMENT|COLLABORATIVE_ARTICLE)$
+                  enum:
+                    - VIDEO
+                    - IMAGE
+                    - JOB
+                    - LIVE_VIDEO
+                    - DOCUMENT
+                    - COLLABORATIVE_ARTICLE
+                fromPerson:
+                  type: array
+                  description: Filter by person entity URNs
+                fromCompany:
+                  type: array
+                  description: Filter by company entity URNs
+                authorKeyword:
+                  type: array
+                  description: Filter by author job titles
+                authorIndustry:
+                  type: array
+                  description: Filter by author industry
+              required:
+                - keyword
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                content:
+                  - actor:
+                      followerCount: 15000
+                      name: Jane Smith
+                      profileType: PERSON
+                      url: https://example.com
+                    commentary: Just published my deep dive into AI trends...
+                    content:
+                      image: null
+                    numComments: 16
+                    numReactions: 108
+                    reactionType:
+                      appreciation: 3
+                      interest: 2
+                      like: 101
+                    shareUrl: https://www.linkedin.com/posts/...
+                    time: 2 hours ago
+                    urn: urn:li:activity:7429959579599532032
+                first: true
+                last: true
+                numberOfElements: 1
+                totalElements: 1
+                totalPages: 1
+        4XX:
+          description: Client error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        5XX:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+      security:
+        - API Key: []
+      x-pricing:
+        credits_per_result: 0.1
+        result_count_field: numberOfElements
+  /predict_gender:
+    post:
+      operationId: predict_gender
+      summary: Predict Gender
+      description: |-
+        Predict the gender of a person from their first name.
+
+        **Pricing:** 1 credit per call
+      tags:
+        - Utilities
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: First name to predict gender for
+              required:
+                - name
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                confidence: 1
+                gender: example
+        4XX:
+          description: Client error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        5XX:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+      security:
+        - API Key: []
+      x-pricing:
+        credits_per_call: 1
+  /search_reference_data:
+    post:
+      operationId: search_reference_data
+      summary: Search Reference Data
+      description: >-
+        Returns all valid filter labels (seniority levels, industries,
+        functions, etc.) for use with Lead Search.
+
+
+        **Pricing:** 0 credits per call
+      tags:
+        - Search
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                companySize: []
+                function: []
+                geography: []
+                industry: []
+                seniority: []
+        4XX:
+          description: Client error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        5XX:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+      security:
+        - API Key: []
+      x-pricing:
+        credits_per_call: 0
+  /slack_channel_members:
+    post:
+      operationId: slack_channel_members
+      summary: Slack Channel Members
+      description: >-
+        Extract Slack channel members with names, emails, titles, timezones,
+        admin status. Requires your Slack cookie.
+
+
+        **Pricing:** 2 credits per call
+      tags:
+        - Social
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                workspace:
+                  type: string
+                  description: Slack workspace subdomain (e.g. acme for acme.slack.com)
+                channel_id:
+                  type: string
+                  description: Slack channel ID (e.g. C0123456789)
+                cookie:
+                  type: string
+                  description: Your Slack xoxd- session cookie
+                token:
+                  type: string
+                  description: Your Slack xoxc- client token
+                max_members:
+                  type: integer
+                  description: Maximum number of members to return
+                  default: 0
+                cache:
+                  type: boolean
+                  description: Use cached data if available
+                  default: false
+              required:
+                - channel_id
+                - cookie
+                - token
+                - workspace
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                members:
+                  - email: example
+                    id: example
+                    isAdmin: true
+                    name: example
+                    timezone: example
+                    title: example
+        4XX:
+          description: Client error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        5XX:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+      security:
+        - API Key: []
+      x-pricing:
+        credits_per_call: 2
+  /web_emails:
+    post:
+      operationId: web_emails
+      summary: Website Email Extractor
+      description: |-
+        Extract email addresses by crawling multiple pages of a website.
+
+        **Pricing:** 2 credits per call
+      tags:
+        - Web Scraping
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  description: Root URL to start crawling from
+                max_pages:
+                  type: integer
+                  description: Maximum number of pages to crawl (default 5)
+                  default: 0
+                cache:
+                  type: boolean
+                  description: Use cached data if available
+                  default: false
+              required:
+                - url
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                emails: []
+                pagesCrawled: 1
+        4XX:
+          description: Client error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        5XX:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+      security:
+        - API Key: []
+      x-pricing:
+        credits_per_call: 2
+components:
+  securitySchemes:
+    API Key:
+      type: apiKey
+      in: header
+      name: x-api-key
+  schemas:
+    ErrorResponse:
+      type: object
+      description: Every error response is a flat JSON object with an `error` string
+        describing what went wrong, plus extra fields specific to that failure —
+        see the endpoint description or the Error Handling section above for
+        examples.
+      properties:
+        error:
+          type: string
+      required:
+        - error
+      additionalProperties: true

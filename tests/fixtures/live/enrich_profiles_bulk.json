@@ -1,0 +1,805 @@
+{
+  "endpoint": "enrich_profiles_bulk",
+  "path": "/enrich_profiles_bulk",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:47:05.385Z",
+  "redacted": true,
+  "body": [
+    {
+      "url": "https://www.linkedin.com/in/REDACTED/",
+      "identifier": "REDACTED",
+      "entityUrn": "REDACTED",
+      "objectUrn": 0,
+      "firstname": "REDACTED",
+      "lastname": "REDACTED",
+      "middleName": null,
+      "birthDate": null,
+      "headline": "REDACTED",
+      "picture": "https://media.example.invalid/REDACTED",
+      "background": "https://media.example.invalid/REDACTED",
+      "summary": "REDACTED",
+      "openToWork": false,
+      "influencer": true,
+      "premium": true,
+      "creator": true,
+      "hiring": false,
+      "verified": null,
+      "industry": "Philanthropy",
+      "location": {
+        "country": "United States",
+        "city": "Seattle",
+        "state": "Washington",
+        "defaultValue": "Seattle, Washington, United States",
+        "shortValue": "Seattle, Washington"
+      },
+      "organizations": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "educations": {
+        "totalElements": 2,
+        "page": 0,
+        "size": 20,
+        "contents": [
+          {
+            "school": {
+              "id": 1646,
+              "name": "REDACTED",
+              "logo": "https://media.example.invalid/REDACTED",
+              "url": "https://www.linkedin.com/in/REDACTED/",
+              "profileType": "COMPANY"
+            },
+            "degreeName": null,
+            "fieldOfStudy": null,
+            "grade": null,
+            "date": {
+              "start": "1973-01-01T00:00:00.000Z",
+              "end": "1975-01-01T00:00:00.000Z"
+            }
+          },
+          {
+            "school": {
+              "id": 30288,
+              "name": "REDACTED",
+              "logo": "https://media.example.invalid/REDACTED",
+              "url": "https://www.linkedin.com/in/REDACTED/",
+              "profileType": "COMPANY"
+            },
+            "degreeName": null,
+            "fieldOfStudy": null,
+            "grade": null,
+            "date": null
+          }
+        ]
+      },
+      "patents": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "awards": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "certifications": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "projects": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "publications": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "courses": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "testScores": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "positionGroups": {
+        "totalElements": 3,
+        "page": 0,
+        "size": 10,
+        "contents": [
+          {
+            "company": {
+              "id": 8736,
+              "name": "REDACTED",
+              "logo": "https://media.example.invalid/REDACTED",
+              "url": "https://www.linkedin.com/in/REDACTED/",
+              "profileType": "COMPANY"
+            },
+            "date": {
+              "start": "2000-01-01T00:00:00.000Z",
+              "end": null
+            },
+            "profilePositions": [
+              {
+                "company": "Gates Foundation",
+                "description": null,
+                "title": "Co-chair",
+                "employmentType": null,
+                "location": null,
+                "date": {
+                  "start": "2000-01-01T00:00:00.000Z",
+                  "end": null
+                }
+              }
+            ]
+          },
+          {
+            "company": {
+              "id": 19141006,
+              "name": "REDACTED",
+              "logo": "https://media.example.invalid/REDACTED",
+              "url": "https://www.linkedin.com/in/REDACTED/",
+              "profileType": "COMPANY"
+            },
+            "date": {
+              "start": "2015-01-01T00:00:00.000Z",
+              "end": null
+            },
+            "profilePositions": [
+              {
+                "company": "Breakthrough Energy ",
+                "description": null,
+                "title": "Founder",
+                "employmentType": null,
+                "location": null,
+                "date": {
+                  "start": "2015-01-01T00:00:00.000Z",
+                  "end": null
+                }
+              }
+            ]
+          },
+          {
+            "company": {
+              "id": 1035,
+              "name": "REDACTED",
+              "logo": "https://media.example.invalid/REDACTED",
+              "url": "https://www.linkedin.com/in/REDACTED/",
+              "profileType": "COMPANY"
+            },
+            "date": {
+              "start": "1975-01-01T00:00:00.000Z",
+              "end": null
+            },
+            "profilePositions": [
+              {
+                "company": "Microsoft",
+                "description": null,
+                "title": "Co-founder",
+                "employmentType": null,
+                "location": null,
+                "date": {
+                  "start": "1975-01-01T00:00:00.000Z",
+                  "end": null
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "volunteerExperiences": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "languages": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "skills": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      }
+    },
+    {
+      "url": "https://www.linkedin.com/in/REDACTED/",
+      "identifier": "REDACTED",
+      "entityUrn": "REDACTED",
+      "objectUrn": 0,
+      "firstname": "REDACTED",
+      "lastname": "REDACTED",
+      "middleName": null,
+      "birthDate": null,
+      "headline": "REDACTED",
+      "picture": "https://media.example.invalid/REDACTED",
+      "background": "https://media.example.invalid/REDACTED",
+      "summary": "REDACTED",
+      "openToWork": false,
+      "influencer": true,
+      "premium": true,
+      "creator": true,
+      "hiring": false,
+      "verified": null,
+      "industry": "Computer Software",
+      "location": {
+        "country": "United States",
+        "city": "Bellevue",
+        "state": "Washington",
+        "defaultValue": "Bellevue, Washington, United States",
+        "shortValue": "Bellevue, Washington"
+      },
+      "organizations": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "educations": {
+        "totalElements": 3,
+        "page": 0,
+        "size": 20,
+        "contents": [
+          {
+            "school": {
+              "id": 2626,
+              "name": "REDACTED",
+              "logo": "https://media.example.invalid/REDACTED",
+              "url": "https://www.linkedin.com/in/REDACTED/",
+              "profileType": "COMPANY"
+            },
+            "degreeName": "1985",
+            "fieldOfStudy": "Law",
+            "grade": null,
+            "date": {
+              "start": "1981-01-01T00:00:00.000Z",
+              "end": "1985-01-01T00:00:00.000Z"
+            }
+          },
+          {
+            "school": {
+              "id": 282827,
+              "name": "REDACTED",
+              "logo": "https://media.example.invalid/REDACTED",
+              "url": "https://www.linkedin.com/in/REDACTED/",
+              "profileType": "COMPANY"
+            },
+            "degreeName": null,
+            "fieldOfStudy": "Spent a year in the International Law and Economics concentration in Diplome Program",
+            "grade": null,
+            "date": {
+              "start": "1983-01-01T00:00:00.000Z",
+              "end": "1984-01-01T00:00:00.000Z"
+            }
+          },
+          {
+            "school": {
+              "id": 157313,
+              "name": "REDACTED",
+              "logo": "https://media.example.invalid/REDACTED",
+              "url": "https://www.linkedin.com/in/REDACTED/",
+              "profileType": "COMPANY"
+            },
+            "degreeName": "Bachelor's Degree",
+            "fieldOfStudy": "Princeton School of Public and International Affairs",
+            "grade": "Graduated summa cum laude",
+            "date": {
+              "start": "1977-01-01T00:00:00.000Z",
+              "end": "1981-01-01T00:00:00.000Z"
+            }
+          }
+        ]
+      },
+      "patents": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "awards": {
+        "totalElements": 6,
+        "page": 0,
+        "size": 20,
+        "contents": [
+          {
+            "title": "Knight of the Legion of Honor",
+            "description": null,
+            "issuer": "President of France",
+            "date": "2023-11-01T00:00:00.000Z"
+          },
+          {
+            "title": "Achievement with Honors, Parker Program in Foreign Law",
+            "description": null,
+            "issuer": "Columbia Law School",
+            "date": "1985-06-01T00:00:00.000Z"
+          },
+          {
+            "title": "Harlan Fiske Stone Scholar",
+            "description": "For academic excellence, all three years of law school.",
+            "issuer": "Columbia Law School",
+            "date": "1985-06-01T00:00:00.000Z"
+          }
+        ]
+      },
+      "certifications": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "projects": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "publications": {
+        "totalElements": 1,
+        "page": 0,
+        "size": 20,
+        "contents": [
+          {
+            "name": "REDACTED",
+            "description": null,
+            "publisher": "Penguin Press",
+            "url": "https://news.microsoft.com/on-the-issues/tools-and-weapons/",
+            "date": "2019-09-10T00:00:00.000Z",
+            "authors": [
+              {
+                "profileId": "REDACTED",
+                "entityUrn": "REDACTED",
+                "type": "StandardizedContributor",
+                "firstName": "REDACTED",
+                "lastName": "REDACTED",
+                "subTitle": "Vice Chair and President at Microsoft Corporation",
+                "headline": "REDACTED",
+                "profilePicture": "https://media.example.invalid/REDACTED",
+                "profileType": "PERSON"
+              },
+              {
+                "profileId": "REDACTED",
+                "entityUrn": "REDACTED",
+                "type": "StandardizedContributor",
+                "firstName": "REDACTED",
+                "lastName": "REDACTED",
+                "subTitle": "Vice President & Chief of Staff at Microsoft",
+                "headline": "REDACTED",
+                "profileType": "PERSON"
+              }
+            ]
+          }
+        ]
+      },
+      "courses": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "testScores": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "positionGroups": {
+        "totalElements": 4,
+        "page": 0,
+        "size": 10,
+        "contents": [
+          {
+            "company": {
+              "id": 1035,
+              "name": "REDACTED",
+              "logo": "https://media.example.invalid/REDACTED",
+              "url": "https://www.linkedin.com/in/REDACTED/",
+              "profileType": "COMPANY"
+            },
+            "date": {
+              "start": "1993-11-01T00:00:00.000Z",
+              "end": null
+            },
+            "profilePositions": [
+              {
+                "company": "Microsoft",
+                "description": null,
+                "title": "President",
+                "employmentType": null,
+                "location": "Redmond, Washington",
+                "date": {
+                  "start": "2015-09-01T00:00:00.000Z",
+                  "end": null
+                }
+              },
+              {
+                "company": "Microsoft Corporation",
+                "description": null,
+                "title": "General Counsel and Executive Vice President, Legal and Corporate Affairs",
+                "employmentType": null,
+                "location": "Redmond, Washington",
+                "date": {
+                  "start": "2002-07-01T00:00:00.000Z",
+                  "end": "2015-09-01T00:00:00.000Z"
+                }
+              },
+              {
+                "company": "Microsoft Corporation",
+                "description": null,
+                "title": "Deputy General Counsel, Worldwide Sales Group",
+                "employmentType": null,
+                "location": "Redmond, Washington",
+                "date": {
+                  "start": "1996-08-01T00:00:00.000Z",
+                  "end": "2002-06-01T00:00:00.000Z"
+                }
+              }
+            ]
+          },
+          {
+            "company": {
+              "id": 165158,
+              "name": "REDACTED",
+              "logo": "https://media.example.invalid/REDACTED",
+              "url": "https://www.linkedin.com/in/REDACTED/",
+              "profileType": "COMPANY"
+            },
+            "date": {
+              "start": "2015-06-01T00:00:00.000Z",
+              "end": null
+            },
+            "profilePositions": [
+              {
+                "company": "Netflix",
+                "description": null,
+                "title": "Member of the Board of Directors",
+                "employmentType": null,
+                "location": "Los Gatos, California",
+                "date": {
+                  "start": "2015-06-01T00:00:00.000Z",
+                  "end": null
+                }
+              }
+            ]
+          },
+          {
+            "company": {
+              "id": 8387,
+              "name": "REDACTED",
+              "logo": "https://media.example.invalid/REDACTED",
+              "url": "https://www.linkedin.com/in/REDACTED/",
+              "profileType": "COMPANY"
+            },
+            "date": {
+              "start": "1986-09-01T00:00:00.000Z",
+              "end": "1993-11-01T00:00:00.000Z"
+            },
+            "profilePositions": [
+              {
+                "company": "Covington & Burling",
+                "description": null,
+                "title": "Associate and then Partner",
+                "employmentType": null,
+                "location": null,
+                "date": {
+                  "start": "1986-09-01T00:00:00.000Z",
+                  "end": "1993-11-01T00:00:00.000Z"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "volunteerExperiences": {
+        "totalElements": 8,
+        "page": 0,
+        "size": 20,
+        "contents": [
+          {
+            "role": "Chair of the Board of Directors",
+            "company": {
+              "id": 902775,
+              "name": "REDACTED",
+              "logo": "https://media.example.invalid/REDACTED",
+              "url": "https://www.linkedin.com/in/REDACTED/",
+              "profileType": "COMPANY"
+            },
+            "cause": "CHILDREN",
+            "description": "Co-founded and chairs KIND, which seeks to ensure that kids separated from their parents are represented by pro bono counsel when going before an immigration judge.",
+            "date": {
+              "start": "2008-09-01T00:00:00.000Z",
+              "end": "2024-02-01T00:00:00.000Z"
+            }
+          },
+          {
+            "role": "Chair of the Board of Directors",
+            "company": null,
+            "cause": "CIVIL_RIGHTS",
+            "description": "LCLD consists of over 200 managing partners of law firms and corporate general counsel, and works to advance diversity in the legal profession.",
+            "date": {
+              "start": "2012-09-01T00:00:00.000Z",
+              "end": "2016-09-01T00:00:00.000Z"
+            }
+          },
+          {
+            "role": "Member of the Board of Directors",
+            "company": {
+              "id": 3129360,
+              "name": "REDACTED",
+              "logo": "https://media.example.invalid/REDACTED",
+              "url": "https://www.linkedin.com/in/REDACTED/",
+              "profileType": "COMPANY"
+            },
+            "cause": "EDUCATION",
+            "description": null,
+            "date": {
+              "start": "2013-05-01T00:00:00.000Z",
+              "end": null
+            }
+          }
+        ]
+      },
+      "languages": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "skills": {
+        "totalElements": 12,
+        "page": 0,
+        "size": 20,
+        "contents": [
+          "Corporate Law",
+          "Intellectual Property",
+          "Mergers & Acquisitions"
+        ]
+      }
+    },
+    {
+      "url": "https://www.linkedin.com/in/REDACTED/",
+      "identifier": "REDACTED",
+      "entityUrn": "REDACTED",
+      "objectUrn": 0,
+      "firstname": "REDACTED",
+      "lastname": "REDACTED",
+      "middleName": null,
+      "birthDate": null,
+      "headline": "REDACTED",
+      "picture": "https://media.example.invalid/REDACTED",
+      "background": "https://media.example.invalid/REDACTED",
+      "summary": "REDACTED",
+      "openToWork": false,
+      "influencer": true,
+      "premium": true,
+      "creator": true,
+      "hiring": false,
+      "verified": null,
+      "industry": "Computer Software",
+      "location": {
+        "country": "United States",
+        "city": "Redmond",
+        "state": "Washington",
+        "defaultValue": "Redmond, Washington, United States",
+        "shortValue": "Redmond, Washington"
+      },
+      "organizations": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "educations": {
+        "totalElements": 3,
+        "page": 0,
+        "size": 20,
+        "contents": [
+          {
+            "school": {
+              "id": 8398,
+              "name": "REDACTED",
+              "logo": "https://media.example.invalid/REDACTED",
+              "url": "https://www.linkedin.com/in/REDACTED/",
+              "profileType": "COMPANY"
+            },
+            "degreeName": null,
+            "fieldOfStudy": null,
+            "grade": null,
+            "date": {
+              "start": "1994-01-01T00:00:00.000Z",
+              "end": "1996-01-01T00:00:00.000Z"
+            }
+          },
+          {
+            "school": {
+              "id": 577550,
+              "name": "REDACTED",
+              "logo": "https://media.example.invalid/REDACTED",
+              "url": "https://www.linkedin.com/in/REDACTED/",
+              "profileType": "COMPANY"
+            },
+            "degreeName": "Bachelor’s Degree",
+            "fieldOfStudy": "Electrical Engineering",
+            "grade": null,
+            "date": null
+          },
+          {
+            "school": {
+              "id": 166690,
+              "name": "REDACTED",
+              "logo": "https://media.example.invalid/REDACTED",
+              "url": "https://www.linkedin.com/in/REDACTED/",
+              "profileType": "COMPANY"
+            },
+            "degreeName": "Master’s Degree",
+            "fieldOfStudy": "Computer Science",
+            "grade": null,
+            "date": null
+          }
+        ]
+      },
+      "patents": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "awards": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "certifications": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "projects": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "publications": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "courses": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "testScores": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "positionGroups": {
+        "totalElements": 5,
+        "page": 0,
+        "size": 10,
+        "contents": [
+          {
+            "company": {
+              "id": 1035,
+              "name": "REDACTED",
+              "logo": "https://media.example.invalid/REDACTED",
+              "url": "https://www.linkedin.com/in/REDACTED/",
+              "profileType": "COMPANY"
+            },
+            "date": {
+              "start": "2014-02-01T00:00:00.000Z",
+              "end": null
+            },
+            "profilePositions": [
+              {
+                "company": "Microsoft",
+                "description": null,
+                "title": "Chairman and CEO",
+                "employmentType": null,
+                "location": "Greater Seattle Area",
+                "date": {
+                  "start": "2014-02-01T00:00:00.000Z",
+                  "end": null
+                }
+              }
+            ]
+          },
+          {
+            "company": {
+              "id": 3881,
+              "name": "REDACTED",
+              "logo": "https://media.example.invalid/REDACTED",
+              "url": "https://www.linkedin.com/in/REDACTED/",
+              "profileType": "COMPANY"
+            },
+            "date": {
+              "start": "2018-01-01T00:00:00.000Z",
+              "end": null
+            },
+            "profilePositions": [
+              {
+                "company": "University of Chicago",
+                "description": null,
+                "title": "Member Board Of Trustees",
+                "employmentType": null,
+                "location": null,
+                "date": {
+                  "start": "2018-01-01T00:00:00.000Z",
+                  "end": null
+                }
+              }
+            ]
+          },
+          {
+            "company": {
+              "id": 2271,
+              "name": "REDACTED",
+              "logo": "https://media.example.invalid/REDACTED",
+              "url": "https://www.linkedin.com/in/REDACTED/",
+              "profileType": "COMPANY"
+            },
+            "date": {
+              "start": "2017-01-01T00:00:00.000Z",
+              "end": "2024-01-01T00:00:00.000Z"
+            },
+            "profilePositions": [
+              {
+                "company": "Starbucks",
+                "description": null,
+                "title": "Board Member",
+                "employmentType": null,
+                "location": null,
+                "date": {
+                  "start": "2017-01-01T00:00:00.000Z",
+                  "end": "2024-01-01T00:00:00.000Z"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "volunteerExperiences": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "languages": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      },
+      "skills": {
+        "totalElements": 0,
+        "page": 0,
+        "size": 20,
+        "contents": []
+      }
+    }
+  ]
+}

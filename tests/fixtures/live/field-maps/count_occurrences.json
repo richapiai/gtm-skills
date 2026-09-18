@@ -1,0 +1,23 @@
+{
+  "endpoint": "count_occurrences",
+  "path": "/count_occurrences",
+  "field_map_status": "live_fixture",
+  "field_map": null,
+  "observed_types": {
+    "total_items": "number",
+    "unique_items": "number",
+    "results": "array"
+  },
+  "unmapped_keys": [
+    "total_items",
+    "unique_items",
+    "results"
+  ],
+  "sample_status": "hit",
+  "billing_field": null,
+  "billing_field_present_in_response": null,
+  "captured_at": "2026-09-17T16:19:08.232Z",
+  "spec_sha256": "c17a0e7f756abb976e66337c110fd62357324ce7f1fce88c2c5c9ea35d96e171",
+  "source": "live_capture",
+  "field_map_derived": false
+}

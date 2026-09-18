@@ -1,0 +1,152 @@
+{
+  "endpoint": "linkedin_job_detail",
+  "path": "/linkedin_job_detail",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:47:33.357Z",
+  "redacted": true,
+  "body": {
+    "element": {
+      "id": "4468623653",
+      "title": "Frontier Industry Advisor, Manufacturing and Mobility - Japan",
+      "linkedinUrl": "https://www.linkedin.com/in/REDACTED/",
+      "jobState": "LISTED",
+      "postedDate": "2026-09-17T12:44:14.000Z",
+      "headerCaptionText": "Microsoft\nTokyo, Tokyo, Japan\n4 hours ago\nBe among the first 25 applicants\nSee who Microsoft has hired for this role",
+      "descriptionText": "Overview\n\nAI-led transformation is reshaping every industry in the world. Across automotive, mobility and transportation, customers have moved beyond prioritizing individual AI use cases and are now deploying AI transformation at scale —...",
+      "descriptionHtml": "<b>Overview<br><br><br><br></b>AI-led transformation is reshaping every industry in the world. Across automotive, mobility and transportation, customers have moved beyond prioritizing individual AI use cases and are now deploying AI tran...",
+      "location": {
+        "linkedinText": "Tokyo, Tokyo, Japan",
+        "postalAddress": null,
+        "countryCode": "jp",
+        "geoId": "103689695",
+        "parsed": {
+          "text": "Tokyo, Japan",
+          "countryCode": "JP",
+          "regionCode": null,
+          "country": "Japan",
+          "countryFull": "Japan",
+          "state": "Tokyo",
+          "city": "Tokyo"
+        }
+      },
+      "employmentType": "full_time",
+      "workplaceType": "hybrid",
+      "workRemoteAllowed": false,
+      "easyApplyUrl": null,
+      "applyMethod": {
+        "companyApplyUrl": "https://apply.careers.microsoft.com/careers/job/1970393556988020?utm_source=linkedin&domain=microsoft.com&src=LinkedIn",
+        "applyStartersPreferenceVoid": true,
+        "inPageOffsiteApply": false,
+        "type": "OffsiteApply"
+      },
+      "applicants": 25,
+      "hiringTeam": [],
+      "company": {
+        "id": "1035",
+        "universalName": "microsoft",
+        "linkedinUrl": "https://www.linkedin.com/in/REDACTED/",
+        "name": "REDACTED",
+        "website": "https://news.microsoft.com/",
+        "logo": "https://media.example.invalid/REDACTED",
+        "employeeCount": 232011,
+        "employeeCountRange": {
+          "start": 10001
+        },
+        "followerCount": 29109941,
+        "description": "Every company has a mission. What's ours? To empower every person and every organization to achieve more. We believe technology can and should be a force for good and that meaningful innovation contributes to a brighter world in the futu...",
+        "locations": [
+          {
+            "country": "US",
+            "geographicArea": "Washington",
+            "city": "Redmond",
+            "line1": "1 Microsoft Way",
+            "postalCode": "98052",
+            "headquarter": true,
+            "parsed": {
+              "text": "Redmond, WA, United States",
+              "countryCode": "US",
+              "regionCode": null,
+              "country": "United States",
+              "countryFull": "United States of America",
+              "state": "Washington",
+              "city": "Redmond"
+            }
+          }
+        ],
+        "specialities": [
+          "Business Software",
+          "Developer Tools",
+          "Home & Educational Software"
+        ],
+        "industries": [
+          {
+            "id": null,
+            "name": "REDACTED",
+            "title": "Software Development",
+            "hierarchy": null
+          }
+        ],
+        "logos": [
+          {
+            "url": "https://media.example.invalid/REDACTED",
+            "width": 400,
+            "height": 400
+          },
+          {
+            "url": "https://media.example.invalid/REDACTED",
+            "width": 200,
+            "height": 200
+          },
+          {
+            "url": "https://media.example.invalid/REDACTED",
+            "width": 100,
+            "height": 100
+          }
+        ],
+        "backgroundCover": "https://media.example.invalid/REDACTED",
+        "backgroundCovers": [
+          {
+            "url": "https://media.example.invalid/REDACTED",
+            "width": 1920,
+            "height": 325
+          },
+          {
+            "url": "https://media.example.invalid/REDACTED",
+            "width": 1128,
+            "height": 191
+          },
+          {
+            "url": "https://media.example.invalid/REDACTED",
+            "width": 749,
+            "height": 127
+          }
+        ],
+        "callToActionUrl": null,
+        "similarOrganizations": [],
+        "affiliatedPages": []
+      },
+      "salary": {
+        "text": null,
+        "min": null,
+        "max": null
+      },
+      "jobFunctions": [
+        "ENG",
+        "IT"
+      ],
+      "industries": [
+        "Software Development"
+      ],
+      "experienceLevel": null,
+      "benefits": [],
+      "benefitsDataSource": "JOB_POSTER",
+      "views": 0,
+      "expireAt": "2026-10-17T12:44:14.000Z",
+      "new": true,
+      "closedAt": null,
+      "contentSource": "JOBS_PREMIUM_OFFLINE",
+      "jobApplicationLimitReached": false,
+      "applicantTrackingSystem": null
+    }
+  }
+}

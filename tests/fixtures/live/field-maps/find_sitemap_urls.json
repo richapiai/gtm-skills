@@ -1,0 +1,28 @@
+{
+  "endpoint": "find_sitemap_urls",
+  "path": "/find_sitemap_urls",
+  "field_map_status": "live_fixture",
+  "field_map": {
+    "domain": "company_domain"
+  },
+  "observed_types": {
+    "domain": "string",
+    "sitemap_urls": "array",
+    "total_urls": "number",
+    "filtered_urls": "number",
+    "urls": "array"
+  },
+  "unmapped_keys": [
+    "sitemap_urls",
+    "total_urls",
+    "filtered_urls",
+    "urls"
+  ],
+  "sample_status": "hit",
+  "billing_field": null,
+  "billing_field_present_in_response": null,
+  "captured_at": "2026-09-17T16:20:09.645Z",
+  "spec_sha256": "c17a0e7f756abb976e66337c110fd62357324ce7f1fce88c2c5c9ea35d96e171",
+  "source": "live_capture",
+  "field_map_derived": true
+}

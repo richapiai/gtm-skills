@@ -1,0 +1,17 @@
+{
+  "endpoint": "find_linkedin_url_by_name",
+  "path": "/find_linkedin_url_by_name",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:19:59.879Z",
+  "redacted": true,
+  "body": {
+    "id": "6aac132ad111c2564d35f08d",
+    "data": {
+      "error": {
+        "status": 404,
+        "data": "Not Found!"
+      }
+    },
+    "message": "not_found"
+  }
+}

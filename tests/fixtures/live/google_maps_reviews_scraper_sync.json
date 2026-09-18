@@ -1,0 +1,8 @@
+{
+  "endpoint": "google_maps_reviews_scraper_sync",
+  "path": "/google_maps_reviews_scraper_sync",
+  "http_status": 201,
+  "captured_at": "2026-09-17T16:22:05.586Z",
+  "redacted": true,
+  "body": []
+}

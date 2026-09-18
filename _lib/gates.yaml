@@ -1,0 +1,768 @@
+# ---------------------------------------------------------------------------
+# gates.yaml — every spend/quality threshold in the pack lives here.
+#
+# LAW 5 (CLAUDE.md): FAIL CLOSED. A missing key reads as STOP, never as
+# "no gate". `gates.mjs` throws MissingGateKey on any absent leaf and every
+# check converts that throw into decision: "stop". Deleting a key does not
+# disable a gate — it wedges the call it guards. That is intentional.
+#
+# LAW 1: no credit number is ever typed by hand into a skill or a doc. Skills
+# reference gate keys (`gates.yaml:session_budget.fractions.confirm`); they
+# never carry a bare number. `scanForBareNumbers()` in gates.mjs is what the
+# SKILL.md validator calls to enforce that.
+#
+# Absolute credit thresholds are the WRONG SHAPE and are deliberately absent.
+# /enrich-waterfall is ~8cr/contact, so a 100-person list is ~800 credits —
+# THIRTY-TWO TIMES the whole 25-credit free grant. A gate at 20 or 50 credits
+# fires 16-40 times on that one run, during the trial that decides whether the
+# user ever pays. Gate fatigue kills the only control there is. Gates therefore
+# fire on cumulative session spend as a FRACTION of a budget the user sets
+# once, at the top of the session.
+# ---------------------------------------------------------------------------
+
+schema_version: 1
+
+# --- Session budget -------------------------------------------------------
+session_budget:
+  # Asked once, on the first paid call of a session. Never silently defaulted:
+  # `suggestion_credits` is what the prompt offers, not what is applied.
+  ask_once_per_session: true
+  # Confirmed with the API owner 2026-08-31: the free grant is 25 credits, NOT
+  # the 500 this file asserted until today. 500 invited a first-time user to
+  # spend 20x a grant they did not have. The suggestion mirrors the grant so the
+  # trial run that decides whether anyone pays is the one being budgeted — and
+  # at ~8cr/contact this budget buys ~3 contacts, which is the honest shape of
+  # the free tier rather than a flattering one.
+  suggestion_credits: 25
+  min_credits: 1
+  max_credits: 100000
+
+  # Gates fire when a call would push cumulative session spend across a
+  # fraction of that budget. Three crossings per full-budget session: enough
+  # to be a control, few enough to still be read.
+  fractions:
+    notify: 0.50                   # one informational line, no prompt
+    confirm: 0.80                  # ask before the call that crosses it
+    stop: 1.00                     # hard stop; requires an explicit raise
+    # A single call this large asks on its own, however low cumulative spend
+    # is — this is what catches the one huge unbounded search on call #1.
+    single_call_confirm: 0.25
+
+  # What happens at the stop fraction. "raise_or_abort" = the only way past is
+  # the user naming a new budget; never an implicit rollover.
+  on_stop: raise_or_abort
+
+# --- Endpoints that always ask, regardless of remaining budget -------------
+# Price outliers where one keystroke is a material spend. phone_finder went
+# 3 -> 25 credits in four months (8.3x); find_personal_email is 5cr AND
+# reaches a personal address, so it carries a consent question as well as a
+# cost one.
+always_ask:
+  endpoints:
+    - phone_finder
+    - find_personal_email
+    - profile_activities
+  reason: >-
+    Per-call cost outlier and/or personal-data reach. Confirmed every time,
+    even when the session budget is untouched.
+  # profile_activities is listed because it is the only endpoint in
+  # the pack that is simultaneously per_result on a count field ABSENT from the
+  # response (so the charge can never be verified), page-gated with no request
+  # field bounding the total. It is the one call in the pack that can consume a
+  # session budget in a keystroke and leave nothing in the receipt to prove it did.
+
+# --- Endpoints disabled pending an API answer ------------------------------
+# Empty, and the key stays: a missing key reads as STOP (law 5). An entry is
+#   <endpoint>: { reason: "...", api_ask: <n> }
+# post_keyword_search was listed here until the 2026-09-17 spec re-pin priced it
+# at 0.1 credits per result on numberOfElements (the page), not 6 per result on
+# totalElements (the whole result set). It is page-gated below instead.
+disabled: {}
+
+# --- Unbounded per-result endpoints: page-gate -----------------------------
+# 12 of the metered per-result endpoints cannot be bounded by a request field:
+# they either expose only `page` (walking pages multiplies the charge without
+# limit) or expose no bound at all. For these the ONLY real ceiling is a human
+# between pages, which is what turns an estimated ceiling into a bound.
+#
+# It says 12 and not 11 because profile_activities was added once catalog-gen
+# began emitting pricing.page_gated and the two files could finally be compared.
+# That comparison is now tests/contracts/page-gate-agreement.test.mjs, which
+# runs in both directions — this comment going stale again is a test failure,
+# which is the point: the count in a comment is exactly what drifted last time.
+unbounded_endpoints:
+  policy: page_gate
+  pages_before_confirm: 1          # page 1 runs, every page after it asks
+  hard_page_ceiling: 20            # STOP beyond this even with confirms
+  assumed_results_per_page: 25     # estimate basis when the caller gives no
+                                   # hint; never written as an actual
+  # How much bigger than the PLANNED page the API may answer before the walk is
+  # stopped. Live 2026-09-17: `lead_search --page-size 10` was approved at 15
+  # credits, the API answered 25 results and billed 22.5 (+50%) — and nineteen more
+  # pages would have been bought at that price under the same approval. A missing
+  # key here is zero tolerance, not "no gate" (law 5).
+  page_size_overdelivery_tolerance_pct: 20
+  endpoints:
+    - directory_yellowpages                 # page + max_pages, per-page _list_count
+    - lead_search                           # page only, 10cr base + 0.5/result
+    - linkedin_ad_search                    # no limit, no page bound at all
+    - linkedin_company_employees_search     # page only
+    - linkedin_company_posts                # page only (posted_limit bounds posts, not pages)
+    - linkedin_company_search               # page only
+    - linkedin_job_search                   # page only
+    - people_search                         # limit bounds the PAGE, not the total
+    - post_activities                       # page only, flat 3cr per page
+    - post_keyword_search                   # limit bounds the page; 0.1/result on numberOfElements
+    - profile_activities                    # 2cr/result on totalElements, charge NOT in the response
+    - profile_search                        # page only
+    - search_bing                           # page + limit, flat per page
+    - similarweb_scraper_sync               # no bound of any kind
+
+# --- Request-body page multipliers -------------------------------------------
+# The page gate above counts REQUESTS. These endpoints defeat it from inside the
+# request body: a single call carries a field that multiplies how many pages the
+# provider walks, so the gate fires once, `hard_page_ceiling` counts one, and the
+# bill is levied on everything that came back.
+#
+# Two were found independently of each other, which is what makes it a class
+# rather than a quirk:
+#
+#   directory_yellowpages.max_pages  — "one request scrapes N pages"
+#   google_search_scraper_sync.limit — "Maximum number of result PAGES to fetch
+#                                       (max 100)", while x-pricing charges
+#                                       credits_per_result on _list_count
+#
+# The second is the nastier one, because `limit` means "max results to return"
+# on all five sibling scrapers and "max pages" on this one alone. A user who
+# learned the field on google_maps_places_scraper_keyword and sets limit: 100
+# here is asking for roughly ten times what they think, and the charge is not
+# verifiable from the response (billing_field_present_in_response: false), so
+# the receipt cannot correct them afterwards either.
+#
+# The clamp is the ceiling the RUNTIME enforces on that field. 1 means one page
+# per request, which restores the per-page human gate the endpoint was routing
+# around. Raising a clamp is a deliberate act; a missing entry for a listed
+# endpoint fails closed like every other key.
+request_page_multipliers:
+  policy: clamp
+  endpoints:
+    directory_yellowpages:
+      field: max_pages
+      clamp: 1
+    google_search_scraper_sync:
+      field: limit
+      clamp: 1
+      # Not in unbounded_endpoints deliberately: it has no `page` field, so
+      # page-gating by request count would do nothing. Clamping the multiplier
+      # is the control that actually binds.
+
+# --- Quality stops ---------------------------------------------------------
+quality_stops:
+  # Below this, the list is not worth sending and not worth enriching further.
+  coverage_min_pct: 70
+  # Verification failing this often means the source list is bad, not the
+  # verifier. Stop rather than spend the rest of the budget proving it.
+  verification_max_fail_rate_pct: 25
+  verification_max_hard_bounce_pct: 5
+  # Re-running a waterfall over the same contacts recharges every tier.
+  max_waterfall_reruns: 2
+
+# --- Platform audience minimums --------------------------------------------
+# An upload under the platform floor is rejected by the platform after the
+# credits are already spent. Unknown platform = STOP (no default key here,
+# deliberately — fail closed).
+audience_minimums:
+  linkedin: 300
+  meta: 1000
+  google: 1000
+
+# --- Watchlist ceilings ----------------------------------------------------
+watchlist:
+  max_entities: 250
+  max_entities_hard_stop: 1000
+  max_refresh_batch: 50
+  min_refresh_interval_hours: 24
+
+# --- Runtime switches -------------------------------------------------------
+# Not thresholds. These are behaviour switches the generic call surface
+# (_lib/run.mjs) reads strictly, so that "the code fails closed when the key is
+# missing" and "the operator turned it off" are the same code path.
+runtime:
+  batch:
+    # Auto-batch where the catalog declares a bulk variant AND every row carries
+    # a compatible identifier.
+    #
+    # OFF, deliberately, and this is a correctness decision rather than a cost
+    # one. Batching is credit-neutral — enrich_profile is 1cr/call and
+    # enrich_profiles_bulk is 1cr/result — so the only thing it buys is latency
+    # and 429 exposure, up to 50x. That is a real win and it is NOT worth the
+    # current risk.
+    #
+    # Attribution is BY IDENTITY. A past defect matched bulk results to rows by
+    # position, and one contact received another contact's data.
+    #
+    # Verified by live calls on 2026-09-17:
+    #   - enrich_profiles_bulk does NOT answer in request order: three profiles
+    #     sent A,B,C came back B,C,A.
+    #   - every element carries `entityUrn` (profiles) or `objectUrn` (companies),
+    #     so the runtime joins on that instead (alignBulkRows in _lib/batch.mjs).
+    #     A row the response does not name fails as `bulk_unmatched`; it never
+    #     takes another row's data.
+    #
+    # Still OFF until one real batched run through the runtime has been checked
+    # end to end; the join is covered by tests, the switch is a separate decision.
+    auto: false
+
+# --- Activation bands ---------------------------------------------------------
+# The kill/scale decision, as numbers rather than as a conversation.
+#
+# These existed only in `_lib/activation.mjs`'s GATE_KEYS at first: the
+# code read seven keys, none of them were here, every read failed
+# closed, and so every band rendered "YELLOW / thresholds not configured"
+# permanently. The fail-closed behaviour was right; the missing block meant the
+# bands were decorative, which is the quietest way for a metric to be useless.
+#
+# `dark_verdict: yellow` is the rule that matters and it is deliberate: with no
+# instrumentation data, the honest reading is "we do not know", not "this is
+# failing". A dark metric that reads RED gets a working product killed.
+activation:
+  local_metrics_enabled: true
+  dark_verdict: yellow
+
+  metric_a_install_to_first_run:
+    green_min_pct: 50
+    yellow_min_pct: 25
+    min_n: 50
+
+  metric_b_first_to_second_run:
+    green_min_pct: 30
+    yellow_min_pct: 15
+    min_n: 30
+    # A second run seven days later is a returning user; a second run six weeks
+    # later is a coincidence.
+    window_days: 7
+
+# --- Per-skill gate namespace ----------------------------------------------
+# WHY THIS BLOCK EXISTS.
+#
+# Every block above is capability-scoped: it answers "what does this ENDPOINT
+# cost / bound / stop at". Skills also need thresholds that belong to the
+# SKILL, not to any one endpoint. Without a namespace, every skill change edits
+# the same flat hunks of this file.
+#
+# That failure is not loud. `gateValue()` throws MissingGateKey on an absent
+# leaf and every check converts the throw into STOP (law 5), so a gate key lost
+# to a merge does not produce a conflict marker or a red test — it produces a
+# skill that silently refuses to run, while that branch's own tests stay green
+# because its copy of the file had the key. This class of bug has happened once
+# (a config reader falling back to defaults and discarding the whole PII
+# retention policy), which is why it is designed out rather than watched for.
+#
+# RULES
+#   1. One block per skill, keyed by the skill's directory name with dashes
+#      turned into underscores (`skills/list-hygiene/` -> `skills.list_hygiene`).
+#   2. Adding a key is a deliberate, reviewed change to this file, made in the
+#      same change as the skill that cites it — the same procedure as the frozen
+#      contracts (see CONTRIBUTING.md).
+#   3. Keys are add-only, never renamed — a rename is a silent STOP for any
+#      skill still citing the old name.
+#   4. `tests/contracts/skill-gate-keys.test.mjs` asserts that every
+#      `gates.yaml:<key>` cited by a shipped SKILL.md actually resolves. A lost
+#      merge hunk fails CI there instead of in production.
+skills:
+
+  build_prospect_list:
+    # Search endpoints are page-gated by `unbounded_endpoints` above; this is the
+    # per-run ceiling on how many pages a single list build may accumulate across
+    # ALL searches, so three separate searches cannot each walk to the page
+    # ceiling and quietly triple the bill.
+    max_pages_per_run: 10
+    # A list below this is not worth carrying into an enrichment waterfall.
+    min_rows_to_continue: 5
+
+  list_hygiene:
+    # Domain liveness is a network probe, not a paid call. It still needs a
+    # bound: a 5k-row list with a 10s timeout is a 14-hour run.
+    domain_probe_timeout_ms: 5000
+    domain_probe_concurrency: 8
+    max_rows_per_run: 10000
+
+  comply:
+    # Erasure is irreversible. It is never implicit and never batched silently.
+    erase_requires_explicit_confirm: true
+    # A sweep that would purge more than this fraction of stored rows asks
+    # first — a typo'd domain should not be able to empty the cache in one go.
+    erase_confirm_fraction: 0.10
+    jurisdictions:
+      - gdpr
+      - ccpa
+      - casl
+      # CAN-SPAM is the US federal floor. Without it a Seattle row resolved to no
+      # regime at all and was told to add the country column it already had.
+      - can_spam
+
+  campaign_review:
+    # A verdict is bound to the list's content hash. Past this age the verdict
+    # is stale even if the hash still matches, because suppression state and
+    # verification results move underneath it.
+    verdict_max_age_hours: 168
+    # A review over a list this large samples rather than reading every row;
+    # below it, every row is read.
+    full_read_max_rows: 2000
+
+  launch:
+    # The export is the last artifact the pack controls. It is written only
+    # against a PASS verdict bound to the list's content hash.
+    require_pass_verdict: true
+    max_export_rows: 50000
+
+  # --- Planning and outreach skills-------------------------------------------
+
+  gtm_kickoff:
+    # A strategy brief every later skill reads as its anchor. Past this age the
+    # downstream reader should say so rather than each inventing its own view of
+    # whether the brief is current. Mirrors campaign_review.verdict_max_age_hours.
+    brief_max_age_days: 90
+
+  icp_review:
+    icp_max_age_days: 90
+    # The enrich_company sample is this skill's only mandatory paid step. Without
+    # a ceiling its bound is the approved plan plus the session budget, which is
+    # a bound on money rather than on scope. 50 matches enrich_companies_bulk's
+    # max_batch, so the sample fits one bulk call the day batching turns on.
+    max_sample_accounts: 50
+
+  tam_map:
+    # Pages accumulated across ALL searches in one map. hard_page_ceiling is
+    # per-endpoint, so without this three searches can each walk to it.
+    max_pages_per_run: 10
+    # Page-one probes bought purely to read a total-count field. Bounds the
+    # cross-tab: 4 industries x 3 sizes x 3 regions is 36 probes.
+    max_count_probes: 12
+    # directory_yellowpages takes max_pages IN THE REQUEST BODY, so one request
+    # can scrape N pages while the runtime's page gate counts one request and
+    # fires once. Clamping it to 1 keeps the per-page human gate real. This is a
+    # structural clamp, not a credit threshold.
+    directory_max_pages_per_request: 1
+    min_segment_size: 25
+
+  local_business_prospecting:
+    # Added 2026-08-31. This skill previously deferred all three ceilings to "a
+    # namespace nobody has written yet", which left the most bill-surprising page
+    # in the pack with no runtime clamp at all: every endpoint it touches bills
+    # per result and NONE of them reports its charge, so an overrun is invisible
+    # in the receipt as well as in the plan.
+    #
+    # Same structural clamp as tam_map, same reason, different owner:
+    # directory_yellowpages takes max_pages IN THE REQUEST BODY, so one request
+    # scrapes N pages while the runtime's page gate counts one request and fires
+    # once. tam_map's key is scoped to tam_map; this skill needs its own.
+    directory_max_pages_per_request: 1
+    # Reviews are charged per result against a count the response does not carry.
+    # A cap the operator approves beats a sweep nobody bounded — an earlier version
+    # of this skill defaulted to reviewing every place, which is the single most
+    # expensive mistake available here.
+    max_reviews_per_place: 25
+    # How many places one run may pull reviews for. The bill is the PRODUCT of
+    # this and max_reviews_per_place, so both must be visible in the plan.
+    max_places_per_run: 20
+
+  account_research:
+    # A cross-endpoint page ceiling for one account. Each page-gated endpoint is
+    # bounded individually by hard_page_ceiling, so one run can walk six
+    # different unbounded endpoints to that ceiling and multiply the bill
+    # sixfold without any single gate firing.
+    max_pages_per_run: 6
+    # profile_activities is charged on a count field absent from the response.
+    # One profile per run, chosen rather than swept.
+    profile_activities_max_profiles: 1
+    deep_pass_requires_explicit_opt_in: true
+
+  evidence_score:
+    # A verified fact carrying a confidence below this grades weak/not_verifiable
+    # rather than supported. The scoring skill is the one place in the pack that
+    # decides what counts as known, so its floor is policy, not taste.
+    emit_min_confidence: 0.70
+    # Evidence older than this grades weak. An UNDATED fact is treated as stale,
+    # not as fresh — the opposite default lets an unattributable claim age into
+    # respectability.
+    evidence_max_age_days: 90
+    # Below this many measured dimensions the 0-100 total is REFUSED, not
+    # reported as a low score. A score of 22 computed from one dimension reads
+    # as "this lead is bad" when it means "we know almost nothing about them",
+    # and those two lead to opposite actions.
+    min_dimensions_scored: 3
+    band_hot_min: 80
+    band_warm_min: 60
+    band_watch_min: 40
+    # A record nobody can reach is not Hot however good the rest of it looks.
+    priority_reachability_min: 8
+
+  personalize:
+    # Row count above which the batch-scale route to ai_enrich opens.
+    # Below it, draft locally: the pack already runs inside a model that writes
+    # at no marginal cost, so paying 2 credits a row to draft is a billing error
+    # rather than a capability.
+    ai_enrich_batch_min_rows: 200
+
+  learn:
+    # A prior may only ever REORDER an already-approved hop set. It can never add
+    # a hop, and therefore can never change what a run costs — see
+    # docs/designs/networked-learnings.md, which rules that out explicitly.
+    #
+    # An observation's weight halves every half-life, so a provider that won six
+    # months ago does not outvote one that won last week.
+    confidence_half_life_days: 30
+    # Decayed-n floor below which a prior may not re-rank anything. A thin sample
+    # steering a paid run is how a flywheel becomes a superstition.
+    min_observations_to_apply: 5
+    # The newest observation's own decay weight must clear this, so a history
+    # that has fully decayed cannot re-rank on the strength of its age alone.
+    min_confidence_to_apply: 0.25
+
+  # --- Signal, call and research skills ---------------------------------------
+
+  signal_watch:
+    # The first cycle captures state and emits nothing. Everything looks new when
+    # nothing has been seen before, and a day-one digest of 500 "new" rows teaches
+    # the user to skim the second one.
+    baseline_first: true
+    # Cross-endpoint page ceiling for ONE cycle. Four of this skill's watches are
+    # page-gated and each is bounded individually, so one entity can walk all four
+    # to the hard ceiling and multiply the bill with no single gate firing.
+    max_pages_per_run: 6
+    # The selective job-detail hop. Flat per call is cheap once and expensive every
+    # cycle forever — that is the whole hazard of a recurring skill.
+    max_job_details_per_cycle: 3
+    max_digest_rows: 20
+    # Re-price the subscription line this often. A standing charge quoted once goes
+    # stale: 16 of 53 surviving endpoints repriced inside four months.
+    reproject_every_cycles: 4
+
+  reply_triage:
+    # An unclear opt-out reading resolves to suppression. Held as policy so it
+    # cannot later be softened into a heuristic: the cost of wrongly suppressing is
+    # one lost lead, and the cost of wrongly not suppressing is a complaint.
+    ambiguous_is_unsubscribe: true
+    # The opposite asymmetry, deliberately. A domain entry removes a whole account,
+    # so ambiguity about SCOPE narrows rather than widens.
+    domain_suppression_requires_explicit_authority: true
+    ai_enrich_batch_min_rows: 200
+    max_replies_per_run: 1000
+
+  ads_audience:
+    # Rows one run may put through the paid fill. email_finder is flat per call, so
+    # this is the only bound on the fill that is not the session budget.
+    max_fill_rows: 2000
+    # Uploading exactly at a platform floor fails, because the platform matches only
+    # a fraction of what you send. The ceiling must clear the floor by this multiple
+    # before the fill is even offered — otherwise the user pays to be rejected.
+    pre_match_headroom_multiple: 1.5
+
+  call_intel:
+    # The same batch escape as `personalize`, on transcripts rather than rows. Below this the
+    # surrounding agent reads them for free and ai_enrich is a billing error.
+    ai_enrich_batch_min_transcripts: 200
+    # Attendee resolution is chosen, never swept across everyone named on a call.
+    max_enrich_profile_calls_per_run: 1
+
+  scheduled_workflow:
+    # An approval is not perpetual. 16 of 53 endpoints repriced in four months, so
+    # an old approval is an approval of a world that no longer exists.
+    approval_max_age_days: 30
+    # Bounds one approval. Without it "1,000,000 runs" is an unbounded envelope.
+    # 26 is two quarters of weekly fires.
+    max_runs_per_approval: 26
+    # Cadence floor. Nothing in the pack refreshes faster, and a misfiring trigger
+    # spends the whole envelope before anyone is awake to see it.
+    min_interval_hours: 6
+    # Total across ALL runs of one approval. session_budget.max_credits bounds a
+    # single run only, which is not the thing that runs away here.
+    max_envelope_credits: 20000
+
+  cost_optimizer:
+    # A pattern seen once is not a recommendation.
+    min_evidence_calls: 2
+    # Noise floor: a saving below this costs more attention than it returns.
+    min_saving_credits: 1
+
+  gtm_retro:
+    retro_max_window_days: 90
+    # Two runs is the minimum that can be a comparison rather than an anecdote.
+    min_runs_to_compare: 2
+    # A verdict drawn from a handful of rows is noise wearing the costume of signal.
+    min_rows_per_arm_to_decide: 25
+    # A retro that hands back thirty decisions has handed back none. Zero is a
+    # legitimate setting and means show nothing — see the cap check in the skill,
+    # which tests the bound BEFORE pushing so that zero actually suppresses.
+    max_decisions: 5
+
+  org_map:
+    max_pages_per_run: 4
+    # Shortlist ceiling for the bulk profile hop, whose charge (_list_count) is
+    # absent from the response. Half of max_batch, so a committee fits one call.
+    committee_max_profiles: 25
+    ai_enrich_batch_min_rows: 200
+
+  competitive_intel:
+    # The multiplier on every line of a sweep, and this skill is the only one that
+    # runs against a SET of companies rather than one.
+    max_competitors_per_sweep: 5
+    max_pages_per_run: 6
+    ad_details_max_per_competitor: 3
+    profile_activities_max_profiles: 1
+
+  research_agent:
+    # Freeform means the user does not know what they are asking for in credits: a
+    # question that sounds like one call is rows x fan-out.
+    max_rows_per_run: 500
+    # Fan-out WIDTH, counting optional hops. Four hops over a thousand rows is four
+    # thousand calls, and no other gate in the pack can see that shape. Set to the
+    # widest template in the library, so a fifth hop has to be argued for.
+    max_endpoints_per_row: 4
+    # A freeform question is a hypothesis about where an answer lives. Test it on a
+    # slice, then re-price the remainder from what the slice actually measured.
+    pilot_rows: 20
+    # Without provider=perplexity and use_web_search, the hop is the local
+    # model at a per-call price.
+    ai_enrich_requires_web_grounding: true
+
+  play_design:
+    # The design-time probe on a page-gated endpoint reads page one and stops.
+    # Sizing a trigger is not buying one.
+    trigger_probe_max_pages: 1
+    min_audience_rows: 25
+    play_max_age_days: 90
+    # A play that re-runs before its last run was measured is an unmeasured
+    # standing charge, which is the one thing a play must not become.
+    require_measure_before_rerun: true
+
+  # --- Cadence and deliverability: the one place a VALUE is the right answer --
+  #
+  # WHY THESE TWO BLOCKS CARRY NUMBERS WHEN THE CREDIT GATES DELIBERATELY DO NOT.
+  #
+  # Law 1 forbids a hand-typed number because CREDIT PRICES REPRICE QUARTERLY —
+  # phone_finder went 3 -> 25 credits in four months, 16 of 53 surviving endpoints
+  # moved in the same window. That is an argument about VOLATILITY, and it does
+  # not transfer to receiver policy. A per-mailbox send ceiling, a warmup ramp and
+  # a spam-complaint ceiling are conventions the large mailbox providers revise on
+  # a scale of YEARS: the Gmail/Yahoo bulk-sender requirements that reset the whole
+  # field landed once, in February 2024, and the numbers in them have not moved
+  # since. So these are legitimately writable as values, and law 1 still holds
+  # exactly where it was aimed — not one credit number appears below.
+  #
+  # The two skills that read this were scored 6/10 by two independent GTM reviews
+  # for refusing to answer "how many follow-ups?", which is the most-asked question
+  # in outbound. A skill that owns a question and declines to answer it is not
+  # being careful; it is being useless in the one place it was supposed to help.
+  #
+  # WHAT HAS NOT CHANGED: the pack cannot verify any of this. Both skills own zero
+  # endpoints and execute nothing — every value here is advice the operator applies
+  # inside their own sending tool, under their own domain reputation. So each value
+  # carries its source, the date it was last checked, and its confidence; where a
+  # number genuinely varies by sending platform the value here is the conservative
+  # end of the published range, and both skills are required to tell the user to
+  # check it against the platform they actually send from. A confident wrong number
+  # here costs a domain, which is a slower and more expensive failure than a
+  # blown credit budget.
+
+  sequence_builder:
+    # Total touches in ONE sequence, counting the steps a human executes elsewhere
+    # (the call, the social touch) as well as the email steps this pack prepares.
+    #
+    # Source: outbound practice has converged on a 4-7 touch cold sequence, which
+    # is the range every major sending platform's own template library ships and
+    # the range the published cold-outbound reply-rate studies measure. 7 is the
+    # top of it, not the middle: past roughly the fifth touch the marginal reply
+    # yield is inside the noise while the unsubscribe and complaint yield is not,
+    # so a longer sequence trades a reply it was not going to get for a complaint
+    # it would not otherwise have had.
+    # Confidence: MEDIUM. Convention with consistent public measurement behind it,
+    # not a published receiver policy. Checked 2026-08-31.
+    max_steps: 7
+    # Floor on the gap between two touches, in BUSINESS days, so a Friday send and
+    # a Monday send are not counted as two touches.
+    #
+    # Source: the same convention, read from the other end — "three touches in four
+    # days reads as a bot" is the failure this floor exists to forbid, and three
+    # business days is the smallest gap that makes that arithmetic impossible.
+    # Deliberately a floor and not a target: the design widens the gap as the
+    # sequence goes on, so only the first follow-up should ever sit on it.
+    # Confidence: MEDIUM, and platform-independent — the receivers do not publish a
+    # spacing rule, this is about how the sequence reads to a human.
+    # Checked 2026-08-31.
+    min_gap_business_days: 3
+    # Ceiling on the whole sequence, in BUSINESS days, after which the sequence is
+    # over and the row goes back to the list rather than being extended.
+    #
+    # Source: derived, not looked up — chosen as a SET with the two above rather
+    # than picked on its own, and cross-checked against the 4-6 week window that
+    # cold-outbound practice treats as one campaign. 7 steps at
+    # the 3-day floor is 18 business days at the absolute minimum, and widening the
+    # gaps toward the close — which the design requires — lands a full-length
+    # sequence near 30. So this ceiling does not bind a well-shaped sequence at
+    # all. What it binds is the row that never exits: roughly six calendar weeks,
+    # after which "still in the cadence" has become a synonym for "nobody decided".
+    # Confidence: MEDIUM, and lower than the two above it, because it is the only
+    # value here computed rather than observed. Checked 2026-08-31.
+    max_window_business_days: 30
+
+  outreach_expert:
+    # Sends per MAILBOX per day. Volume scales by adding mailboxes, never by
+    # raising this — that is the whole reason the number is a ceiling.
+    #
+    # Source: the operating ceiling published by every major cold-sending platform
+    # and their warmup tooling, which cluster on 20-50 for a warmed, dedicated cold
+    # mailbox. Note what this number is NOT: Google Workspace's own hard cap is
+    # 2,000 external recipients a day and Microsoft 365's is 10,000 — those are the
+    # provider's abuse limits, an order of magnitude above the point at which
+    # RECEIVER reputation starts to degrade, and they are not the binding
+    # constraint. 50 is the top of the safe band; 20-30 is where a cautious
+    # operator actually runs, and a brand-new mailbox belongs at the bottom of it.
+    # Confidence: MEDIUM. Platform convention, not published receiver policy. This
+    # is the value in this file most likely to be wrong for a given setup, so the
+    # skill must send the reader to their platform's current guidance rather than
+    # presenting it as settled. Checked 2026-08-31.
+    max_sends_per_mailbox_per_day: 50
+    # Days of ramp before a new mailbox carries real campaign traffic. Warmup is
+    # sending, so this pack can state the ramp and can never run one.
+    #
+    # Source: platform warmup tooling defaults, which run 2-4 weeks. 21 days rather
+    # than 14 because a new DOMAIN and a new mailbox are almost always warmed
+    # together and the domain is the slower of the two to earn a reputation; 14 is
+    # the shortest ramp anyone reputable publishes, and it assumes an established
+    # domain. This is a MINIMUM, so the conservative value is the longer one.
+    # Confidence: MEDIUM. Convention. Where the platform's own warmup tool reports
+    # readiness, that reading beats this number in both directions.
+    # Checked 2026-08-31.
+    warmup_min_days: 21
+    # Spam-complaint rate, in percent of delivered messages, above which the large
+    # receivers begin throttling. The one number here with a published source.
+    #
+    # Source: Google's bulk-sender requirements (in force since February 2024) tell
+    # senders to keep the rate reported in Postmaster Tools below 0.30% and to aim
+    # below 0.10%; Yahoo published a matching threshold at the same time. 0.10 is
+    # the aim-for figure, deliberately, not the enforcement figure: 0.30 is where
+    # the receiver acts, and a ceiling set at the point of enforcement gives the
+    # operator no room to notice and stop first.
+    # Confidence: HIGH for the source, and it is still measured on the RECEIVER's
+    # dashboard, never here — Postmaster Tools and Microsoft SNDS are the only
+    # place this rate can be read.
+    # Checked 2026-08-31.
+    spam_complaint_max_pct: 0.1
+    # Unsubscribe rate, in percent of delivered messages, above which the problem
+    # is targeting rather than deliverability. Above this, better copy and a
+    # cleaner ramp fix nothing — the wrong people are receiving the mail.
+    #
+    # Source: bulk-email benchmarks put a healthy unsubscribe rate at 0.1-0.5%, and
+    # cold-outbound practice treats sustained 1%+ as a segmentation failure. Held
+    # as a ceiling on the diagnosis, not as a gate: nothing in this pack can stop a
+    # send, so what this number buys is the advisor saying "stop and re-segment"
+    # instead of "tune the subject line".
+    # Confidence: MEDIUM. Benchmark, and it varies with list source and offer more
+    # than any other value in this block. Checked 2026-08-31.
+    unsubscribe_max_pct: 1.0
+
+# --- The setup own-domain sweep ---------------------------------------------
+# Top-level, NOT under `skills:`, because the sweep runs from setup.mjs before any
+# skill exists. Filing it under a skill would put it somewhere nobody would look.
+setup_sweep:
+  # A wall-clock bound. Without it a hung API makes `./setup` hang, which is
+  # precisely the wedge this bound exists to forbid: setup's job is to prepare the tree,
+  # and a failed bonus that blocks installation is worse than no bonus.
+  timeout_ms: 20000
+  # A ceiling on the QUOTE, not on the spend. Law 1's own evidence is the argument:
+  # phone_finder went 3 -> 25 credits in four months, so a regenerated catalog can
+  # silently make this first-run prompt expensive. Past this ceiling the sweep
+  # WITHDRAWS THE OFFER rather than showing the user a bigger number — a paid
+  # prompt at setup only earns its place while it is trivially cheap.
+  max_credits: 5
+
+# --- Cache TTLs ------------------------------------------------------------
+# SHAPE OWNED JOINTLY WITH LANE E. _lib/pii.mjs reads this block for the PII
+# retention sweep with a deliberately minimal YAML reader, so everything under
+# `cache_ttl` must stay plain: nested maps and scalar values only. NO anchors,
+# aliases, block scalars, or inline flow collections anywhere below this line.
+#
+# A cache hit is the cheapest credit saved. Class TTLs track how fast the
+# underlying fact actually moves, not how fast we would like to re-fetch it.
+#
+# FAIL CLOSED (law 5): an endpoint with no entry resolves to the SHORTEST TTL,
+# never the longest. gates.mjs additionally clamps the unmatched case to the
+# minimum of every class, so editing `unknown` upward cannot widen it.
+cache_ttl:
+  classes:
+    firmographics: 90d
+    funding_tech: 30d
+    email_verification: 7d
+    posts_activity: 1d
+    unknown: 1d
+    people_lists: 7d
+    directories: 30d
+  # Capability groups from api-catalog.schema.json, mapped to a class.
+  #
+  # BOTH readers use this key. _lib/pii.mjs:ttlForEndpoint() resolves
+  # endpoint -> capability_group -> class AHEAD of its own built-in endpoint
+  # table, so a value here OVERRIDES the built-in retention class. The comment
+  # that stood here for two phases claimed the opposite, and while it stood,
+  # `enrichment: firmographics` quietly moved enrich_profile from 7d to 90d and
+  # profile_social_metrics from 1d to 90d with nothing logged anywhere.
+  #
+  # The group axis is the CATALOG's: "what does this endpoint do". Retention needs
+  # a different axis: "whose data does it hold". They do not line up — `enrichment`
+  # is 4 company endpoints and 5 person endpoints — so where a group is the wrong
+  # proxy, the person half is pinned by name in `endpoints:` below, which resolves
+  # first. A widening that is not pinned is reported by loadTtlTable() in
+  # `table.notes` / `table.widenings`, never silently applied.
+  capability_groups:
+    enrichment: firmographics
+    funding: funding_tech
+    web_intelligence: funding_tech
+    email_and_phone: email_verification
+    posts_activity: posts_activity
+    ads_libraries: posts_activity
+    search_trends: posts_activity
+    people_search: people_lists
+    maps_directories: directories
+    youtube: people_lists
+    social: people_lists
+    utilities: firmographics
+    ai: unknown
+  # A value is a class name OR a literal duration.
+  endpoints:
+    # 0d = never served from cache. An earlier version had `ai: 0` with the note
+    # "non-deterministic output; never served from cache"; the class reshape lost it.
+    # It lives here rather than as a class so that `unknown` stays the shortest CLASS
+    # and the fail-closed floor invariant in _lib/pii.mjs holds.
+    ai_enrich: 0d
+    enrich_company: firmographics
+    web_tech_stack: 30d
+    email_verifier: email_verification
+    profile_activities: posts_activity
+    crunchbase_company_scraper_sync: funding_tech
+    # --- the person half of its capability group ------------------------------
+    # Each of these sits in a group whose class is right for the group's COMPANY
+    # members and wrong for its person members. Pinned here because an endpoint
+    # entry outranks a group, and because storage limitation (GDPR art. 5(1)(e))
+    # is measured per data subject, not per capability.
+    #
+    # group `enrichment` -> firmographics (90d) is correct for enrich_company and
+    # enrich_companies_bulk. It is not correct for a named person's profile:
+    #   contactability decays with job changes, which is a weekly clock.
+    enrich_profile: email_verification
+    enrich_profiles_bulk: email_verification
+    find_linkedin_url_by_email: email_verification
+    find_linkedin_url_by_name: email_verification
+    # follower/engagement counts on one person's profile — a live figure, not a fact
+    profile_social_metrics: posts_activity
+    # group `web_intelligence` -> funding_tech (30d): a tech stack keeps for a month,
+    # a person's email address scraped off a page does not.
+    web_emails: email_verification
+    # group `utilities` -> firmographics (90d): true of clean_domain, false of
+    # anything whose input or output IS a person.
+    extract_urls_emails: email_verification
+    predict_gender: email_verification
+    normalize_phone: email_verification
+    # group `social` -> people_lists (7d): a channel roster is a list of named
+    # people and goes stale the moment somebody leaves.
+    slack_channel_members: posts_activity

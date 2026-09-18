@@ -1,0 +1,161 @@
+{
+  "endpoint": "enrich_profile",
+  "path": "/enrich_profile",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:47:02.958Z",
+  "redacted": true,
+  "body": {
+    "url": "https://www.linkedin.com/in/REDACTED/",
+    "awards": [],
+    "hiring": false,
+    "skills": [],
+    "courses": [],
+    "creator": true,
+    "patents": [],
+    "picture": "https://media.example.invalid/REDACTED",
+    "premium": true,
+    "summary": "REDACTED",
+    "headline": "REDACTED",
+    "industry": "Philanthropy",
+    "lastname": "REDACTED",
+    "location": {
+      "city": "Seattle",
+      "state": "Washington",
+      "country": "United States",
+      "shortValue": "Seattle, Washington",
+      "defaultValue": "Seattle, Washington, United States"
+    },
+    "projects": [],
+    "verified": null,
+    "birthDate": null,
+    "entityUrn": "REDACTED",
+    "firstname": "REDACTED",
+    "languages": [],
+    "objectUrn": 0,
+    "background": "https://media.example.invalid/REDACTED",
+    "educations": [
+      {
+        "date": {
+          "end": "1975-01-01T00:00:00.000Z",
+          "start": "1973-01-01T00:00:00.000Z"
+        },
+        "grade": null,
+        "school": {
+          "id": 1646,
+          "url": "https://www.linkedin.com/in/REDACTED/",
+          "logo": "https://media.example.invalid/REDACTED",
+          "name": "REDACTED",
+          "profileType": "COMPANY"
+        },
+        "degreeName": null,
+        "fieldOfStudy": null
+      },
+      {
+        "date": null,
+        "grade": null,
+        "school": {
+          "id": 30288,
+          "url": "https://www.linkedin.com/in/REDACTED/",
+          "logo": "https://media.example.invalid/REDACTED",
+          "name": "REDACTED",
+          "profileType": "COMPANY"
+        },
+        "degreeName": null,
+        "fieldOfStudy": null
+      }
+    ],
+    "identifier": "REDACTED",
+    "influencer": true,
+    "middleName": null,
+    "openToWork": false,
+    "testScores": [],
+    "publications": [],
+    "organizations": [],
+    "certifications": [],
+    "positionGroups": [
+      {
+        "date": {
+          "end": null,
+          "start": "2000-01-01T00:00:00.000Z"
+        },
+        "company": {
+          "id": 8736,
+          "url": "https://www.linkedin.com/in/REDACTED/",
+          "logo": "https://media.example.invalid/REDACTED",
+          "name": "REDACTED",
+          "domain": "gatesfoundation.org",
+          "profileType": "COMPANY"
+        },
+        "profilePositions": [
+          {
+            "date": {
+              "end": null,
+              "start": "2000-01-01T00:00:00.000Z"
+            },
+            "title": "Co-chair",
+            "company": "Gates Foundation",
+            "location": null,
+            "description": null,
+            "employmentType": null
+          }
+        ]
+      },
+      {
+        "date": {
+          "end": null,
+          "start": "2015-01-01T00:00:00.000Z"
+        },
+        "company": {
+          "id": 19141006,
+          "url": "https://www.linkedin.com/in/REDACTED/",
+          "logo": "https://media.example.invalid/REDACTED",
+          "name": "REDACTED",
+          "domain": "breakthroughenergy.org",
+          "profileType": "COMPANY"
+        },
+        "profilePositions": [
+          {
+            "date": {
+              "end": null,
+              "start": "2015-01-01T00:00:00.000Z"
+            },
+            "title": "Founder",
+            "company": "Breakthrough Energy ",
+            "location": null,
+            "description": null,
+            "employmentType": null
+          }
+        ]
+      },
+      {
+        "date": {
+          "end": null,
+          "start": "1975-01-01T00:00:00.000Z"
+        },
+        "company": {
+          "id": 1035,
+          "url": "https://www.linkedin.com/in/REDACTED/",
+          "logo": "https://media.example.invalid/REDACTED",
+          "name": "REDACTED",
+          "domain": "microsoft.com",
+          "profileType": "COMPANY"
+        },
+        "profilePositions": [
+          {
+            "date": {
+              "end": null,
+              "start": "1975-01-01T00:00:00.000Z"
+            },
+            "title": "Co-founder",
+            "company": "Microsoft",
+            "location": null,
+            "description": null,
+            "employmentType": null
+          }
+        ]
+      }
+    ],
+    "recommendations": [],
+    "volunteerExperiences": []
+  }
+}

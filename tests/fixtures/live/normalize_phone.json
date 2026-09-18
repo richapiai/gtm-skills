@@ -1,0 +1,20 @@
+{
+  "endpoint": "normalize_phone",
+  "path": "/normalize_phone",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:39:56.426Z",
+  "redacted": true,
+  "body": {
+    "successfully_parsed": true,
+    "is_valid": true,
+    "is_possible": true,
+    "region_code": "US",
+    "country_code": 1,
+    "can_be_internationally_dialed": true,
+    "e164_format": "+10000000000",
+    "international_format": "+10000000000",
+    "national_format": "(+10000000000",
+    "rfc3966_format": "tel:+10000000000",
+    "number_type": "FIXED_LINE_OR_MOBILE"
+  }
+}

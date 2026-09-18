@@ -1,0 +1,15 @@
+{
+  "endpoint": "normalize_list",
+  "path": "/normalize_list",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:23:37.660Z",
+  "redacted": true,
+  "body": {
+    "original_count": 1,
+    "deduplicated_count": 1,
+    "deduped_list": [
+      "RichAPI automates GTM workflows."
+    ],
+    "deduped_string": "RichAPI automates GTM workflows."
+  }
+}

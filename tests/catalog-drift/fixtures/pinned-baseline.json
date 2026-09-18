@@ -1,0 +1,275 @@
+{
+  "_provenance": "A 10-endpoint slice of _lib/api-catalog.json as generated from spec/openapi.yaml sha256 c17a0e7f...6e171 (spec 1.0.0), captured 2026-08-30. Endpoint rows are VERBATIM. Frozen on purpose: these tests must reproduce the drift they were written for no matter what the live tree does to _lib/api-catalog.json afterwards. The slice covers flat, per_result and base_plus_per_result pricing, a metered endpoint whose billing field is absent from the response, a page-gated one, a bulk/single pair, and profile_social_metrics.",
+  "schema_version": 1,
+  "generated_at": "2026-08-28T19:37:17.843Z",
+  "spec_sha256": "c17a0e7f756abb976e66337c110fd62357324ce7f1fce88c2c5c9ea35d96e171",
+  "spec_version": "1.0.0",
+  "endpoints": {
+    "ai_enrich": {
+      "name": "ai_enrich",
+      "path": "/ai_enrich",
+      "capability_group": "ai",
+      "spec_tag": "AI",
+      "pricing": {
+        "model": "flat",
+        "credits_per_call": 2,
+        "credits_base": null,
+        "credits_per_result": null,
+        "result_count_field": null,
+        "billing_field_present_in_response": true,
+        "bounded": true,
+        "page_gated": false,
+        "disabled_by_default": false,
+        "disabled_reason": null
+      },
+      "required_request_fields": [
+        "prompt",
+        "provider"
+      ],
+      "request_body_required": true,
+      "bulk_variant": null,
+      "max_batch": null,
+      "field_map": null,
+      "field_map_status": "TODO_no_usable_example",
+      "deprecated": false
+    },
+    "clean_domain": {
+      "name": "clean_domain",
+      "path": "/clean_domain",
+      "capability_group": "utilities",
+      "spec_tag": "Utilities",
+      "pricing": {
+        "model": "flat",
+        "credits_per_call": 0.5,
+        "credits_base": null,
+        "credits_per_result": null,
+        "result_count_field": null,
+        "billing_field_present_in_response": true,
+        "bounded": true,
+        "page_gated": false,
+        "disabled_by_default": false,
+        "disabled_reason": null
+      },
+      "required_request_fields": [
+        "messy_url"
+      ],
+      "request_body_required": true,
+      "bulk_variant": null,
+      "max_batch": null,
+      "field_map": null,
+      "field_map_status": "TODO_no_usable_example",
+      "deprecated": false
+    },
+    "enrich_profile": {
+      "name": "enrich_profile",
+      "path": "/enrich_profile",
+      "capability_group": "enrichment",
+      "spec_tag": "Enrichment",
+      "pricing": {
+        "model": "flat",
+        "credits_per_call": 1,
+        "credits_base": null,
+        "credits_per_result": null,
+        "result_count_field": null,
+        "billing_field_present_in_response": true,
+        "bounded": true,
+        "page_gated": false,
+        "disabled_by_default": false,
+        "disabled_reason": null
+      },
+      "required_request_fields": [
+        "url"
+      ],
+      "request_body_required": true,
+      "bulk_variant": "enrich_profiles_bulk",
+      "max_batch": 50,
+      "field_map": null,
+      "field_map_status": "TODO_no_usable_example",
+      "deprecated": false
+    },
+    "enrich_profiles_bulk": {
+      "name": "enrich_profiles_bulk",
+      "path": "/enrich_profiles_bulk",
+      "capability_group": "enrichment",
+      "spec_tag": "Enrichment",
+      "pricing": {
+        "model": "per_result",
+        "credits_per_call": null,
+        "credits_base": null,
+        "credits_per_result": 1,
+        "result_count_field": "_list_count",
+        "billing_field_present_in_response": false,
+        "bounded": false,
+        "page_gated": false,
+        "disabled_by_default": false,
+        "disabled_reason": null
+      },
+      "required_request_fields": [
+        "urns"
+      ],
+      "request_body_required": true,
+      "bulk_variant": null,
+      "max_batch": 50,
+      "field_map": null,
+      "field_map_status": "TODO_no_usable_example",
+      "deprecated": false
+    },
+    "lead_search": {
+      "name": "lead_search",
+      "path": "/lead_search",
+      "capability_group": "people_search",
+      "spec_tag": "Leads",
+      "pricing": {
+        "model": "base_plus_per_result",
+        "credits_per_call": null,
+        "credits_base": 10,
+        "credits_per_result": 0.5,
+        "result_count_field": "elements",
+        "billing_field_present_in_response": true,
+        "bounded": false,
+        "page_gated": true,
+        "disabled_by_default": false,
+        "disabled_reason": null
+      },
+      "required_request_fields": [],
+      "request_body_required": false,
+      "bulk_variant": null,
+      "max_batch": null,
+      "field_map": null,
+      "field_map_status": "TODO_no_usable_example",
+      "deprecated": false
+    },
+    "people_search": {
+      "name": "people_search",
+      "path": "/people_search",
+      "capability_group": "people_search",
+      "spec_tag": "Search",
+      "pricing": {
+        "model": "per_result",
+        "credits_per_call": null,
+        "credits_base": null,
+        "credits_per_result": 0.1,
+        "result_count_field": "numberOfElements",
+        "billing_field_present_in_response": true,
+        "bounded": true,
+        "page_gated": true,
+        "disabled_by_default": false,
+        "disabled_reason": null
+      },
+      "required_request_fields": [
+        "limit",
+        "page"
+      ],
+      "request_body_required": true,
+      "bulk_variant": null,
+      "max_batch": null,
+      "field_map": null,
+      "field_map_status": "TODO_no_usable_example",
+      "deprecated": false
+    },
+    "phone_finder": {
+      "name": "phone_finder",
+      "path": "/phone_finder",
+      "capability_group": "email_and_phone",
+      "spec_tag": "Enrichment",
+      "pricing": {
+        "model": "flat",
+        "credits_per_call": 25,
+        "credits_base": null,
+        "credits_per_result": null,
+        "result_count_field": null,
+        "billing_field_present_in_response": true,
+        "bounded": true,
+        "page_gated": false,
+        "disabled_by_default": false,
+        "disabled_reason": null
+      },
+      "required_request_fields": [],
+      "request_body_required": false,
+      "bulk_variant": null,
+      "max_batch": null,
+      "field_map": null,
+      "field_map_status": "TODO_no_usable_example",
+      "deprecated": false
+    },
+    "profile_search": {
+      "name": "profile_search",
+      "path": "/profile_search",
+      "capability_group": "people_search",
+      "spec_tag": "Search",
+      "pricing": {
+        "model": "per_result",
+        "credits_per_call": null,
+        "credits_base": null,
+        "credits_per_result": 0.1,
+        "result_count_field": "elements",
+        "billing_field_present_in_response": true,
+        "bounded": false,
+        "page_gated": true,
+        "disabled_by_default": false,
+        "disabled_reason": null
+      },
+      "required_request_fields": [],
+      "request_body_required": false,
+      "bulk_variant": null,
+      "max_batch": null,
+      "field_map": null,
+      "field_map_status": "TODO_no_usable_example",
+      "deprecated": false
+    },
+    "profile_social_metrics": {
+      "name": "profile_social_metrics",
+      "path": "/profile_social_metrics",
+      "capability_group": "enrichment",
+      "spec_tag": "Enrichment",
+      "pricing": {
+        "model": "flat",
+        "credits_per_call": 1,
+        "credits_base": null,
+        "credits_per_result": null,
+        "result_count_field": null,
+        "billing_field_present_in_response": true,
+        "bounded": true,
+        "page_gated": false,
+        "disabled_by_default": false,
+        "disabled_reason": null
+      },
+      "required_request_fields": [
+        "url"
+      ],
+      "request_body_required": true,
+      "bulk_variant": null,
+      "max_batch": null,
+      "field_map": null,
+      "field_map_status": "TODO_no_usable_example",
+      "deprecated": false
+    },
+    "web_scrape": {
+      "name": "web_scrape",
+      "path": "/web_scrape",
+      "capability_group": "web_intelligence",
+      "spec_tag": "Web Scraping",
+      "pricing": {
+        "model": "flat",
+        "credits_per_call": 1,
+        "credits_base": null,
+        "credits_per_result": null,
+        "result_count_field": null,
+        "billing_field_present_in_response": true,
+        "bounded": true,
+        "page_gated": false,
+        "disabled_by_default": false,
+        "disabled_reason": null
+      },
+      "required_request_fields": [
+        "url"
+      ],
+      "request_body_required": true,
+      "bulk_variant": null,
+      "max_batch": null,
+      "field_map": null,
+      "field_map_status": "TODO_no_usable_example",
+      "deprecated": false
+    }
+  }
+}

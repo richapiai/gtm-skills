@@ -1,0 +1,15 @@
+{
+  "endpoint": "remove_whitespace",
+  "path": "/remove_whitespace",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:23:53.833Z",
+  "redacted": true,
+  "body": {
+    "original_text": "RichAPI automates GTM workflows.",
+    "normalized_text": "RichAPI automates GTM workflows.",
+    "original_length": 32,
+    "normalized_length": 32,
+    "characters_removed": 0,
+    "changes_applied": false
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "endpoint": "find_personal_email",
+  "path": "/find_personal_email",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:20:06.585Z",
+  "redacted": true,
+  "body": {
+    "id": "6aac1331d111c2564d35f466",
+    "data": {
+      "email": "redacted@example.invalid",
+      "status": "ok",
+      "verifier": "Million Verifier"
+    },
+    "status": "success"
+  }
+}

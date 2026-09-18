@@ -1,0 +1,125 @@
+# docs/claims.yaml — every number the front-door docs are allowed to state about the
+# pack itself, and where it comes from.
+#
+# WHY THIS FILE EXISTS
+#
+# `_lib/endpoint-owners.yaml` is the best idea in this repo: every endpoint is either
+# claimed by a skill or listed under `unclaimed:` WITH A REASON, so a deliberate gap and
+# an accidental gap can never look alike. This file applies that shape to prose.
+#
+# It exists because the same defect shipped three times:
+#
+#   * the README said "1,819 tests" while the suite ran several hundred more;
+#   * it then said "2,372 tests, 0 failing" while the suite ran 2,393 with 3 red — and
+#     claimed a contract test guarded the number, which checks a BAND and never looked
+#     at the "0 failing" half at all;
+#   * `LIMITATIONS.md` §1 said "the pack has never made a real authenticated call, not
+#     once" for two days after the capture run that made it false.
+#
+# Law 6 is "evidence over vibes", and a hand-typed number in prose is a vibe with a
+# decimal point. So: every fact below is DERIVED at test time from the file named in
+# `source`, and `tests/contracts/doc-claims.test.mjs` fails when a front-door document
+# states a different number in that fact's context.
+#
+# A number that genuinely cannot be derived goes under `hand_typed:` with a reason, the
+# same way `unclaimed:` works. A number in neither list is not an error — this file
+# governs claims about the PACK'S OWN STATE, not every integer in the prose.
+#
+# TO ADD A FACT: give it a `source` the test can evaluate and a `context` regex naming
+# the words it appears near. Do not add a fact you cannot derive; put it under
+# `hand_typed:` and say why.
+
+schema_version: 1
+
+# Facts derived from the tree. `source` names a resolver in the test file — a real
+# computation over a real file, never a literal.
+derived:
+  # --- form: `N <word>` (a bare count) ------------------------------------
+  endpoint_count:
+    form: bare
+    source: catalog.endpoint_count
+    context: 'endpoints?\\b'
+    note: 'Every endpoint in _lib/api-catalog.json, generated from the pinned spec.'
+
+  skill_count:
+    form: bare
+    source: skills.total
+    context: 'skills?\\b'
+    note: 'Directories under skills/ holding a SKILL.md.'
+
+  # --- form: `N of <endpoint_count>` (a share of the endpoint population) --
+  #
+  # `population` is what makes this precise. Without it, "11 of 21 metered endpoints"
+  # and "16 of 53 surviving endpoints" — both real, both about DIFFERENT populations —
+  # were attributed to whichever status token happened to sit nearest, and every one of
+  # them read as a contradiction. A claim is only about this fact when its denominator
+  # IS this fact's population.
+  live_fixture_count:
+    form: of_population
+    population: catalog.endpoint_count
+    source: catalog.status.live_fixture
+    context: 'live_fixture'
+    note: 'Endpoints whose response shape was read off a recorded 200.'
+
+  spec_example_count:
+    form: of_population
+    population: catalog.endpoint_count
+    source: catalog.status.keys_from_spec_example
+    context: 'keys_from_spec_example'
+    note: >-
+      Endpoints still carrying the spec's guess. This is the state that produced the
+      2026-09-02 response-map defect, so this number moving DOWN is progress and moving
+      UP silently is a regression.
+
+  todo_example_count:
+    form: of_population
+    population: catalog.endpoint_count
+    source: catalog.status.TODO_no_usable_example
+    context: 'TODO_no_usable_example'
+    note: 'Endpoints with neither a usable example nor a recording.'
+
+# Numbers that cannot be derived from anything in this tree, with the reason each one is
+# allowed to be typed. Same contract as `unclaimed:` in _lib/endpoint-owners.yaml: a
+# reason is mandatory, so a deliberate hand-typed number and a forgotten one never look
+# alike.
+hand_typed:
+  free_skill_count:
+    reason: >-
+      "11 of the 33 never make a paid call" is already guarded, and guarded BETTER, by
+      `no-stale-catalog-claims.test.mjs` — "the README marks exactly the skills that make
+      no paid call as free" derives the set from _lib/endpoint-owners.yaml plus each
+      SKILL.md and compares it to the README's own `free` markers. Re-deriving it here
+      would mean two implementations of the same predicate, and a second one that
+      disagreed would be worse than none: that is exactly the planner/executor divergence
+      recorded in this repo's own learnings.
+  node_floor:
+    reason: >-
+      package.json `engines.node` is the authority and CI pins the same version as its
+      first matrix row, with `executables-load.test.mjs` failing if the two drift apart.
+      Version strings have no `N of M` form for this file's matcher to check, so adding
+      them here would be a guard that never fires.
+  test_count:
+    reason: >-
+      The suite size is only knowable by RUNNING the suite, and a test that runs the
+      suite to check a sentence about the suite would recurse. `no-stale-catalog-claims`
+      checks it against a declared-test proxy within a BAND, which is weaker than exact
+      and is now said so in the README. The "0 failing" half is guarded by nothing at
+      all, which is also now said in the README. Run `npm test`.
+  credit_prices:
+    reason: >-
+      Prices in prose are already governed by a stronger rule than this file: law 1 says
+      no credit number is ever typed into a skill or a doc, and `scripts/validate-skills.mjs`
+      fails CI on a bare hand-typed number in any SKILL.md. The README quotes prices
+      illustratively next to the catalog they come from.
+  churn_measurements:
+    reason: >-
+      "16 of 53 endpoints repriced in 4 months", "phone_finder 3 -> 25 credits (8.3x)",
+      "39 of 68 examples are >=40% the literal string example". Historical measurements
+      of a spec version this repo no longer pins. They are dated observations, not
+      current state, and re-deriving them would need the old spec.
+  capture_run_figures:
+    reason: >-
+      "55 responses recorded", "~81 credits spent", "69 columns where it delivered 10".
+      Facts about one run on one date. `tests/fixtures/live/capture-report.json` records
+      the run, but the columns-delivered comparison is against code that no longer
+      exists, so it cannot be recomputed — only cited.

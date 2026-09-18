@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-09-17T16:46:55.606Z",
+  "spec_sha256": "a6e69f460e6f304661dd582b67308ccca89cd58ae67f94c4e66960ae706d8fa5",
+  "spec_version": "1.0.0",
+  "base_url": "https://api.richapi.ai/api/v1",
+  "planned_credits": 22,
+  "results": [
+    {
+      "endpoint": "enrich_companies_bulk",
+      "status": "ok",
+      "http_status": 200,
+      "sample_status": "hit",
+      "request_source": "sample-inputs.json",
+      "credits_estimated": 1,
+      "credits_spent": 1,
+      "field_map_status": "live_fixture"
+    },
+    {
+      "endpoint": "enrich_company",
+      "status": "ok",
+      "http_status": 200,
+      "sample_status": "hit",
+      "request_source": "sample-inputs.json",
+      "credits_estimated": 1,
+      "credits_spent": 1,
+      "field_map_status": "live_fixture"
+    },
+    {
+      "endpoint": "enrich_profile",
+      "status": "ok",
+      "http_status": 200,
+      "sample_status": "hit",
+      "request_source": "sample-inputs.json",
+      "credits_estimated": 1,
+      "credits_spent": 1,
+      "field_map_status": "live_fixture"
+    },
+    {
+      "endpoint": "enrich_profiles_bulk",
+      "status": "ok",
+      "http_status": 200,
+      "sample_status": "hit",
+      "request_source": "sample-inputs.json",
+      "credits_estimated": 1,
+      "credits_spent": 1,
+      "field_map_status": "live_fixture"
+    },
+    {
+      "endpoint": "lead_search",
+      "status": "ok",
+      "http_status": 200,
+      "sample_status": "hit",
+      "request_source": "derived",
+      "credits_estimated": 10.5,
+      "credits_spent": 10.5,
+      "field_map_status": "live_fixture"
+    },
+    {
+      "endpoint": "linkedin_company_posts",
+      "status": "ok",
+      "http_status": 200,
+      "sample_status": "hit",
+      "request_source": "sample-inputs.json",
+      "credits_estimated": 0.2,
+      "credits_spent": 0.2,
+      "field_map_status": "live_fixture"
+    },
+    {
+      "endpoint": "linkedin_company_search",
+      "status": "ok",
+      "http_status": 200,
+      "sample_status": "hit",
+      "request_source": "derived",
+      "credits_estimated": 0.1,
+      "credits_spent": 0.1,
+      "field_map_status": "live_fixture"
+    },
+    {
+      "endpoint": "linkedin_job_detail",
+      "status": "ok",
+      "http_status": 200,
+      "sample_status": "hit",
+      "request_source": "sample-inputs.json",
+      "credits_estimated": 1,
+      "credits_spent": 1,
+      "field_map_status": "live_fixture"
+    },
+    {
+      "endpoint": "people_search",
+      "status": "ok",
+      "http_status": 200,
+      "sample_status": "hit",
+      "request_source": "derived",
+      "credits_estimated": 0.1,
+      "credits_spent": 0.1,
+      "field_map_status": "live_fixture"
+    },
+    {
+      "endpoint": "post_activities",
+      "status": "ok",
+      "http_status": 200,
+      "sample_status": "hit",
+      "request_source": "sample-inputs.json",
+      "credits_estimated": 3,
+      "credits_spent": 3,
+      "field_map_status": "live_fixture"
+    },
+    {
+      "endpoint": "post_details",
+      "status": "ok",
+      "http_status": 200,
+      "sample_status": "hit",
+      "request_source": "sample-inputs.json",
+      "credits_estimated": 1,
+      "credits_spent": 1,
+      "field_map_status": "live_fixture"
+    },
+    {
+      "endpoint": "post_keyword_search",
+      "status": "ok",
+      "http_status": 200,
+      "sample_status": "hit",
+      "request_source": "sample-inputs.json",
+      "credits_estimated": 0.1,
+      "credits_spent": 0.1,
+      "field_map_status": "live_fixture"
+    },
+    {
+      "endpoint": "profile_activities",
+      "status": "ok",
+      "http_status": 200,
+      "sample_status": "hit",
+      "request_source": "sample-inputs.json",
+      "credits_estimated": 2,
+      "credits_spent": 2,
+      "field_map_status": "live_fixture"
+    }
+  ],
+  "credits_spent_estimated": 22
+}

@@ -1,0 +1,27 @@
+{
+  "endpoint": "youtube_channel",
+  "path": "/youtube_channel",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:36:29.593Z",
+  "redacted": true,
+  "body": {
+    "data": {
+      "channel_id": "UCFtEEv80fQVKkD4h1PF-Xqw",
+      "name": "REDACTED",
+      "description": "Our mission is to empower every person and every organization on the planet to achieve more.\n\nSubscribe to Microsoft's official YouTube channel to explore technology’s role in making the world more sustainable, inclusive, and innovative ...",
+      "subscriber_count": "2170000",
+      "video_count": 0,
+      "view_count": 0,
+      "joined_date": "",
+      "country": "",
+      "avatar_url": "https://www.linkedin.com/in/REDACTED/",
+      "banner_url": "https://yt3.googleusercontent.com/e5poYJRiGpLR4x0amaBbcn_dxwvYMHGR-zEmIPkSBASq9kaIszEYwcI5Z5PQH-R3EgmzqV1rmdw=s0",
+      "links": []
+    },
+    "meta": {
+      "cache_hit": false,
+      "execution_time_ms": 1410,
+      "quality_warning": null
+    }
+  }
+}

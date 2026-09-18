@@ -1,0 +1,22 @@
+{
+  "endpoint": "geo_id_search",
+  "path": "/geo_id_search",
+  "field_map_status": "live_fixture",
+  "field_map": null,
+  "observed_types": {
+    "elements": "array",
+    "pagination": "null",
+    "error": "null"
+  },
+  "unmapped_keys": [
+    "pagination",
+    "error"
+  ],
+  "sample_status": "miss",
+  "billing_field": null,
+  "billing_field_present_in_response": null,
+  "captured_at": "2026-09-17T16:20:19.845Z",
+  "spec_sha256": "c17a0e7f756abb976e66337c110fd62357324ce7f1fce88c2c5c9ea35d96e171",
+  "source": "live_capture",
+  "field_map_derived": false
+}

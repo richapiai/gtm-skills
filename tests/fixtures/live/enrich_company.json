@@ -1,0 +1,82 @@
+{
+  "endpoint": "enrich_company",
+  "path": "/enrich_company",
+  "http_status": 200,
+  "captured_at": "2026-09-17T16:47:01.079Z",
+  "redacted": true,
+  "body": {
+    "url": "https://www.linkedin.com/in/REDACTED/",
+    "name": "REDACTED",
+    "universalName": "microsoft",
+    "type": "Public Company",
+    "objectUrn": 0,
+    "description": "Every company has a mission. What's ours? To empower every person and every organization to achieve more. We believe technology can and should be a force for good and that meaningful innovation contributes to a brighter world in the futu...",
+    "phone": null,
+    "followers": 29104846,
+    "website": "https://news.microsoft.com/",
+    "logo": "https://media.example.invalid/REDACTED",
+    "cover": "https://media.example.invalid/REDACTED",
+    "tagline": null,
+    "foundedYear": null,
+    "staff": {
+      "total": 232018,
+      "range": {
+        "start": 10001,
+        "end": null
+      }
+    },
+    "locations": {
+      "headquarter": {
+        "country": "US",
+        "geographicArea": "Washington",
+        "city": "Redmond",
+        "postalCode": "98052",
+        "line1": "1 Microsoft Way",
+        "line2": null,
+        "isPrimary": null
+      },
+      "other": [
+        {
+          "country": "US",
+          "geographicArea": "Washington",
+          "city": "Redmond",
+          "postalCode": "98052",
+          "line1": "1 Microsoft Way",
+          "line2": null,
+          "isPrimary": null
+        },
+        {
+          "country": "AU",
+          "geographicArea": "NSW",
+          "city": "North Sydney",
+          "postalCode": "2060",
+          "line1": "1 Denison Street ",
+          "line2": null,
+          "isPrimary": null
+        },
+        {
+          "country": "CA",
+          "geographicArea": "Ontario",
+          "city": "Mississauga",
+          "postalCode": "L5N 8L9",
+          "line1": "1950 Meadowvale Blvd",
+          "line2": null,
+          "isPrimary": null
+        }
+      ]
+    },
+    "fundingData": null,
+    "specialities": [
+      "Business Software",
+      "Developer Tools",
+      "Home & Educational Software"
+    ],
+    "industries": [
+      "Software Development"
+    ],
+    "hashtags": [
+      "microsoftlife",
+      "microsoft"
+    ]
+  }
+}

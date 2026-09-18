@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "description": "Machine-readable intent of the five pinned spec fixtures. These fixtures ARE the monthly-absorption test. Catalog-diff tests should read expectations from here rather than hard-coding endpoint names, so that changing a fixture forces changing its declared expectation in the same commit.",
+  "derived_from": {
+    "spec": "spec/openapi.yaml",
+    "spec_sha256": "a6e69f460e6f304661dd582b67308ccca89cd58ae67f94c4e66960ae706d8fa5",
+    "historical_baseline": "a legacy MCP tool-list catalog (66 tools, generated 2026-05-04), used only to ground the price-changed and endpoint-removed deltas in measured reality"
+  },
+  "severity_classes": {
+    "RENAMED": "warn + auto-PR",
+    "REPRICED_MINOR": "warn",
+    "REPRICED_MAJOR": "BLOCK",
+    "REMOVED_UNMAPPED": "BLOCK",
+    "PRICING_SEMANTICS_CHANGED": "BLOCK",
+    "DEPRECATED": "warn",
+    "ADDED": "warn, but UNMAPPED owner gate BLOCKs in CI"
+  },
+  "reprice_threshold": {
+    "rule": "factor = max(new/old, old/new); factor >= 2 is REPRICED_MAJOR, factor < 2 is REPRICED_MINOR",
+    "source": "_lib/catalog/diff.mjs",
+    "boundary_is_inclusive": true
+  },
+  "fixtures": {
+    "current": {
+      "file": "current.yaml",
+      "role": "baseline",
+      "endpoint_count": 15,
+      "verbatim_slices": true,
+      "intent": "A faithful trimmed snapshot of the pinned spec. Every paths: block is a byte-identical slice; tests/fixtures/spec.test.mjs enforces that.",
+      "covers": [
+        "flat pricing (clean_domain 0.5, email_finder 5, email_verifier 2, enrich_profile 1, find_personal_email 5, phone_finder 25, predict_gender 1, web_emails 2)",
+        "zero-cost endpoint (search_reference_data, credits_per_call 0)",
+        "per_result with _list_count, a field appearing in zero spec examples (enrich_profiles_bulk, enrich_companies_bulk)",
+        "per_result with a field the response really carries (people_search numberOfElements, linkedin_ad_search elements, post_keyword_search numberOfElements)",
+        "base_plus_per_result with a NON-ZERO base (lead_search: 10 base + 0.5/result) — a call that costs 10 credits even when it returns nothing",
+                "bulk/single pair for auto-batching (enrich_profile <-> enrich_profiles_bulk, max 50)",
+        "the two endpoints in the whole spec with NO response example at all (enrich_profiles_bulk, enrich_companies_bulk)",
+        "the endpoint whose entire example is the literal string \"example\" (email_finder)",
+        "endpoints declaring zero required request fields (email_finder, phone_finder) — a known hazard, not a green light",
+        "deliberately unclaimed endpoints for the owner gate (predict_gender: bias risk; post_keyword_search: enabled, but no skill searches posts by keyword)"
+      ],
+      "breaking_this_means": "Every other spec fixture is a delta on this file. Regenerating it without re-deriving the deltas silently invalidates every drift assertion in the repo."
+    },
+    "endpoint-added": {
+      "file": "endpoint-added.yaml",
+      "role": "candidate",
+      "baseline": "current.yaml",
+      "endpoint_count": 16,
+      "expected_findings": [
+        {
+          "severity": "ADDED",
+          "endpoint": "slack_channel_members",
+          "path": "/slack_channel_members",
+          "pricing": { "credits_per_call": 2 },
+          "blocks": false,
+          "note": "One of the 15 endpoints that really appeared between 2026-05 and 2026-08. Block is a byte-identical slice of the pinned spec."
+        },
+        {
+          "severity": "UNMAPPED",
+          "endpoint": "slack_channel_members",
+          "blocks": true,
+          "gate": "owner gate — _lib/endpoint-owners.yaml lists it under neither endpoints: nor unclaimed:, so CI must fail"
+        }
+      ],
+      "breaking_this_means": "A new paid endpoint lands in the catalog with no owner and no reviewed cost — the path by which a skill starts quoting a price nobody checked."
+    },
+    "endpoint-removed": {
+      "file": "endpoint-removed.yaml",
+      "role": "candidate",
+      "baseline": "current.yaml",
+      "endpoint_count": 14,
+      "expected_findings": [
+        {
+          "severity": "REMOVED_UNMAPPED",
+          "endpoint": "find_personal_email",
+          "path": "/find_personal_email",
+          "blocks": true,
+          "note": "True removal. Nothing in the candidate resembles it. Real analogues: find_emails, verify_emails, check_email_finding, check_email_verification, check_usage, person_enricher, company_enricher — 7 endpoints really deleted with no successor."
+        },
+        {
+          "severity": "RENAMED",
+          "from": "linkedin_ad_search",
+          "to": "ad_search",
+          "blocks": false,
+          "note": "Operation body is byte-identical except operationId and the path key: same request schema, same response example, same x-pricing. Fuzzy match must classify this as RENAMED, NOT as REMOVED_UNMAPPED + ADDED. This is the real ad_search -> linkedin_ad_search pair replayed in reverse so that current.yaml can remain a faithful snapshot of the pinned spec; fuzzy matching is order-independent."
+        }
+      ],
+      "must_not_produce": [
+        "REMOVED_UNMAPPED for linkedin_ad_search",
+        "ADDED for ad_search"
+      ],
+      "breaking_this_means": "If the true removal stops blocking, a skill keeps routing to an endpoint that 404s mid-run. If the rename stops being detected, the monthly diff shows 13 blocking removals, a human switches the gate off in month two, and the gate is worth nothing."
+    },
+    "price-changed": {
+      "file": "price-changed.yaml",
+      "role": "baseline",
+      "candidate": "current.yaml",
+      "diff_direction": "price-changed.yaml -> current.yaml (INVERTED relative to the other fixtures, on purpose)",
+      "why_inverted": "This file is the 2026-05 pricing state of the same 15 endpoints. Diffing it forward into current.yaml replays the repricing that really happened instead of inventing numbers, while letting current.yaml stay a faithful snapshot of the pinned spec. Treating it as the candidate turns every increase into a decrease.",
+      "endpoint_count": 15,
+      "expected_findings": [
+        {
+          "severity": "REPRICED_MAJOR",
+          "endpoint": "phone_finder",
+          "old": { "credits_per_call": 3 },
+          "new": { "credits_per_call": 25 },
+          "factor": 8.333333333333334,
+          "blocks": true,
+          "note": "The measured headline case from law 1. A 500-row phone pass moves from 1,500 to 12,500 credits."
+        },
+        {
+          "severity": "REPRICED_MAJOR",
+          "endpoint": "email_finder",
+          "old": { "credits_per_call": 2 },
+          "new": { "credits_per_call": 5 },
+          "factor": 2.5,
+          "blocks": true,
+          "note": "A 2 -> 5 reprice can look minor, but it is 2.5x and the threshold puts REPRICED_MAJOR at >=2x, so it BLOCKs. web_emails is the genuinely-minor case."
+        },
+        {
+          "severity": "REPRICED_MAJOR",
+          "endpoint": "email_verifier",
+          "old": { "credits_per_call": 1 },
+          "new": { "credits_per_call": 2 },
+          "factor": 2.0,
+          "blocks": true,
+          "note": "Exactly the >= boundary. An implementation using > instead of >= passes every other case in this file and fails only this one."
+        },
+        {
+          "severity": "REPRICED_MINOR",
+          "endpoint": "web_emails",
+          "old": { "credits_per_call": 3 },
+          "new": { "credits_per_call": 2 },
+          "factor": 1.5,
+          "blocks": false,
+          "note": "The genuinely-minor, warn-only case. Real: web_emails really went 3 -> 2 in this window."
+        },
+        {
+          "severity": "PRICING_SEMANTICS_CHANGED",
+          "endpoint": "post_keyword_search",
+          "old": { "model": "flat", "credits_per_call": 6 },
+          "new": { "model": "per_result", "credits_per_result": 0.1, "result_count_field": "numberOfElements" },
+          "blocks": true,
+          "note": "flat 6/call -> 0.1/result on the page count. A naive numeric comparison reads 6 -> 0.1 as a price cut and warns only; the formula change must subsume it and BLOCK, because every cost estimate for this endpoint used the old formula."
+        }
+      ],
+      "must_not_produce": [
+        "any finding for the 10 endpoints whose pricing is unchanged"
+      ],
+      "breaking_this_means": "A bot-committed price increase reaches users unreviewed — the first failure mode the monthly-absorption test exists to catch."
+    },
+    "malformed": {
+      "file": "malformed.yaml",
+      "role": "candidate",
+      "baseline": "current.yaml",
+      "parses": false,
+      "defects": [
+        "truncated mid-way through /email_finder's requestBody",
+        "an unterminated double-quoted scalar",
+        "inconsistent indentation on tags:"
+      ],
+      "expected_behaviour": {
+        "catalog_gen_exits_cleanly": true,
+        "catalog_gen_writes_partial_output": false,
+        "cached_catalog_left_byte_identical": true,
+        "user_sees_a_warning_not_a_stack_trace": true,
+        "wedges": false
+      },
+      "breaking_this_means": "One bad download empties the catalog; because the catalog is the source of truth for cost and routing (law 1), every skill loses its prices at once."
+    }
+  }
+}
